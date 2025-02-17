@@ -1,29 +1,19 @@
 <template>
   <div class="timeline-container">
     <div class="timeline">
-      <div 
-        class="scroll-button" 
-        @click="scrollToBottom" 
-        :class="{ 'scrolling': isAutoScrolling }"
-        :title="isAutoScrolling ? '点击停止滚动' : '自动滚动'"
-      >
+      <div class="scroll-button" @click="scrollToBottom" :class="{ 'scrolling': isAutoScrolling }"
+        :title="isAutoScrolling ? '点击停止滚动' : '自动滚动'">
         <div class="scroll-icon" :class="{ 'pause': isAutoScrolling }">
           {{ isAutoScrolling ? '■' : '↓' }}
         </div>
       </div>
       <div class="timeline-line"></div>
-      <div
-        v-for="(item, index) in timelineData"
-        :key="index"
-        class="timeline-item"
-        :class="[index % 2 === 0 ? 'left' : 'right']"
-        v-motion
-        :initial="{
+      <div v-for="(item, index) in sortedTimelineData" :key="index" class="timeline-item"
+        :class="[index % 2 === 0 ? 'left' : 'right']" v-motion :initial="{
           opacity: 0,
           x: index % 2 === 0 ? -50 : 50,
           y: 0
-        }"
-        :visibleOnce="{
+        }" :visibleOnce="{
           opacity: 1,
           x: 0,
           y: 0,
@@ -31,16 +21,12 @@
             duration: 200,
             delay: index * 50
           }
-        }"
-      >
+        }">
         <div class="timeline-content">
-          <div 
-            class="timeline-cover" 
-            :class="{ 'no-image': !item.image }"
-            :style="item.image ? `background-image: url(${item.image})` : ''"
-          >
-          <div ></div>
-        </div>
+          <div class="timeline-cover" :class="{ 'no-image': !item.image }"
+            :style="item.image ? `background-image: url(${item.image})` : ''">
+            <div></div>
+          </div>
           <div class="content-text">
             <div class="header-row">
               <h3 class="timeline-title">{{ item.title }}</h3>
@@ -56,87 +42,87 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 const timelineData = ref([
   {
-    date: '2024-1-1',
-    title: '里程碑事件1',
+    date: '2024-7-20',
+    title: '网站初步搭建',
     description: '取得一些小成绩或完成一些有趣项目',
-    // image: 'https://s21.ax1x.com/2025/02/09/pEm7fWd.webp' // 可选
+    image: 'https://s21.ax1x.com/2025/02/17/pEMngmj.png' // 可选
   },
   {
-    date: '2024-02-15',
-    title: '里程碑事件2',
-    description: '没有图片的事件样例',
-    // image: 'https://s21.ax1x.com/2025/02/03/pEZTfv6.png' // 可选
+    date: '2024-9-12',
+    title: '完善博客各模块',
+    description: '记录于此',
+    // image: 'https://s21.ax1x.com/2025/02/17/pEMnL7R.png' // 可选
 
   },
   {
-    date: '2024-01-10',
-    title: '里程碑事件3',
-    description: '第三个重要事件的描述内容。',
-    // image: 'https://s21.ax1x.com/2025/02/03/pEZT4KK.png'
+    date: '2024-12-14',
+    title: '文章系统搭建',
+    description: '记录与此',
+    // image: 'https://s21.ax1x.com/2025/02/17/pEMnjtx.png'
+  }, {
+    date: '2025-1-25',
+    title: '事件记录',
+    description: '记录与此',
+    image: ''
+  }, {
+    date: '2025-2-25',
+    title: '事件记录',
+    description: '记录与此',
+    image: ''
+  }, {
+    date: '2025-3-25',
+    title: '事件记录',
+    description: '记录与此',
+    image: ''
+  }, {
+    date: '2025-4-25',
+    title: '事件记录',
+    description: '记录与此',
+    image: ''
+  }, {
+    date: '2025-6-25',
+    title: '事件记录',
+    description: '记录与此',
+    image: ''
+  },{
+    date: '2025-7-25',
+    title: '事件记录',
+    description: '记录与此',
+    image: ''
+  },{
+    date: '2025-8-25',
+    title: '事件记录',
+    description: '记录与此',
+    image: ''
+  },{
+    date: '2025-9-25',
+    title: '事件记录',
+    description: '记录与此',
+    image: ''
+  },{
+    date: '2025-10-25',
+    title: '事件记录',
+    description: '记录与此',
+    image: ''
+  },{
+    date: '2025-11-25',
+    title: '事件记录',
+    description: '记录与此',
+    image: ''
   },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件4',
-    description: '第三个重要事件的描述内容。',
-    // image: 'https://s21.ax1x.com/2025/01/31/pEZ9eG8.jpg'
-  },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件5',
-    description: '第三个重要事件的描述内容。',
-    // image: 'https://s21.ax1x.com/2025/01/30/pEVIocT.png'
-  },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件6',
-    description: '第三个重要事件的描述内容。',
-    // image: 'https://s21.ax1x.com/2025/01/30/pEVIocT.png'
-  },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件7',
-    description: '第三个重要事件的描述内容。',
-  },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件8',
-    description: '第三个重要事件的描述内容。',
-  },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件9',
-    description: '第三个重要事件的描述内容。',
-  },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件10',
-    description: '第三个重要事件的描述内容。',
-  },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件11',
-    description: '第三个重要事件的描述内容。',
-  },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件12',
-    description: '第三个重要事件的描述内容。',
-  },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件13',
-    description: '第三个重要事件的描述内容。',
-  },
-  {
-    date: '2024-01-10',
-    title: '里程碑事件14',
-    description: '第三个重要事件的描述内容。',
-  },
+
 ])
+
+// 添加一个计算属性来对数据进行倒序排序
+const sortedTimelineData = computed(() => {
+  return [...timelineData.value].sort((a, b) => {
+    return new Date(b.date) - new Date(a.date)
+  })
+})
 
 // 添加一个变量来跟踪滚动状态
 const isAutoScrolling = ref(false)
@@ -167,7 +153,7 @@ const scrollToBottom = () => {
 
   isAutoScrolling.value = true
   const scrollStep = window.innerHeight / 150
-  
+
   scrollInterval = setInterval(() => {
     if (window.scrollY + window.innerHeight < document.documentElement.scrollHeight) {
       window.scrollBy(0, scrollStep)
@@ -225,6 +211,7 @@ onUnmounted(() => {
   padding: 0 2rem;
   transition: all 0.5s ease;
 }
+
 @media (max-width:770px) {
   .timeline-item {
     padding-right: 0;
@@ -270,11 +257,9 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   height: 100px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--time-bg-color)
-  );
+  background: linear-gradient(to bottom,
+      transparent,
+      var(--time-bg-color));
   pointer-events: none;
 }
 
@@ -405,9 +390,12 @@ onUnmounted(() => {
 
 /* 点的发光动画 */
 @keyframes dotGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 5px var(--vp-c-brand);
   }
+
   50% {
     box-shadow: 0 0 12px var(--vp-c-brand-light);
   }
@@ -419,10 +407,12 @@ onUnmounted(() => {
     opacity: 0.3;
     transform: scale(1);
   }
+
   50% {
     opacity: 0;
     transform: scale(2);
   }
+
   100% {
     opacity: 0;
     transform: scale(1);
@@ -431,9 +421,12 @@ onUnmounted(() => {
 
 /* 激活状态发光动画 */
 @keyframes activeGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 10px var(--vp-c-brand);
   }
+
   50% {
     box-shadow: 0 0 20px var(--vp-c-brand-light);
   }
@@ -445,10 +438,12 @@ onUnmounted(() => {
     opacity: 0.5;
     transform: scale(1);
   }
+
   50% {
     opacity: 0;
     transform: scale(2.5);
   }
+
   100% {
     opacity: 0;
     transform: scale(1);
@@ -478,7 +473,7 @@ onUnmounted(() => {
   .timeline-cover {
     height: 200px;
   }
-  
+
   .timeline-item.left .content-text,
   .timeline-item.right .content-text {
     padding: 1rem;
@@ -500,7 +495,7 @@ onUnmounted(() => {
     left: 0;
     transform: none;
   }
-  
+
   .scroll-button:hover {
     transform: translateY(2px);
   }
@@ -557,12 +552,19 @@ onUnmounted(() => {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
+
   40% {
     transform: translateY(-5px);
   }
+
   60% {
     transform: translateY(-3px);
   }
