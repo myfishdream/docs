@@ -42,7 +42,7 @@ export default defineConfig({
     darkModeSwitchTitle: '切换到暗色主题',
     sidebarMenuLabel: '菜单',
     returnToTopLabel: '顶部',
-    externalLinkIcon:true, // 外部链接旁显示外部链接图标
+    // externalLinkIcon:true, // 外部链接旁显示外部链接图标
     lastUpdated: {
       formatOptions: {
         dateStyle: 'short',

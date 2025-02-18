@@ -1,193 +1,126 @@
 <template>
   <div class="timeline-container">
     <div class="timeline">
-      <div class="scroll-button" @click="scrollToBottom" :class="{ 'scrolling': isAutoScrolling }"
-        :title="isAutoScrolling ? '点击停止滚动' : '自动滚动'">
-        <div class="scroll-icon" :class="{ 'pause': isAutoScrolling }">
-          {{ isAutoScrolling ? '■' : '↓' }}
-        </div>
-      </div>
       <div class="timeline-line"></div>
-      <div v-for="(item, index) in sortedTimelineData" :key="index" class="timeline-item"
-        :class="[index % 2 === 0 ? 'left' : 'right']" v-motion :initial="{
-          opacity: 0,
-          x: index % 2 === 0 ? -50 : 50,
-          y: 0
-        }" :visibleOnce="{
-          opacity: 1,
-          x: 0,
+      <div v-for="(item, index) in sortedEvents" 
+        :key="item.date + index" 
+        class="timeline-item"
+        :class="[
+          getItemPosition(item, index),
+          'size-' + item.size,
+          item.type
+        ]"
+        v-motion
+        :initial="{ opacity: 0, y: 100 }"
+        :visible="{ 
+          opacity: 1, 
           y: 0,
           transition: {
-            duration: 200,
-            delay: index * 50
+            type: 'spring',
+            damping: 15,
+            stiffness: 100
           }
-        }">
-        <div class="timeline-content">
-          <div class="timeline-cover" :class="{ 'no-image': !item.image }"
-            :style="item.image ? `background-image: url(${item.image})` : ''">
-            <div></div>
-          </div>
-          <div class="content-text">
-            <div class="header-row">
-              <h3 class="timeline-title">{{ item.title }}</h3>
-              <div class="timeline-date">{{ item.date }}</div>
+        }"
+      >
+        <!-- 时间点 -->
+        <div class="timeline-dot"></div>
+        
+        <!-- 内容卡片 -->
+        <div class="timeline-card">
+          <!-- 日期标签 -->
+          <div class="timeline-date">{{ formatDate(item.date) }}</div>
+          
+          <!-- 主要内容 -->
+          <div class="timeline-content">
+            <!-- 图片区域 -->
+            <div v-if="item.image" 
+              class="timeline-image"
+              :style="{ 
+                backgroundImage: `url(${item.image})`,
+                height: item.size === 'large' ? '300px' : '200px'
+              }"
+            >
+              <div class="image-overlay"></div>
             </div>
-            <p class="timeline-description">{{ item.description }}</p>
+            
+            <!-- 文本内容 -->
+            <div class="content-body">
+              <h3 class="timeline-title">{{ item.title }}</h3>
+              <p class="timeline-desc">{{ item.description }}</p>
+              
+              <!-- 链接按钮 -->
+              <a 
+                v-if="item.link"
+                :href="withBase(item.link)"
+                class="timeline-link"
+                :class="item.type"
+                :target="isExternalLink(item.link) ? '_blank' : undefined"
+                :rel="isExternalLink(item.link) ? 'noopener noreferrer' : undefined"
+              >
+                了解更多
+                <span class="link-arrow">→</span>
+              </a>
+            </div>
           </div>
         </div>
-        <div class="timeline-dot"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { computed } from 'vue'
+import { useRouter, withBase } from 'vitepress'
 
-const timelineData = ref([
-  {
-    date: '2024-7-20',
-    title: '网站初步搭建',
-    description: '取得一些小成绩或完成一些有趣项目',
-    image: 'https://s21.ax1x.com/2025/02/17/pEMngmj.png' // 可选
-  },
-  {
-    date: '2024-9-12',
-    title: '完善博客各模块',
-    description: '记录于此',
-    // image: 'https://s21.ax1x.com/2025/02/17/pEMnL7R.png' // 可选
+const router = useRouter()
 
-  },
-  {
-    date: '2024-12-14',
-    title: '文章系统搭建',
-    description: '记录与此',
-    // image: 'https://s21.ax1x.com/2025/02/17/pEMnjtx.png'
-  }, {
-    date: '2025-1-25',
-    title: '事件记录',
-    description: '记录与此',
-    image: ''
-  }, {
-    date: '2025-2-25',
-    title: '事件记录',
-    description: '记录与此',
-    image: ''
-  }, {
-    date: '2025-3-25',
-    title: '事件记录',
-    description: '记录与此',
-    image: ''
-  }, {
-    date: '2025-4-25',
-    title: '事件记录',
-    description: '记录与此',
-    image: ''
-  }, {
-    date: '2025-6-25',
-    title: '事件记录',
-    description: '记录与此',
-    image: ''
-  },{
-    date: '2025-7-25',
-    title: '事件记录',
-    description: '记录与此',
-    image: ''
-  },{
-    date: '2025-8-25',
-    title: '事件记录',
-    description: '记录与此',
-    image: ''
-  },{
-    date: '2025-9-25',
-    title: '事件记录',
-    description: '记录与此',
-    image: ''
-  },{
-    date: '2025-10-25',
-    title: '事件记录',
-    description: '记录与此',
-    image: ''
-  },{
-    date: '2025-11-25',
-    title: '事件记录',
-    description: '记录与此',
-    image: ''
-  },
+const props = defineProps({
+  events: {
+    type: Array,
+    required: true,
+    default: () => []
+  }
+})
 
-])
+// 日期格式化
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr.replace(/-/g, '/'))
+  return date.toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
 
-// 添加一个计算属性来对数据进行倒序排序
-const sortedTimelineData = computed(() => {
-  return [...timelineData.value].sort((a, b) => {
-    return new Date(b.date) - new Date(a.date)
+// 排序事件
+const sortedEvents = computed(() => {
+  return [...props.events].sort((a, b) => {
+    const dateA = new Date(a.date.replace(/-/g, '/'))
+    const dateB = new Date(b.date.replace(/-/g, '/'))
+    return dateB - dateA
   })
 })
 
-// 添加一个变量来跟踪滚动状态
-const isAutoScrolling = ref(false)
-let scrollInterval = null
-
-// 停止自动滚动
-const stopAutoScroll = () => {
-  if (scrollInterval) {
-    clearInterval(scrollInterval)
-    scrollInterval = null
+// 获取项目位置
+const getItemPosition = (item, index) => {
+  if (item.position) {
+    return item.position
   }
-  isAutoScrolling.value = false
+  return index % 2 === 0 ? 'left' : 'right'
 }
 
-// 监听用户滚动
-const handleUserScroll = () => {
-  if (isAutoScrolling.value) {
-    stopAutoScroll()
-  }
+// 判断是否为外部链接
+const isExternalLink = (link) => {
+  return /^https?:\/\//.test(link)
 }
-
-// 修改自动滚动函数
-const scrollToBottom = () => {
-  if (isAutoScrolling.value) {
-    stopAutoScroll()
-    return
-  }
-
-  isAutoScrolling.value = true
-  const scrollStep = window.innerHeight / 150
-
-  scrollInterval = setInterval(() => {
-    if (window.scrollY + window.innerHeight < document.documentElement.scrollHeight) {
-      window.scrollBy(0, scrollStep)
-    } else {
-      stopAutoScroll()
-    }
-  }, 16)
-}
-
-// 在组件挂载时添加事件监听器
-onMounted(() => {
-  window.addEventListener('wheel', handleUserScroll)
-  window.addEventListener('touchstart', handleUserScroll)
-  window.addEventListener('keydown', (e) => {
-    if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(e.key)) {
-      handleUserScroll()
-    }
-  })
-})
-
-// 在组件卸载时移除事件监听器
-onUnmounted(() => {
-  window.removeEventListener('wheel', handleUserScroll)
-  window.removeEventListener('touchstart', handleUserScroll)
-  window.removeEventListener('keydown', handleUserScroll)
-  stopAutoScroll()
-})
 </script>
 
 <style scoped>
 .timeline-container {
-  padding: 2rem;
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem;
 }
 
 .timeline {
@@ -201,137 +134,36 @@ onUnmounted(() => {
   transform: translateX(-50%);
   width: 2px;
   height: 100%;
-  background-color: #e0e0e0;
+  background: var(--vp-c-divider);
+  opacity: 0.6;
 }
 
 .timeline-item {
   position: relative;
-  margin: 2rem 0;
+  margin: 3rem 0;
   width: 50%;
-  padding: 0 2rem;
-  transition: all 0.5s ease;
-}
-
-@media (max-width:770px) {
-  .timeline-item {
-    padding-right: 0;
-  }
+  transition: all 0.3s ease;
 }
 
 .timeline-item.left {
+  padding-right: 3rem;
   left: 0;
 }
 
 .timeline-item.right {
+  padding-left: 3rem;
   left: 50%;
 }
 
-.timeline-content {
-  background: var(--time-bg-color);
-  padding: 0;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.timeline-content:hover {
-  transform: translateY(-5px);
-}
-
-.timeline-cover {
-  height: 300px;
-  /*  */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-}
-
-.timeline-cover::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
-  background: linear-gradient(to bottom,
-      transparent,
-      var(--time-bg-color));
-  pointer-events: none;
-}
-
-.content-text {
-  padding: 1rem;
-  position: relative;
-}
-
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-/* 左侧项目的样式 */
-.timeline-item.left .content-text {
-  padding-right: 1rem;
-  text-align: left;
-}
-
-.timeline-item.left .header-row {
-  flex-direction: row;
-}
-
-/* 右侧项目的样式 */
-.timeline-item.right .content-text {
-  padding-left: 1rem;
-  text-align: right;
-}
-
-.timeline-item.right .header-row {
-  flex-direction: row-reverse;
-}
-
-.timeline-cover.no-image {
-  height: 200px;
-  background: linear-gradient(-45deg, var(--bear-bg-color1) 50%, var(--bear-bg-color2) 50%);
-  filter: blur(100px);
-}
-
-.timeline-date {
-  color: #666;
-  font-size: 0.85rem;
-  font-style: italic;
-  margin: 0 0.5rem;
-}
-
-.timeline-title {
-  font-size: 1.25rem;
-  margin: 0;
-  color: var(--vp-c-text-1);
-}
-
-.timeline-description {
-  color: #666;
-  line-height: 1.5;
-  margin-top: 0.5rem;
-}
-
-/* 时间点基础样式 */
 .timeline-dot {
   position: absolute;
   width: 16px;
   height: 16px;
   background: var(--vp-c-bg);
-  border: 2px solid var(--vp-c-brand);
+  border: 2px solid currentColor;
   border-radius: 50%;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 2;
+  top: 24px;
+  transition: all 0.3s ease;
 }
 
 .timeline-item.left .timeline-dot {
@@ -342,231 +174,315 @@ onUnmounted(() => {
   left: -8px;
 }
 
-/* 发光效果 */
-.timeline-dot::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--vp-c-brand);
-  opacity: 0;
-  transform: scale(1.5);
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px currentColor;
+}
+
+.timeline-card {
+  background: var(--vp-c-bg-soft);
+  border-radius: 12px;
+  overflow: hidden;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* 基础点亮状态 */
-.timeline-dot.lit {
-  border-color: var(--vp-c-brand);
-  animation: dotGlow 3s infinite;
+.timeline-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.timeline-dot.lit::after {
-  animation: ringPulse 3s infinite;
-}
-
-/* 完全点亮状态 */
-.timeline-dot.delayed-lit {
-  border-color: var(--vp-c-brand-light);
-  background: var(--vp-c-brand-soft);
-  animation: dotGlow 3s infinite;
-}
-
-.timeline-dot.delayed-lit::after {
-  animation: ringPulse 3s infinite;
-}
-
-/* 悬浮状态 */
-.timeline-dot.active {
-  transform: translateY(-50%) scale(1.2);
-  border-color: var(--vp-c-brand);
-  background: var(--vp-c-brand);
-  animation: activeGlow 2s infinite;
-}
-
-.timeline-dot.active::after {
-  animation: activeRing 2s infinite;
-}
-
-/* 点的发光动画 */
-@keyframes dotGlow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 5px var(--vp-c-brand);
-  }
-
-  50% {
-    box-shadow: 0 0 12px var(--vp-c-brand-light);
-  }
-}
-
-/* 环形脉冲动画 */
-@keyframes ringPulse {
-  0% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0;
-    transform: scale(2);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1);
-  }
-}
-
-/* 激活状态发光动画 */
-@keyframes activeGlow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 10px var(--vp-c-brand);
-  }
-
-  50% {
-    box-shadow: 0 0 20px var(--vp-c-brand-light);
-  }
-}
-
-/* 激活状态环形动画 */
-@keyframes activeRing {
-  0% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0;
-    transform: scale(2.5);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1);
-  }
-}
-
-/* 保持移动端适配 */
-@media (max-width: 768px) {
-  .timeline-line {
-    left: 0;
-  }
-
-  .timeline-item {
-    width: 100%;
-    left: 0 !important;
-    padding-left: 2rem;
-  }
-
-  .timeline-dot {
-    left: -8px !important;
-  }
-
-  .timeline-content {
-    max-width: 100%;
-  }
-
-  .timeline-cover {
-    height: 200px;
-  }
-
-  .timeline-item.left .content-text,
-  .timeline-item.right .content-text {
-    padding: 1rem;
-    text-align: left;
-  }
-
-  .timeline-item.left .header-row,
-  .timeline-item.right .header-row {
-    flex-direction: row;
-  }
-
-  .timeline-item.left .timeline-date,
-  .timeline-item.right .timeline-date {
-    position: static;
-    margin-top: 0.5rem;
-  }
-
-  .scroll-button {
-    left: 0;
-    transform: none;
-  }
-
-  .scroll-button:hover {
-    transform: translateY(2px);
-  }
-}
-
-/* 动画相关 */
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-
-.scroll-button {
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 40px;
-  background: var(--time-bg-color);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-
-.scroll-button:hover {
-  transform: translateX(-50%) translateY(2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.scroll-button.scrolling {
-  background: var(--vp-c-brand);
+.timeline-date {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
   color: white;
 }
 
-.scroll-icon {
-  font-size: 1.2rem;
+.timeline-content {
+  position: relative;
+}
+
+.timeline-image {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(var(--vp-c-bg-soft-rgb), 0.8) 50%,
+    var(--vp-c-bg-soft) 100%
+  );
+  backdrop-filter: blur(2px);
+}
+
+.content-body {
+  position: relative;
+  padding: 1.5rem;
+  background: var(--vp-c-bg-soft);
+  border-radius: 0 0 12px 12px;
+}
+
+.timeline-title {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
   color: var(--vp-c-text-1);
-  animation: bounce 2s infinite;
+  line-height: 1.4;
 }
 
-.scroll-icon.pause {
-  animation: none;
-  font-size: 1rem;
+.timeline-desc {
+  color: var(--vp-c-text-2);
+  line-height: 1.6;
+  margin: 0;
 }
 
-@keyframes bounce {
+.timeline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background: var(--vp-c-bg-mute);
+  color: inherit;
+}
 
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateY(0);
+.timeline-link:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  background: var(--vp-c-bg-alt);
+}
+
+.link-arrow {
+  transition: transform 0.3s ease;
+}
+
+.timeline-link:hover .link-arrow {
+  transform: translateX(4px);
+}
+
+/* 类型样式 */
+.timeline-item.milestone {
+  color: var(--vp-c-brand) !important;
+}
+
+.timeline-item.achievement {
+  color: var(--vp-c-green-1) !important;
+}
+
+.timeline-item.update {
+  color: var(--vp-c-yellow-1) !important;
+}
+
+.milestone .timeline-date {
+  background: var(--vp-c-brand) !important;
+}
+
+.achievement .timeline-date {
+  background: var(--vp-c-green-1) !important;
+}
+
+.update .timeline-date {
+  background: var(--vp-c-yellow-1) !important;
+}
+
+.milestone .timeline-link {
+  color: var(--vp-c-brand) !important;
+}
+
+.achievement .timeline-link {
+  color: var(--vp-c-green-1) !important;
+}
+
+.update .timeline-link {
+  color: var(--vp-c-yellow-1) !important;
+}
+
+.milestone .timeline-dot {
+  border-color: var(--vp-c-brand) !important;
+}
+
+.achievement .timeline-dot {
+  border-color: var(--vp-c-green-1) !important;
+}
+
+.update .timeline-dot {
+  border-color: var(--vp-c-yellow-1) !important;
+}
+
+/* 尺寸样式 */
+.size-large .timeline-title {
+  font-size: 1.5rem;
+}
+
+.size-small .timeline-title {
+  font-size: 1.1rem;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .timeline-container {
+    padding: 1rem;
+    width: 100%;
   }
 
-  40% {
-    transform: translateY(-5px);
+  .timeline {
+    padding: 1rem 0;
   }
 
-  60% {
+  .timeline-line {
+    left: 1rem;
+  }
+
+  .timeline-item {
+    width: calc(100% - 2.5rem);
+    padding-left: 2rem !important;
+    padding-right: 0 !important;
+    margin: 2rem 0;
+    left: 0 !important;
+  }
+
+  .timeline-dot {
+    left: calc(1rem - 8px) !important;
+  }
+
+  .timeline-card {
+    max-width: 100%;
+  }
+
+  .timeline-image {
+    height: 200px !important;
+  }
+
+  .content-body {
+    padding: 1.2rem;
+  }
+
+  .timeline-title {
+    font-size: 1.3rem;
+  }
+
+  .timeline-date {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  .timeline-desc {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .timeline-link {
+    display: inline-flex;
+    width: auto;
+    margin-top: 1rem;
+    float: right;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* 优化小尺寸卡片在移动端的显示 */
+  .size-small .timeline-image {
+    height: 150px !important;
+  }
+
+  .size-small .timeline-title {
+    font-size: 1.1rem;
+  }
+
+  .size-small .timeline-desc {
+    font-size: 0.9rem;
+  }
+
+  /* 优化大尺寸卡片在移动端的显示 */
+  .size-large .timeline-image {
+    height: 230px !important;
+  }
+
+  .size-large .timeline-title {
+    font-size: 1.4rem;
+  }
+
+  /* 调整卡片间距和阴影 */
+  .timeline-card {
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .timeline-card:hover {
     transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
+}
+
+/* 针对更小屏幕的优化 */
+@media (max-width: 480px) {
+  .timeline-container {
+    padding: 0.5rem;
+  }
+
+  .timeline-item {
+    width: calc(100% - 2rem);
+    padding-left: 1.5rem !important;
+    padding-right: 0 !important;
+  }
+
+  .timeline-line {
+    left: 0.8rem;
+  }
+
+  .timeline-dot {
+    left: calc(0.8rem - 8px) !important;
+    width: 14px;
+    height: 14px;
+  }
+
+  .timeline-image {
+    height: 180px !important;
+  }
+
+  .content-body {
+    padding: 1rem;
+  }
+
+  .timeline-title {
+    font-size: 1.2rem;
+  }
+
+  .timeline-date {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .timeline-desc {
+    font-size: 0.95rem;
+  }
+
+  .timeline-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* 深色模式适配 */
+:root.dark .timeline-card {
+  background: var(--vp-c-bg-soft);
+}
+
+:root.dark .timeline-dot {
+  box-shadow: 0 0 0 4px var(--vp-c-bg-soft);
 }
 </style>
