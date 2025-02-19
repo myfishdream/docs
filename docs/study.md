@@ -21,6 +21,15 @@ import TimeLine from './.vitepress/theme/components/TimeLine.vue'
   },
 */
 const studyEvents = [
+   {
+    date: '2025-2-19',
+    title: 'Electron快速上手',
+    description: '使用前端技术开发桌面级应用',
+    type: 'achievement',
+    size: 'medium',
+    // position: 'left',
+    link: '/pages/Electron快速上手/note'
+  },
   {
     date: '2025-2-17',
     title: 'JavaScrip模块化',
