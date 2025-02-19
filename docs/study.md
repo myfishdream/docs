@@ -21,8 +21,16 @@ import TimeLine from './.vitepress/theme/components/TimeLine.vue'
   },
 */
 const studyEvents = [
-   {
+     {
     date: '2025-2-19',
+    title: 'Electron+Vue3+TypeScript项目启动',
+    description: '多方面技术栈综合使用',
+    type: 'milestone',
+    size: 'large',
+    position: 'right',
+  },
+   {
+    date: '2025-2-18',
     title: 'Electron快速上手',
     description: '使用前端技术开发桌面级应用',
     type: 'achievement',
