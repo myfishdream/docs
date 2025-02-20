@@ -23,3 +23,25 @@ star: false           # 是否标星
 # 前端杂谈
 
 了解一些零碎的前端知识
+
+## 自定义滚动条
+
+![image-20250220223401929](./assets/image-20250220223401929.png)
+
+```css
+
+::-webkit-scrollbar{
+  width: 10px;
+}
+::-webkit-scrollbar-track{
+  background-color: var(--vp-c-bg);
+}
+::-webkit-scrollbar-thumb{
+  background-color:var(--vp-c-indigo-1);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover{
+  background-color: var(--vp-c-purple-3);
+}
+
+```
