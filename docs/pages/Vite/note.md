@@ -21,3 +21,4 @@ description: Vite笔记
 
 
 
+<ReadingProgress/>

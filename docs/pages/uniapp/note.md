@@ -18,6 +18,7 @@ description: Uniapp笔记
 # sticky: 0                  # 置顶顺序，数字越大越靠前
 # star: false                # 是否标星
 ---
+<ReadingProgress/>
 
 
 

@@ -18,6 +18,7 @@ description: 快速入门Git
 # sticky: 0                  # 置顶顺序，数字越大越靠前
 # star: false  
 ---
+<ReadingProgress/>
 
 
 

@@ -18,6 +18,9 @@ sticky: 2        # 置顶顺序（0表示不置顶）
 star: true           # 是否标星
 ---
 
+<ReadingProgress/>
+
+
 # JavaScrip模块化
 
 **模块化规范**

@@ -20,6 +20,7 @@ description: 增强Typora，一键执行命令行，思维导图...
 ---
 
 
+<ReadingProgress/>
 
 <span style="border:1px solid #330000;padding:5px;">插件来自Github仓库[typora_plugin](https://github.com/obgnail/typora_plugin)</span>
 

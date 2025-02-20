@@ -18,6 +18,7 @@ description: 汇集一些文档编写的表情/图标
 # star: false                # 是否标星
 ---
 
+<ReadingProgress/>
 
 
 # 文档常用表情

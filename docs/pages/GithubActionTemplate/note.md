@@ -19,6 +19,7 @@ description: 工作流模版文件
 # star: false                # 是否标星
 ---
 
+<ReadingProgress/>
 
 
 

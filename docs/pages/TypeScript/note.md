@@ -19,6 +19,9 @@ description: 快速入门TypeScript基础
 # star: false                # 是否标星
 ---
 
+<ReadingProgress/>
+
+
 # TypeScript
 
 类型静态检查：

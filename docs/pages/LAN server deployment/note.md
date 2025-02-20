@@ -19,6 +19,7 @@ description: 将服务器部署到局域网以便在WiFi环境下访问API
 # star: false                # 是否标星
 ---
 
+<ReadingProgress/>
 
 
 # 局域网服务器部署

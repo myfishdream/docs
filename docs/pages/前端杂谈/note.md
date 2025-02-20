@@ -18,6 +18,8 @@ sticky: 0        # 置顶顺序（0表示不置顶）
 star: false           # 是否标星
 ---
 
+<ReadingProgress/>
+
 # 前端杂谈
 
 了解一些零碎的前端知识

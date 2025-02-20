@@ -19,6 +19,7 @@ description: pygame相关笔记
 # star: false                # 是否标星
 ---
 
+<ReadingProgress/>
 
 
 # pyhton

@@ -19,6 +19,7 @@ description: 快速入门
 # star: false                # 是否标星
 ---
 
+<ReadingProgress/>
 
 
 # Supabase

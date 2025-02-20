@@ -20,6 +20,7 @@ description: 快速入门Github/Git
 # star: false  
 ---
 
+<ReadingProgress/>
 
 
 # Github/Git

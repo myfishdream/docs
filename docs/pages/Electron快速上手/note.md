@@ -21,6 +21,9 @@ sticky: 3        # 置顶顺序（0表示不置顶）
 star: true           # 是否标星
 ---
 
+<ReadingProgress/>
+
+
 # Electron快速上手
 
 ## 介绍

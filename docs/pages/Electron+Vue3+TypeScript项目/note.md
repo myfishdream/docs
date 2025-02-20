@@ -23,6 +23,9 @@ sticky: 5        # 置顶顺序（0表示不置顶）
 star: true           # 是否标星
 ---
 
+<ReadingProgress/>
+
+
 # Electron+Vue3+TypeScript项目
 
 ## Electron + Vue 3 项目搭建教程

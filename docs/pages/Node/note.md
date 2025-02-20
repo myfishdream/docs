@@ -20,6 +20,7 @@ description: 快速入门Node.js
 ---
 
 
+<ReadingProgress/>
 
 
 

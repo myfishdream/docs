@@ -20,7 +20,7 @@ description: 快速入门H5
 # star: false  
 ---
 
-
+<ReadingProgress/>
 
 ## 布局小技巧
 

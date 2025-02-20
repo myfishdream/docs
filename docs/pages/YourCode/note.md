@@ -17,6 +17,7 @@ description: 评价你的代码
 # star: false                # 是否标星
 ---
 
+<ReadingProgress/>
 
 
 # 评价你的代码

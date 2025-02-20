@@ -57,24 +57,38 @@ const dashOffset = computed(() => {
   return circumference - (progress.value / 100) * circumference
 })
 
+const calculateWords = () => {
+  // 获取文章主体内容
+  const article = document.querySelector('.vp-doc')
+  if (!article) return 0
+
+  // 获取所有文本内容，排除代码块
+  const textBlocks = Array.from(article.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li'))
+    .filter(el => !el.closest('pre')) // 排除代码块
+    .map(el => el.textContent.trim())
+    .filter(text => text) // 排除空文本
+    .join('')
+    .replace(/\s+/g, '') // 移除空白字符
+
+  return textBlocks.length
+}
+
 const updateProgress = () => {
   const scrolled = window.scrollY
   const height = document.documentElement.scrollHeight - window.innerHeight
   progress.value = (scrolled / height) * 100
   
-  const content = document.querySelector('.content')
-  if (content) {
-    const text = content.textContent.replace(/\s+/g, '')
-    totalWords.value = text.length
-    const wordsPerMinute = 300
-    const totalMinutes = Math.ceil(totalWords.value / wordsPerMinute)
-    remainingTime.value = Math.ceil(totalMinutes * (1 - progress.value / 100))
-  }
+  // 更新字数和阅读时间
+  totalWords.value = calculateWords()
+  const wordsPerMinute = 300
+  const totalMinutes = Math.ceil(totalWords.value / wordsPerMinute)
+  remainingTime.value = Math.ceil(totalMinutes * (1 - progress.value / 100))
 }
 
 onMounted(() => {
   window.addEventListener('scroll', updateProgress)
-  setTimeout(updateProgress, 1000)
+  // 确保DOM加载完成后再计算
+  setTimeout(updateProgress, 500)
 })
 
 onUnmounted(() => {

@@ -17,6 +17,7 @@ description: 自定义vitepress的一些速记
 # sticky: 0                  # 置顶顺序，数字越大越靠前
 # star: false  
 ---
+<ReadingProgress/>
 
 
 

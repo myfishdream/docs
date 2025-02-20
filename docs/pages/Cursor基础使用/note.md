@@ -19,6 +19,7 @@ description: 如果使用Curosr基础操作
 sticky: 1
 star: true
 ---
+<ReadingProgress/>
 
 # Cursor基础使用
 

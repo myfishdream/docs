@@ -19,6 +19,9 @@ description: JS中各种循环遍历详解
 # star: false                # 是否标星
 ---
 
+<ReadingProgress/>
+
+
 # 循环遍历
 
 ## for/forEach

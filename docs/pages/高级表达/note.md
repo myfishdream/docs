@@ -17,6 +17,9 @@ sticky: 0        # 置顶顺序（0表示不置顶）
 star: true           # 是否标星
 ---
 
+<ReadingProgress/>
+
+
 # 高级表达
 
 从初级表达升级到专业(高级)表达
