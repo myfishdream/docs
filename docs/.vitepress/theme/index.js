@@ -9,7 +9,6 @@ import VueLazyloadNext  from 'vue-lazyload-next'   // 懒加载指令
 import MouseEvent from './components/MouseEvent.vue' // 鼠标跟随特效
 import ThemeSwitch from './components/ThemeSwitch.vue' // 主题切换过渡动画
 import Classification from './components/classification.vue'  // 分类
-import ReadingMark from './components/ReadingMark.vue'  // 阅读标记
 import ReadingProgress from './components/ReadingProgress.vue'  // 阅读进度
 
 
@@ -38,7 +37,6 @@ export default {
     app.component('Giscus', Giscus);
     app.component('CopyBlock', CopyBlock);
     app.component('MouseEvent', MouseEvent);
-    app.component('ReadingMark', ReadingMark);
     app.component('ReadingProgress', ReadingProgress);
     app.use(VueLazyloadNext, {
       loading: loadingIMG, // 加载占位图
