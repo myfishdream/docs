@@ -19,9 +19,9 @@
     "highlight.js": "^11.11.1",
     "markdown-it": "^14.1.0",
     "marked": "^15.0.6",
-    "quill": "^2.0.3",
     "turndown": "^7.2.0",
     "vite-plugin-markdown-preview": "^1.1.1",
+    "vue-easy-lightbox": "^1.19.0",
     "vue-lazyload-next": "^0.0.2"
   }
 }

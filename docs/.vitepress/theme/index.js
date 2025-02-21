@@ -10,6 +10,7 @@ import MouseEvent from './components/MouseEvent.vue' // 鼠标跟随特效
 import ThemeSwitch from './components/ThemeSwitch.vue' // 主题切换过渡动画
 import Classification from './components/classification.vue'  // 分类
 import ReadingProgress from './components/ReadingProgress.vue'  // 阅读进度
+import EnhancedImage from './components/EnhancedImage.vue' // 增强图片组件
 
 
 // 引入懒加载图片
@@ -38,6 +39,7 @@ export default {
     app.component('CopyBlock', CopyBlock);
     app.component('MouseEvent', MouseEvent);
     app.component('ReadingProgress', ReadingProgress);
+    app.component('EnhancedImage', EnhancedImage); // 注册增强图片组件
     app.use(VueLazyloadNext, {
       loading: loadingIMG, // 加载占位图
       error: errorIMG,     // 错误占位图
