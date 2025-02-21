@@ -747,7 +747,6 @@ const togglePanel = () => {
   resize: none;
   transition: all 0.3s ease;
   font-size: 0.95rem;
-  font-weight: bold;
   line-height: 1.6;
 }
 
