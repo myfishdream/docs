@@ -16,12 +16,15 @@
       <a :href="doc.path" class="doc-card-link">
         <div class="doc-meta">
           <div class="doc-info">
-            <span v-if="doc.date" class="doc-date">
-              📅 {{ formatDate(doc.date) }}
-            </span>
+           
             <span v-if="doc.author" class="doc-author">
-              👤 {{ doc.author }}
+               {{ doc.author }}
             </span>
+            |
+            <span v-if="doc.date" class="doc-date">
+               {{ formatDate(doc.date) }}
+            </span>
+            
             <span v-if="doc.sticky > 0" class="doc-sticky">
               🔥 {{ doc.sticky }}
             </span>
@@ -34,7 +37,7 @@
 
         <div class="doc-footer">
           <div v-if="doc.category" class="doc-category">
-            📁 {{ doc.category }}
+            🗂️ {{ doc.category }}
           </div>
           <div v-if="doc.tags?.length" class="doc-tags">
             <span v-for="tag in doc.tags" :key="tag" class="tag">
@@ -57,7 +60,7 @@ const props = defineProps({
   }
 })
 
-const isExpanded = ref(false)
+const isExpanded = ref(true)
 const isMobile = ref(false)
 
 onMounted(() => {
@@ -79,18 +82,18 @@ const formatDate = (date) => {
   if (!date) return ''
   date = date.split('#')[0].trim()
   const [year, month, day] = date.split('-').map(s => s.trim())
-  return `${year}年${month}月${day}日`
+  return `${year}-${month}-${day}`
 }
 
-// 格式化最后更新时间
-const formatLastUpdated = (timestamp) => {
-  if (!timestamp) return ''
-  return new Date(timestamp).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-}
+// // 格式化最后更新时间
+// const formatLastUpdated = (timestamp) => {
+//   if (!timestamp) return ''
+//   return new Date(timestamp).toLocaleDateString('zh-CN', {
+//     year: 'numeric',
+//     month: 'long',
+//     day: 'numeric'
+//   })
+// }
 </script>
 
 <style scoped>
@@ -98,7 +101,7 @@ const formatLastUpdated = (timestamp) => {
   padding: 16px;
   height: 100%;
   border: 2px solid var(--vp-c-divider);
-  border-radius: 12px;
+  border-radius: 5px;
   background: var(--vp-c-bg-soft);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -141,7 +144,7 @@ const formatLastUpdated = (timestamp) => {
   margin: 0;
   font-size: 1.1em;
   color: var(--vp-c-text-1);
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .doc-meta {
@@ -154,7 +157,9 @@ const formatLastUpdated = (timestamp) => {
   font-size: 0.9em;
   color: var(--vp-c-text-2);
 }
-
+.doc-author{
+  font-weight: 600;
+}
 .doc-description {
   font-size: 0.9em;
   color: var(--vp-c-text-2);
