@@ -3,7 +3,7 @@ import MarkdownPreview from 'vite-plugin-markdown-preview'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: "/blog/",
+  // base: "/blog/",
   vite: {
     plugins: [MarkdownPreview()],
   },
