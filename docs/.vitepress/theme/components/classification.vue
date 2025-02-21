@@ -7,23 +7,6 @@
     <div v-else class="debug-info">
       ✔ 已加载 {{ documents.length }} 个文档
     </div>
-
-    <!-- 搜索框独立一行 -->
-    <div class="search-wrapper">
-      <div class="search-box">
-        <input type="text" v-model="searchQuery" placeholder="搜索文档标题或描述..." class="search-input">
-        <div class="search-icon">🔍</div>
-      </div>
-    </div>
-
-    <!-- 排序按钮组 -->
-    <div class="sort-wrapper">
-      <button class="cloud-btn" @click="getWebDocs()" title="查看云端文档">
-        <span class="cloud-icon">☁️</span>
-        <span class="cloud-text">云端</span>
-      </button>
-    </div>
-
     <!-- 筛选器组 -->
     <div class="filters">
       <!-- 分类筛选 -->
@@ -107,24 +90,16 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useData, useRouter } from 'vitepress'
 import DocCard from './DocCard.vue'
-
-const { theme } = useData()
-const router = useRouter()
 
 // 状态管理
 const documents = ref([])
 const selectedTags = ref([])
 const selectedCategory = ref(null)
-const searchQuery = ref('')
 const currentPage = ref(1)
 const pageSize = 12
 const sortType = ref('default')
 
-const getWebDocs = () => {
-  router.go('/getdoc')
-}
 
 // 计算所有可用的标签
 const allTags = computed(() => {
@@ -319,16 +294,7 @@ const toggleMonth = (month) => {
 const filteredDocs = computed(() => {
   try {
     let filtered = documents.value
-
-    // 搜索过滤
-    if (searchQuery.value) {
-      const query = searchQuery.value.toLowerCase()
-      filtered = filtered.filter(doc =>
-        doc.title.toLowerCase().includes(query) ||
-        doc.description?.toLowerCase().includes(query)
-      )
-    }
-
+    
     // 标签过滤
     if (selectedTags.value.length > 0) {
       filtered = filtered.filter(doc =>
@@ -462,9 +428,9 @@ const toggleCategory = (category) => {
 
 // 添加折叠状态管理
 const openSections = ref({
-  category: false,
-  tags: false,
-  date: false
+  category: true,
+  tags: true,
+  date: true
 })
 
 // 切换折叠状态
@@ -507,92 +473,6 @@ onMounted(() => {
   background: var(--vp-c-bg);
   z-index: 10;
   padding: 10px 0;
-}
-
-.search-wrapper {
-  margin-bottom: 20px;
-  padding: 20px 0;
-  background: var(--vp-c-bg);
-  border-bottom: 1px solid var(--vp-c-divider);
-  /* position: sticky; */
-  top: 0;
-  z-index: 100;
-  /* backdrop-filter: blur(8px); */
-  background: transparent;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.search-box {
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-}
-
-.search-input {
-  width: 100%;
-  padding: 12px 40px 12px 16px;
-  border: 2px solid var(--vp-c-divider);
-  border-radius: 8px;
-  background: var(--vp-c-bg-soft);
-  color: var(--vp-c-text-1);
-  font-size: 1em;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: var(--vp-c-brand);
-  box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(var(--vp-c-brand-rgb), 0.15);
-}
-
-.search-icon {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--vp-c-text-2);
-  pointer-events: none;
-}
-
-.sort-wrapper {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 100;
-}
-
-.cloud-btn {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #42b983 0%, #3aa876 100%);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9em;
-  gap: 2px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  position: relative;
-  overflow: hidden;
-}
-
-.cloud-icon {
-  font-size: 1.4em;
-  transition: transform 0.3s ease;
-}
-
-.cloud-text {
-  font-size: 0.8em;
-  opacity: 0.9;
-  transform: translateY(0);
-  transition: transform 0.3s ease;
 }
 
 .cloud-btn:hover {
@@ -643,6 +523,7 @@ onMounted(() => {
 
 .filters {
   margin-bottom: 30px;
+
 }
 .dividingLine{
   height: 1px;
@@ -651,8 +532,8 @@ onMounted(() => {
 }
 .filter-section {
   background: var(--vp-c-bg-soft);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 4px;
+  padding: 5px;
   margin-bottom: 16px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
@@ -684,7 +565,7 @@ onMounted(() => {
 }
 
 .filter-header h3 {
-  margin: 0;
+  margin: 0 0 0 16px;
   font-size: 1em;
   font-weight: 500;
   color: var(--vp-c-text-1);
@@ -887,7 +768,7 @@ onMounted(() => {
 .category-btn {
   padding: 6px 16px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 20px;
+  border-radius: 5px;
   background: var(--vp-c-bg);
   color: var(--vp-c-text-2);
   cursor: pointer;
