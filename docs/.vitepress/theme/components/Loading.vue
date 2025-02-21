@@ -1,33 +1,50 @@
 <style scoped>
   .spinner {
-   width: 56px;
-   height: 56px;
-   display: grid;
-   border: 4px solid #0000;
-   border-radius: 50%;
-   border-right-color: #004dff;
-   animation: spinner-a4dj62 1s infinite linear;
+    --size: 30px;
+    --first: #005bba;
+    --second: #fed500;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    animation: spin 3s linear infinite;
   }
 
   .spinner::before,
   .spinner::after {
-   content: "";
-   grid-area: 1/1;
-   margin: 2px;
-   border: inherit;
-   border-radius: 50%;
-   animation: spinner-a4dj62 2s infinite;
+    content: "";
+    width: var(--size);
+    height: var(--size);
+    border: 4px solid var(--first);
+    border-top: 4px solid var(--second);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: spinRing 1.5s ease-out infinite;
+    box-shadow: 0 0 10px var(--first);
   }
 
-  .spinner::after {
-   margin: 8px;
-   animation-duration: 3s;
+  .spinner::before {
+    filter: blur(10px);
   }
 
-  @keyframes spinner-a4dj62 {
-   100% {
-    transform: rotate(1turn);
-   }
+  @keyframes spinRing {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 </style>
 
