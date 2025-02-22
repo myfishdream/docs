@@ -8,18 +8,12 @@
         :class="[
           getItemPosition(item, index),
           'size-' + item.size,
-          item.type
+          item.type,
+          { 'is-visible': visibleItems.has(index) }
         ]"
-        v-motion
-        :initial="{ opacity: 0, y: 100 }"
-        :visible="{ 
-          opacity: 1, 
-          y: 0,
-          transition: {
-            type: 'spring',
-            damping: 15,
-            stiffness: 100
-          }
+        :ref="(el) => {
+          itemRefs[index] = el;
+          setupIntersectionObserver(el, index);
         }"
       >
         <!-- 时间点 -->
@@ -69,8 +63,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter, withBase } from 'vitepress'
+import { useIntersectionObserver } from '@vueuse/core'
 
 const router = useRouter()
 
@@ -80,6 +75,63 @@ const props = defineProps({
     required: true,
     default: () => []
   }
+})
+
+// 修改显示状态管理
+const itemRefs = ref([])
+const visibleItems = ref(new Set())
+const observers = ref([])
+
+const setupIntersectionObserver = (el, index) => {
+  if (!el) return
+
+  // 如果已经可见，不需要设置观察器
+  if (visibleItems.value.has(index)) return
+
+  const observer = useIntersectionObserver(
+    el,
+    ([{ isIntersecting }]) => {
+      if (isIntersecting) {
+        visibleItems.value.add(index)
+        // 停止观察
+        if (observers.value[index]) {
+          observers.value[index].stop()
+          observers.value[index] = null
+        }
+      }
+    },
+    { threshold: 0, rootMargin: '50px' }
+  )
+
+  observers.value[index] = observer
+}
+
+// 在组件卸载时清理所有观察器
+onUnmounted(() => {
+  observers.value.forEach(observer => {
+    if (observer) {
+      observer.stop()
+    }
+  })
+})
+
+// 初始检查
+onMounted(() => {
+  nextTick(() => {
+    itemRefs.value.forEach((el, index) => {
+      if (el) {
+        const rect = el.getBoundingClientRect()
+        if (rect.top < window.innerHeight) {
+          visibleItems.value.add(index)
+          // 如果元素已经可见，确保停止观察
+          if (observers.value[index]) {
+            observers.value[index].stop()
+            observers.value[index] = null
+          }
+        }
+      }
+    })
+  })
 })
 
 // 日期格式化
@@ -143,6 +195,8 @@ const isExternalLink = (link) => {
   margin: 3rem 0;
   width: 50%;
   transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(30px);
 }
 
 .timeline-item.left {
@@ -153,6 +207,11 @@ const isExternalLink = (link) => {
 .timeline-item.right {
   padding-left: 3rem;
   left: 50%;
+}
+
+.timeline-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .timeline-dot {
