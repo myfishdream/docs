@@ -2,20 +2,16 @@
   <div class="message-boards">
     <!-- 添加顶部通知 -->
     <transition name="notification">
-      <div 
-        v-if="notification.show" 
-        class="notification-top"
-        :class="notification.type"
-      >
+      <div v-if="notification.show" class="notification-top" :class="notification.type">
         {{ notification.message }}
       </div>
     </transition>
 
     <!-- 移除整体加载遮罩，只保留评论加载动画 -->
     <div class="message-header-section">
-      <h2 class="title" v-motion :initial="{ opacity: 0, y: 50 }" :enter="{ opacity: 1, y: 0 }">📋留言板</h2>
+      <h2 class="title" v-motion :initial="{ opacity: 0, y: 50 }" :enter="{ opacity: 1, y: 0 }">🌈留言板</h2>
       <p class="subtitle" v-motion :initial="{ opacity: 0 }" :enter="{ opacity: 1, delay: 200 }">
-        在这里留下你的想法和建议...
+        <TypeWriter :texts="bio" :typeSpeed="30" :deleteSpeed="30" :delayBetween="2000" />
       </p>
     </div>
 
@@ -28,51 +24,32 @@
         </h3>
         <span class="collapse-icon">{{ isCollapsed ? '展开' : '收起' }}</span>
       </div>
-      
+
       <div class="panel-content" v-show="!isCollapsed">
         <div class="message-form">
           <!-- 头像和输入框一行 -->
           <div class="form-main">
             <div class="avatar-section">
               <div class="avatar-upload" :class="{ 'is-anonymous': isAnonymous }">
-                <img 
-                  :src="avatarPreview || defaultAvatar" 
-                  alt="头像"
-                  class="avatar-preview"
-                >
-                <div 
-                  class="avatar-overlay" 
-                  v-if="!isAnonymous"
-                  @click.stop="triggerAvatarUpload"
-                >
+                <img :src="avatarPreview || defaultAvatar" alt="头像" class="avatar-preview">
+                <div class="avatar-overlay" v-if="!isAnonymous" @click.stop="triggerAvatarUpload">
                   <span class="upload-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                      <circle cx="12" cy="13" r="4"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                      <circle cx="12" cy="13" r="4" />
                     </svg>
                   </span>
                   <span class="upload-text">更换头像</span>
                 </div>
               </div>
-              <input
-                type="file"
-                ref="avatarInput"
-                @change="handleAvatarChange"
-                accept="image/*"
-                class="avatar-input"
-                style="display: none;"
-              >
+              <input type="file" ref="avatarInput" @change="handleAvatarChange" accept="image/*" class="avatar-input"
+                style="display: none;">
             </div>
 
             <div class="content-wrapper">
-              <textarea
-                v-model="content"
-                placeholder="说点什么吧"
-                class="content-input"
-                :class="{ 'has-content': content.length > 0 }"
-                @input="adjustHeight"
-                ref="contentInput"
-              ></textarea>
+              <textarea v-model="content" placeholder="说点什么吧" class="content-input"
+                :class="{ 'has-content': content.length > 0 }" @input="adjustHeight" ref="contentInput"></textarea>
             </div>
           </div>
 
@@ -80,41 +57,23 @@
           <div class="form-footer">
             <div class="left-controls">
               <div class="identity-switch">
-                <button 
-                  class="identity-btn" 
-                  :class="{ active: !isAnonymous }"
-                  @click="setIdentity(false)"
-                >
+                <button class="identity-btn" :class="{ active: !isAnonymous }" @click="setIdentity(false)">
                   <span class="identity-icon">👤</span>
                   实名
                 </button>
-                <button 
-                  class="identity-btn" 
-                  :class="{ active: isAnonymous }"
-                  @click="setIdentity(true)"
-                >
+                <button class="identity-btn" :class="{ active: isAnonymous }" @click="setIdentity(true)">
                   <span class="identity-icon">🎭</span>
                   匿名
                 </button>
               </div>
-              <input
-                v-if="!isAnonymous"
-                type="text"
-                v-model="author"
-                placeholder="你的名字"
-                class="author-input"
-              >
+              <input v-if="!isAnonymous" type="text" v-model="author" placeholder="你的名字" class="author-input">
             </div>
-            
+
             <div class="right-controls">
               <span class="char-count" :class="{ 'near-limit': content.length > 450 }">
                 {{ content.length }}/500
               </span>
-              <button 
-                @click="submitMessage" 
-                class="submit-btn"
-                :disabled="isSubmitting || !content.trim()"
-              >
+              <button @click="submitMessage" class="submit-btn" :disabled="isSubmitting || !content.trim()">
                 <span v-if="isSubmitting" class="loading-spinner"></span>
                 <span>{{ isSubmitting ? '发送中...' : '发送' }}</span>
               </button>
@@ -126,19 +85,11 @@
 
     <!-- 简化的排序选项 -->
     <div class="sort-bar">
-      <button 
-        class="sort-option" 
-        :class="{ active: sortType === 'newest' }"
-        @click="sortType = 'newest'"
-      >
+      <button class="sort-option" :class="{ active: sortType === 'newest' }" @click="sortType = 'newest'">
         最新
       </button>
       <span class="sort-divider">|</span>
-      <button 
-        class="sort-option" 
-        :class="{ active: sortType === 'likes' }"
-        @click="sortType = 'likes'"
-      >
+      <button class="sort-option" :class="{ active: sortType === 'likes' }" @click="sortType = 'likes'">
         最热
       </button>
     </div>
@@ -148,26 +99,31 @@
       <div v-if="commentsLoading" class="comments-loading-container">
         <Loading />
       </div>
-      
+
       <template v-else>
         <div v-if="messages.length === 0" class="no-messages">
           <div class="empty-state">
             <span class="empty-icon">
-                <svg t="1739245724895" class="icon" viewBox="0 0 1034 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14133" width="32" height="32"><path d="M0 198.171106m101.870246-27.094154l541.367591-143.986074q101.870246-27.094154 128.9644 74.776091l143.986074 541.367592q27.094154 101.870246-74.776091 128.9644l-541.367592 143.986074q-101.870246 27.094154-128.9644-74.776092l-143.986074-541.367591q-27.094154-101.870246 74.776092-128.9644Z" fill="#0F62FE" p-id="14134"></path><path d="M263.529412 252.988235m150.588235 0l469.835294 0q150.588235 0 150.588235 150.588236l0 469.835294q0 150.588235-150.588235 150.588235l-469.835294 0q-150.588235 0-150.588235-150.588235l0-469.835294q0-150.588235 150.588235-150.588236Z" fill="#C1D0FF" fill-opacity=".4" p-id="14135"></path><path d="M428.653929 730.724894a15.061835 15.061835 0 0 0-4.460423 9.476518l-10.032188 118.016c-0.627953 7.3984 5.520565 13.601129 12.924988 13.031906l116.877553-8.964518a15.067859 15.067859 0 0 0 9.392188-4.263153l324.002635-317.744188c8.905788-8.735624 9.045835-23.036988 0.310212-31.942777l-93.137318-94.974494c-8.735624-8.907294-23.036988-9.045835-31.942776-0.311717l-49.329694 48.37647 63.332894 64.582777c8.574494 8.744659 8.437459 22.785506-0.3072 31.36-8.744659 8.576-22.784 8.438965-31.36-0.3072l-63.331388-64.581271-242.939483 238.245647z" fill="#FFFFFF" p-id="14136"></path></svg>
+              <svg t="1739245724895" class="icon" viewBox="0 0 1034 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="14133" width="32" height="32">
+                <path
+                  d="M0 198.171106m101.870246-27.094154l541.367591-143.986074q101.870246-27.094154 128.9644 74.776091l143.986074 541.367592q27.094154 101.870246-74.776091 128.9644l-541.367592 143.986074q-101.870246 27.094154-128.9644-74.776092l-143.986074-541.367591q-27.094154-101.870246 74.776092-128.9644Z"
+                  fill="#0F62FE" p-id="14134"></path>
+                <path
+                  d="M263.529412 252.988235m150.588235 0l469.835294 0q150.588235 0 150.588235 150.588236l0 469.835294q0 150.588235-150.588235 150.588235l-469.835294 0q-150.588235 0-150.588235-150.588235l0-469.835294q0-150.588235 150.588235-150.588236Z"
+                  fill="#C1D0FF" fill-opacity=".4" p-id="14135"></path>
+                <path
+                  d="M428.653929 730.724894a15.061835 15.061835 0 0 0-4.460423 9.476518l-10.032188 118.016c-0.627953 7.3984 5.520565 13.601129 12.924988 13.031906l116.877553-8.964518a15.067859 15.067859 0 0 0 9.392188-4.263153l324.002635-317.744188c8.905788-8.735624 9.045835-23.036988 0.310212-31.942777l-93.137318-94.974494c-8.735624-8.907294-23.036988-9.045835-31.942776-0.311717l-49.329694 48.37647 63.332894 64.582777c8.574494 8.744659 8.437459 22.785506-0.3072 31.36-8.744659 8.576-22.784 8.438965-31.36-0.3072l-63.331388-64.581271-242.939483 238.245647z"
+                  fill="#FFFFFF" p-id="14136"></path>
+              </svg>
             </span>
             <p>还没有留言，来说点什么吧~</p>
           </div>
         </div>
-        
+
         <div class="messages-list">
-          <div 
-            v-for="(message, index) in messages" 
-            :key="message.id" 
-            class="message-item"
-            v-motion
-            :initial="{ opacity: 0, y: 50 }"
-            :enter="{ opacity: 1, y: 0, delay: index * 100 }"
-          >
+          <div v-for="(message, index) in messages" :key="message.id" class="message-item" v-motion
+            :initial="{ opacity: 0, y: 50 }" :enter="{ opacity: 1, y: 0, delay: index * 100 }">
             <!-- 评论头部信息 -->
             <div class="message-header">
               <div class="message-author-info">
@@ -178,18 +134,10 @@
                 </div>
               </div>
               <div class="message-actions">
-                <button 
-                  v-if="canDelete(message)"
-                  @click="deleteMessage(message)"
-                  class="delete-btn"
-                >
+                <button v-if="canDelete(message)" @click="deleteMessage(message)" class="delete-btn">
                   撤回
                 </button>
-                <button 
-                  class="like-btn"
-                  @click="toggleLike(message)"
-                  :class="{ 'liked': message.isLiked }"
-                >
+                <button class="like-btn" @click="toggleLike(message)" :class="{ 'liked': message.isLiked }">
                   <span class="like-icon">⚡</span>
                   <span class="like-count">{{ message.likes }}</span>
                 </button>
@@ -204,11 +152,7 @@
 
         <!-- 加载更多按钮 -->
         <div v-if="hasMore" class="load-more">
-          <button 
-            @click="loadMore" 
-            class="load-more-btn"
-            :disabled="commentsLoading"
-          >
+          <button @click="loadMore" class="load-more-btn" :disabled="commentsLoading">
             {{ commentsLoading ? '加载中...' : '加载更多' }}
           </button>
         </div>
@@ -217,11 +161,7 @@
 
     <!-- 提示消息 -->
     <transition name="notification">
-      <div 
-        v-if="notification.show" 
-        class="notification"
-        :class="notification.type"
-      >
+      <div v-if="notification.show" class="notification" :class="notification.type">
         {{ notification.message }}
       </div>
     </transition>
@@ -232,6 +172,7 @@
 import { ref, onMounted, nextTick, watch } from 'vue'
 import { createClient } from '@supabase/supabase-js'
 import Loading from './Loading.vue'
+import TypeWriter from './TypeWriter.vue'
 
 // 创建 Supabase 客户端
 const supabase = createClient(
@@ -250,6 +191,14 @@ const hasMore = ref(true)
 const page = ref(0)
 const contentInput = ref(null)
 const MESSAGES_PER_PAGE = 10
+
+let bio = [
+  '这里是鱼梦江湖的留言板，欢迎畅所欲言。',
+  '你的每一条留言，都是我前进的动力。',
+  '悄悄告诉我，你今天过得怎么样？',
+  '留言板已就绪，等你来涂鸦！',
+  '试试用一句话让我记住你！',
+]
 
 // 通知状态
 const notification = ref({
@@ -285,7 +234,7 @@ const showNotification = (message, type = 'success') => {
     message,
     type
   }
-  
+
   setTimeout(() => {
     notification.value.show = false
   }, 3000)
@@ -405,14 +354,14 @@ const formatTime = (timestamp) => {
   if (diff < 2592000000) {
     return `${Math.floor(diff / 86400000)}天前`
   }
-  
+
   return date.toLocaleDateString()
 }
 
 // 修改提交留言方法
 const submitMessage = async () => {
   if (isSubmitting.value || !content.value.trim()) return
-  
+
   isSubmitting.value = true
 
   try {
@@ -501,7 +450,7 @@ const loadMessages = async () => {
 onMounted(async () => {
   try {
     commentsLoading.value = true
-    
+
     // 恢复保存的作者信息
     const savedAuthor = localStorage.getItem('messageAuthor')
     const savedAvatar = localStorage.getItem('messageAvatar')
@@ -525,7 +474,7 @@ onMounted(async () => {
 // 修改加载更多方法
 const loadMore = async () => {
   if (commentsLoading.value) return
-  
+
   // 记住当前滚动位置
   const scrollPosition = window.scrollY
 
@@ -570,7 +519,7 @@ const toggleLike = async (message) => {
 const loadMessageContent = async (index) => {
   const message = messages.value[index]
   if (!message || message.isLoaded) return
-  
+
   messages.value[index] = {
     ...message,
     isLoaded: true
@@ -763,7 +712,8 @@ const togglePanel = () => {
 /* 表单底部控制栏布局 */
 .form-footer {
   display: flex;
-  flex-direction: row; /* 电脑端保持水平布局 */
+  flex-direction: row;
+  /* 电脑端保持水平布局 */
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
@@ -860,7 +810,8 @@ const togglePanel = () => {
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
-  min-width: 120px; /* 添加最小宽度 */
+  min-width: 120px;
+  /* 添加最小宽度 */
 }
 
 .load-more-btn:disabled {
@@ -895,7 +846,8 @@ const togglePanel = () => {
   }
 
   .title {
-    font-size: 2rem; /* 调整移动端标题大小 */
+    font-size: 2rem;
+    /* 调整移动端标题大小 */
   }
 
   .subtitle {
@@ -937,7 +889,8 @@ const togglePanel = () => {
   }
 
   .form-footer {
-    flex-direction: column; /* 移动端改为列布局 */
+    flex-direction: column;
+    /* 移动端改为列布局 */
     gap: 1rem;
   }
 
@@ -953,12 +906,14 @@ const togglePanel = () => {
   }
 
   .upload-text {
-    font-size: 10px; /* 移动端字体稍微小一点 */
+    font-size: 10px;
+    /* 移动端字体稍微小一点 */
     line-height: 1.2;
   }
 
   .avatar-overlay {
-    padding: 4px; /* 移动端增加一点内边距 */
+    padding: 4px;
+    /* 移动端增加一点内边距 */
   }
 }
 
@@ -970,7 +925,8 @@ const togglePanel = () => {
 
   .message-form,
   .message-item {
-    padding: 1rem; /* 减少 20% (从 2.5rem 减少到 2rem) */
+    padding: 1rem;
+    /* 减少 20% (从 2.5rem 减少到 2rem) */
   }
 }
 
@@ -1069,8 +1025,10 @@ const togglePanel = () => {
 
 /* 修改评论容器样式，使其宽度大于留言板 */
 .messages-container {
-  width: 130%; /* 增加 30% 宽度 */
-  margin-left: -15%; /* 向左偏移以保持居中 */
+  width: 130%;
+  /* 增加 30% 宽度 */
+  margin-left: -15%;
+  /* 向左偏移以保持居中 */
   box-sizing: border-box;
 }
 
@@ -1292,7 +1250,8 @@ const togglePanel = () => {
 
 /* 头像样式 */
 .message-item .avatar {
-  width: 60px;  /* 增大头像尺寸 */
+  width: 60px;
+  /* 增大头像尺寸 */
   height: 60px;
   border-radius: 50%;
   border: 2px solid var(--vp-c-bg);
@@ -1471,7 +1430,7 @@ const togglePanel = () => {
     justify-content: center;
     margin-bottom: 1rem;
   }
-  
+
   .sort-option {
     font-size: 0.85rem;
   }
@@ -1480,7 +1439,8 @@ const togglePanel = () => {
 /* 表单底部控制栏布局 */
 .form-footer {
   display: flex;
-  flex-direction: row; /* 电脑端保持水平布局 */
+  flex-direction: row;
+  /* 电脑端保持水平布局 */
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
@@ -1498,7 +1458,8 @@ const togglePanel = () => {
 }
 
 .author-input {
-  width: 120px; /* 固定适中的宽度 */
+  width: 120px;
+  /* 固定适中的宽度 */
   min-width: 120px;
 }
 

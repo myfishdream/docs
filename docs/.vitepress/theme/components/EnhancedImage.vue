@@ -249,7 +249,7 @@ onMounted(() => {
   display: flex;
   gap: 8px;
   padding: 8px;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   position: fixed;
   bottom: 20px;
