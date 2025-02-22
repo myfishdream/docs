@@ -21,13 +21,6 @@ export default defineConfig({
   },
   lastUpdated: true,
   head: [
-    [
-      "script",
-      {
-        async: true,
-        src: "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js",
-      },
-    ],
     ["link", { rel: "icon", href: "logo3.png" }],
   ],
   title: "鱼梦江湖",
@@ -165,7 +158,7 @@ export default defineConfig({
 
     ],
     footer: {
-      copyright: '<span id="busuanzi_container_page_pv" data-page-id="age-01">⚡：<span id="busuanzi_value_page_pv"></span> 次</span>',
+      copyright: 'Vitepress',
       message: 'Copyright © 鱼梦江湖 2025 MIT',
     }
   }
