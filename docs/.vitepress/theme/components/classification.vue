@@ -2,10 +2,10 @@
   <div class="classification-container">
     <!-- 添加调试信息显示 -->
     <div v-if="documents.length === 0" class="debug-info">
-      ❌ 正在加载文档...
+      <Loading/>
     </div>
-    <div v-else class="debug-info">
-      ✔ 已加载 {{ documents.length }} 个文档
+    <div v-else>
+      <!-- ... -->
     </div>
     <!-- 筛选器组 -->
     <div class="filters">
@@ -91,6 +91,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import DocCard from './DocCard.vue'
+import Loading from './Loading.vue'
 
 // 状态管理
 const documents = ref([])
@@ -890,67 +891,8 @@ onMounted(() => {
   right: 8px;
 }
 
-/* 添加调试信息样式 */
-.debug-info {
-  padding: 10px;
-  margin-bottom: 10px;
-  background: var(--vp-c-bg-soft);
-  border-radius: 6px;
-  font-size: 0.9em;
-  color: var(--vp-c-text-2);
-}
 
-/* 修改悬浮信息的样式 */
-.doc-hover-info {
-  display: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  background: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 6px;
-  padding: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  margin-top: 8px;
-}
 
-/* 横向滚动布局 */
-.horizontal-scroll {
-  display: flex;
-  grid-template-columns: none;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding-bottom: 20px;
-  /* 为滚动条留出空间 */
-  gap: 20px;
-}
-
-.horizontal-scroll::-webkit-scrollbar {
-  height: 8px;
-}
-
-.horizontal-scroll::-webkit-scrollbar-track {
-  background: var(--vp-c-bg-soft);
-  border-radius: 4px;
-}
-
-.horizontal-scroll::-webkit-scrollbar-thumb {
-  background: var(--vp-c-brand);
-  border-radius: 4px;
-}
-
-.horizontal-scroll::-webkit-scrollbar-thumb:hover {
-  background: var(--vp-c-brand-dark);
-}
-
-/* 在横向滚动模式下的卡片样式 */
-.horizontal-scroll .doc-card-wrapper {
-  flex: 0 0 300px;
-  /* 固定宽度 */
-  scroll-snap-align: start;
-}
 
 .year-filter,
 .month-filter {
