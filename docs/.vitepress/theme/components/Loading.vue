@@ -1,53 +1,57 @@
 <style scoped>
   .spinner {
-    --size: 30px;
-    --first: #005bba;
-    --second: #fed500;
-    width: 100px;
-    height: 100px;
-    position: relative;
-    animation: spin 3s linear infinite;
+   width: 60px;
+   height: 60px;
+   position: relative;
   }
 
-  .spinner::before,
-  .spinner::after {
-    content: "";
-    width: var(--size);
-    height: var(--size);
-    border: 4px solid var(--first);
-    border-top: 4px solid var(--second);
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: spinRing 1.5s ease-out infinite;
-    box-shadow: 0 0 10px var(--first);
+  .spinner .dot {
+   position: absolute;
+   inset: 0;
+   display: flex;
+   justify-content: center;
   }
 
-  .spinner::before {
-    filter: blur(10px);
-  }
-
-  @keyframes spinRing {
-    0% {
-      transform: translate(-50%, -50%) rotate(0deg);
-    }
-    100% {
-      transform: translate(-50%, -50%) rotate(360deg);
-    }
+  .spinner .dot::after {
+   content: "";
+   width: 7px;
+   height: 7px;
+   border-radius: 50%;
+   background-color: rgb(12, 180, 231);
   }
 
   @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+   to {
+    transform: rotate(360deg);
+   }
+  }
+
+  .spinner .dot {
+   animation: spin 2s infinite;
+  }
+
+  .spinner .dot:nth-child(2) {
+   animation-delay: 100ms;
+  }
+
+  .spinner .dot:nth-child(3) {
+   animation-delay: 200ms;
+  }
+
+  .spinner .dot:nth-child(4) {
+   animation-delay: 300ms;
+  }
+
+  .spinner .dot:nth-child(5) {
+   animation-delay: 400ms;
   }
 </style>
 
 <template>
-  <div class="spinner"></div>
+  <div class="spinner">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div></div>
 </template>
