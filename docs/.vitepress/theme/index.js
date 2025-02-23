@@ -23,6 +23,7 @@ import errorIMG from '../../src/status/loseimg.png'
 import './style.css'
 import './custom.css'
 
+
 // /** @type {import('vitepress').Theme} */
 export default {
   extends: DefaultTheme,
