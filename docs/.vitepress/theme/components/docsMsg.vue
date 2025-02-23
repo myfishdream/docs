@@ -60,6 +60,7 @@
 <script setup>
 import { useData, useRoute } from 'vitepress'
 import { computed, ref, onMounted, watch } from 'vue'
+import { onContentUpdated } from 'vitepress/client'
 
 const { frontmatter } = useData()
 const route = useRoute()
@@ -93,36 +94,26 @@ const showCard = computed(() => {
 
 // 移除标题的函数
 const removeTitle = () => {
-  if (!showCard.value) return
+  if (import.meta.env.SSR || !showCard.value) return
+
+  const selectors = [
+    '.vp-doc h1:first-of-type',
+    '.content h1:first-of-type',
+    '#VPContent h1:first-of-type',
+    '.VPDoc h1:first-of-type'
+  ]
   
-  // 等待 DOM 更新
-  setTimeout(() => {
-    const selectors = [
-      '.vp-doc h1:first-of-type',
-      '.content h1:first-of-type',
-      '#VPContent h1:first-of-type',
-      '.VPDoc h1:first-of-type'
-    ]
-    
-    for (const selector of selectors) {
-      const h1 = document.querySelector(selector)
-      if (h1) {
-        h1.style.display = 'none'
-        break // 找到并隐藏一个标题后就停止
-      }
+  for (const selector of selectors) {
+    const h1 = document?.querySelector(selector)
+    if (h1) {
+      h1.style.display = 'none'
+      break
     }
-  }, 100) // 增加延迟确保 DOM 已更新
+  }
 }
 
-// 监听路由变化
-watch(
-  () => route.path,
-  () => removeTitle(),
-  { immediate: true }
-)
-
-// 组件挂载时也执行一次
-onMounted(() => {
+// 监听内容更新
+onContentUpdated(() => {
   removeTitle()
 })
 
@@ -270,8 +261,6 @@ const copyPageUrl = async () => {
   .title {
     font-size: 1.3rem;
   }
-
-
 
   .title-row {
     gap: 0.5rem;
