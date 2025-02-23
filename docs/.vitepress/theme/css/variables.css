@@ -1,0 +1,16 @@
+:root {
+    /* 主页文字颜色 */
+    --vp-home-hero-bg-color1:#ee7955;
+    --vp-home-hero-bg-color2:#f35d37;
+
+    /* 阅读进度条颜色 */
+    --reading-pg-line-color1:#42b883;
+    --reading-pg-line-color2:#35495e;
+}
+
+
+.dark{
+    --reading-pg-line-color1:#ee7955;
+    --reading-pg-line-color2:#f35d37;
+
+}

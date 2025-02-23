@@ -230,8 +230,7 @@ onUnmounted(() => {
 
 .progress-bar {
   height: 100%;
-  /* background: linear-gradient(90deg, #42b883, #35495e); */
-  background: linear-gradient(90deg, var(--bear-bg-color2), var(--bear-bg-color1));
+  background: linear-gradient(90deg, var(--reading-pg-line-color1), var(--reading-pg-line-color2));
   transition: width 0.3s ease;
   position: relative;
 }
@@ -243,11 +242,9 @@ onUnmounted(() => {
   transform: translateY(-50%);
   width: 10px;
   height: 10px;
-  /* background: #42b883; */
-  background: var(--bear-bg-color1);
+  background: var(--reading-pg-line-color1);
   border-radius: 50%;
-  /* box-shadow: 0 0 10px #42b883; */
-  box-shadow: 0 0 10px var(--bear-bg-color2);
+  box-shadow: 0 0 10px var(--reading-pg-line-color1);
 }
 
 .progress-info {

@@ -21,6 +21,7 @@ import errorIMG from '../../src/status/loseimg.png'
 
 
 import './style.css'
+import './css/variables.css'
 import './custom.css'
 
 
