@@ -515,6 +515,6 @@
 }
 
 /* 移除标题组件上方空位置 */  
-  .VPDoc[data-v-10119189] {
+  .VPDoc {
       padding: 0px 32px 0 !important;
   }
