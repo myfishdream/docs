@@ -48,7 +48,7 @@
             </div>
 
             <div class="content-wrapper">
-              <textarea v-model="content" placeholder="说点什么吧" class="content-input"
+              <textarea v-model="content" placeholder="Say something..." class="content-input"
                 :class="{ 'has-content': content.length > 0 }" @input="adjustHeight" ref="contentInput"></textarea>
             </div>
           </div>
@@ -58,11 +58,9 @@
             <div class="left-controls">
               <div class="identity-switch">
                 <button class="identity-btn" :class="{ active: !isAnonymous }" @click="setIdentity(false)">
-                  <span class="identity-icon">👤</span>
                   实名
                 </button>
                 <button class="identity-btn" :class="{ active: isAnonymous }" @click="setIdentity(true)">
-                  <span class="identity-icon">🎭</span>
                   匿名
                 </button>
               </div>
@@ -192,7 +190,7 @@ const page = ref(0)
 const contentInput = ref(null)
 const MESSAGES_PER_PAGE = 10
 
-let bio = [
+const bio = [
   '这里是鱼梦江湖的留言板，欢迎畅所欲言。',
   '你的每一条留言，都是我前进的动力。',
   '悄悄告诉我，你今天过得怎么样？',
@@ -964,15 +962,6 @@ const togglePanel = () => {
   color: var(--vp-c-brand);
 }
 
-.identity-icon {
-  font-size: 1.2rem;
-  transition: transform 0.3s ease;
-}
-
-.identity-btn:hover .identity-icon {
-  transform: scale(1.1);
-}
-
 /* 修改消息加载样式 */
 .message-loading {
   display: flex;
@@ -1537,4 +1526,4 @@ const togglePanel = () => {
     text-align: center;
   }
 }
-</style>
+  </style>
