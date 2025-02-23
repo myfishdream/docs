@@ -7,12 +7,12 @@ import Giscus from './components/Giscus.vue'       // 评论组件
 import CopyBlock from './components/CopyBlock.vue' // 可复制模块
 import VueLazyloadNext  from 'vue-lazyload-next'   // 懒加载指令
 import MouseEvent from './components/MouseEvent.vue' // 鼠标跟随特效
-import ThemeSwitch from './components/ThemeSwitch.vue' // 主题切换过渡动画
+// import ThemeSwitch from './components/ThemeSwitch.vue' // 主题切换过渡动画
 import Classification from './components/classification.vue'  // 分类
 import ReadingProgress from './components/ReadingProgress.vue'  // 阅读进度
 import EnhancedImage from './components/EnhancedImage.vue' // 增强图片组件
 import Timelines from './components/Timelines.vue' // 时间轴组件
-
+import DocsMsg from './components/docsMsg.vue' // 文档信息组件
 
 
 // 引入懒加载图片
@@ -30,11 +30,13 @@ export default {
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       // ...
+      'doc-before': () => h(DocsMsg), // 特点位置插入组件
     })
   },
-  Layout: ThemeSwitch,  // 浅暗切换动画
+  // Layout: ThemeSwitch,  // 浅暗切换动画  
+  // 使用这个上面的位置插入又不行，两个一起用？
   
-  enhanceApp({ app, router, siteData }) {
+  enhanceApp({ app, router, siteData }) { 
     // ...
     app.component('Classification', Classification);
     app.component('Giscus', Giscus);
@@ -43,6 +45,7 @@ export default {
     app.component('ReadingProgress', ReadingProgress);
     app.component('EnhancedImage', EnhancedImage); // 注册增强图片组件
     app.component('Timelines', Timelines); // 注册时间轴组件
+    app.component('DocsMsg', DocsMsg); // 注册文档信息组件
     app.use(VueLazyloadNext, {
       loading: loadingIMG, // 加载占位图
       error: errorIMG,     // 错误占位图

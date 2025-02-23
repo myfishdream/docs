@@ -513,3 +513,8 @@
   --vp-home-hero-image-filter: blur(80px);
   transition: all 0.3s ease;
 }
+
+/* 移除标题组件上方空位置 */  
+  .VPDoc[data-v-10119189] {
+      padding: 0px 32px 0 !important;
+  }

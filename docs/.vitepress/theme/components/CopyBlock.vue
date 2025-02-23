@@ -13,7 +13,7 @@
 
 <script>
 import { ref ,onMounted} from "vue";
-
+    
 export default {
     name: "CopyBlock",
     props: {
@@ -33,7 +33,7 @@ export default {
         size: {
             type: String,
             required: false,
-            default: 15
+            default: '15'
         },
     },
     setup(props) {

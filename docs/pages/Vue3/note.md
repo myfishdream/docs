@@ -24,7 +24,6 @@ description: 快速入门Vue
 
 ## Setup
 
-<ReadingMark/>
 
 
 ### setup 的返回值
