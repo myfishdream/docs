@@ -25,6 +25,26 @@ star: true           # 是否标星
 
 <ReadingProgress/>
 
+  <Timelines :items="[
+    {
+      title: '搭建框架',
+      time: '2025-2-19',
+      type: 'green',
+      content: '使用Github仓库模版创建Electron+Vue3+TS的基础框架'
+    },
+    {
+      title: '解决构建问题',
+      time: '2025-2-20',
+      type: 'red',
+      content: '配置权限'
+    },
+    {
+      title: '开发',
+      time: '2025-02-21',
+      type: 'time',
+      // dot: '🕣'
+    },
+  ]" />
 
 # Electron+Vue3+TypeScript项目
 
@@ -45,6 +65,8 @@ star: true           # 是否标星
 ### 搭建步骤
 
 #### 克隆模板项目
+
+原仓库:https://github.com/electron-vite/electron-vite-vue
 
 ```sh
 # 克隆 electron-vite-vue 模板
