@@ -14,8 +14,8 @@ tags:
 description: CJS和ES6模块化
 
 # 额外信息
-sticky: 2        # 置顶顺序（0表示不置顶）
-star: true           # 是否标星
+sticky: 0        # 置顶顺序（0表示不置顶）
+star: false           # 是否标星
 ---
 
 <ReadingProgress/>
@@ -26,6 +26,7 @@ star: true           # 是否标星
 **模块化规范**
 
 **模块化的定义：**
+>[尚硅谷笔记](https://www.yuque.com/tianyu-coder/openshare/electron)
 
 将程序文件依据规则<span style="color:#CC0000; font-weight:bold;">拆分</span>成多个文件，这种编码方式就是<span style="font-weight:bold; color:#CC0000;">模块化</span>
 

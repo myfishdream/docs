@@ -16,8 +16,8 @@ description: 如果使用Curosr基础操作
 
 # 额外信息（可选）
 # image: /path/to/cover.jpg
-sticky: 1
-star: true
+sticky: 0
+star: false
 ---
 <ReadingProgress/>
 

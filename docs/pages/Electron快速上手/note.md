@@ -17,8 +17,8 @@ tags:
 description: 快速上手Electron核心知识
 
 # 额外信息
-sticky: 3        # 置顶顺序（0表示不置顶）
-star: true           # 是否标星
+sticky: 0        # 置顶顺序（0表示不置顶）
+star: false           # 是否标星
 ---
 
 <ReadingProgress/>
@@ -27,6 +27,7 @@ star: true           # 是否标星
 # Electron快速上手
 
 ## 介绍
+>[尚硅谷笔记](https://www.yuque.com/tianyu-coder/openshare/electron)
 
 <span style="color:#0066CC;">Electron</span>是一个<span style="font-weight:bold; color:#990000;">跨平台桌面应用</span>开发框架，开发者可以使用：HTML、CSS、JavaScript 等 Web 技术来构建桌面应用程序，它的本质是结合了 <span style="font-weight:bold; color:#990000;">Chromium</span> 和 <span style="font-weight:bold; color:#990000;">Node.js</span>，现在广泛用于桌面应用程序开发
 

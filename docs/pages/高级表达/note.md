@@ -14,7 +14,7 @@ description: 从初级表达升级到专业(高级)表达
 
 # 额外信息
 sticky: 0        # 置顶顺序（0表示不置顶）
-star: true           # 是否标星
+star: false           # 是否标星
 ---
 
 <ReadingProgress/>
