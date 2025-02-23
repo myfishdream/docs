@@ -1,16 +1,19 @@
 :root {
     /* 主页文字颜色 */
-    --vp-home-hero-bg-color1:#ee7955;
-    --vp-home-hero-bg-color2:#f35d37;
+    --vp-home-hero-bg-color1: #5672cd;
+    --vp-home-hero-bg-color2: #3a5ccc;
 
     /* 阅读进度条颜色 */
-    --reading-pg-line-color1:#42b883;
-    --reading-pg-line-color2:#35495e;
+    --reading-pg-line-color1: #42b883;
+    --reading-pg-line-color2: #35495e;
 }
 
 
-.dark{
-    --reading-pg-line-color1:#ee7955;
-    --reading-pg-line-color2:#f35d37;
+.dark {
+    --vp-home-hero-bg-color1: #5c73e7;
+    --vp-home-hero-bg-color2: #3e63dd;
+
+    --reading-pg-line-color1: var(--vp-home-hero-bg-color2);
+    --reading-pg-line-color2: var(--vp-home-hero-bg-color1);
 
 }
