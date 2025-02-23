@@ -11,6 +11,8 @@ import ThemeSwitch from './components/ThemeSwitch.vue' // 主题切换过渡动�
 import Classification from './components/classification.vue'  // 分类
 import ReadingProgress from './components/ReadingProgress.vue'  // 阅读进度
 import EnhancedImage from './components/EnhancedImage.vue' // 增强图片组件
+import Timelines from './components/Timelines.vue' // 时间轴组件
+
 
 
 // 引入懒加载图片
@@ -40,6 +42,7 @@ export default {
     app.component('MouseEvent', MouseEvent);
     app.component('ReadingProgress', ReadingProgress);
     app.component('EnhancedImage', EnhancedImage); // 注册增强图片组件
+    app.component('Timelines', Timelines); // 注册时间轴组件
     app.use(VueLazyloadNext, {
       loading: loadingIMG, // 加载占位图
       error: errorIMG,     // 错误占位图
