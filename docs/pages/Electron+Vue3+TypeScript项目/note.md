@@ -48,10 +48,15 @@ star: true           # 是否标星
       title: '完成代办样式开发',
       time: '2025-02-22',
       type: 'blue',
-    },    {
+    },    
+    {
       title: '全局样式',
       time: '2025-02-23',
       type: 'time',
+    },{
+      title: 'Pinia数据渲染',
+      time: '2025-02-24',
+      type: 'blue',
     },
   ]" />
 
