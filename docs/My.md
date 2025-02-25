@@ -128,6 +128,11 @@ const profile = {
       name: 'Email',
       link: 'mailto:yumengjianghu@outlook.com'
     },
+      {
+      icon: 'home',
+      name: 'Home',
+      link: 'https://xxx.yumeng.icu'
+    },
     // 图标由样式匹配，新增项需添加图标
   ]
 }
@@ -300,6 +305,12 @@ const profile = {
   content: '📧';
   margin-right: 0.5rem;
 }
+
+.contact-item.home::before {
+  content: '🏳‍🌈';
+  margin-right: 0.5rem;
+}
+
 .contact-item.other::before {
   content: '📦';
   margin-right: 0.5rem;
