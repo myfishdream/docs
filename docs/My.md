@@ -91,8 +91,8 @@ const skills = [
 const projects = [
   {
     title: '代办事项',
-    desc: '基于Vue+TS的动态事件代办管理',
-    url: 'https://github.com/your-repo',
+    desc: '基于Electron+Vue3+TS的桌面级应用',
+    url: 'https://github.com/myfishdream/to-dos',
     badge: 'Beta',
     badgeType: 'beta',
     icon: 'https://api.iconify.design/logos:todoist.svg'
@@ -111,7 +111,8 @@ const profile = {
   title: '鱼梦江湖',
   avatar: 'https://s21.ax1x.com/2025/02/07/pEm9bQO.jpg',
   bio: [
-        '不要害怕尝试新技术，失败是成功路上的必经之路。',
+    '永远别让考试分数定义你的价值',
+    '不要害怕尝试新技术，失败是成功路上的必经之路。',
     '成长是一场与自己的较量，你只需要比昨天的自己更好。',
     '每一个Bug都是一次成长的机会。',
     '每一次优化，都是对完美的追求。',
