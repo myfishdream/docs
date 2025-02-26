@@ -1,5 +1,5 @@
 <template>
-  <div class="enhanced-image-container">
+  <div class="enhanced-image-container" :data-image-id="uniqueId">
     <!-- 图片加载组件 -->
     <div class="image-loader" :class="{ 'is-loading': loading, 'has-error': error }" @click="showLightbox">
       <img :src="src" :alt="alt" @load="handleLoad" @error="handleError" class="image"
@@ -128,6 +128,9 @@ const props = defineProps({
   }
 })
 
+// 生成唯一ID，用于追踪每个图片组件
+const uniqueId = ref(`img-${Math.random().toString(36).substr(2, 9)}`)
+
 // 状态管理
 const loading = ref(true) // 是否正在加载
 const error = ref(false) // 是否加载失败
@@ -139,25 +142,27 @@ const lightbox = ref(null) // 灯箱组件引用
 const pageImages = ref([]) // 页面上的所有图片
 const currentImageIndex = ref(0) // 当前图片索引
 
-// 获取页面上的所有图片
-const getAllPageImages = () => {
-  const images = Array.from(document.querySelectorAll('.image'))
-    .filter(img => {
-      // 过滤掉未加载的图片
-      if (!img.complete) return false
-      // 过滤掉加载失败的图片
-      if (!img.naturalWidth || !img.naturalHeight) return false
-      // 过滤掉空src的图片
-      if (!img.src) return false
-      return true
-    })
-    .map(img => img.src)
+// 获取页面上的所有图片并更新当前索引
+const updatePageImages = () => {
+  const containers = document.querySelectorAll('.enhanced-image-container')
+  const images = []
+  const imageIds = []
+  
+  // 遍历所有图片容器，收集已加载的图片
+  containers.forEach(container => {
+    const img = container.querySelector('.image')
+    const id = container.getAttribute('data-image-id')
+    if (img && img.complete && img.naturalWidth && img.src) {
+      images.push(img.src)
+      imageIds.push(id)
+    }
+  })
   
   pageImages.value = images
-  currentImageIndex.value = images.findIndex(src => src === props.src)
+  return imageIds.indexOf(uniqueId.value) // 返回当前图片的索引
 }
 
-// 切换图片
+// 切换图片（上一张/下一张）
 const switchImage = (direction) => {
   if (pageImages.value.length <= 1) return
   
@@ -182,6 +187,7 @@ const handleError = () => {
   error.value = true
 }
 
+// 重试加载图片
 const retryLoad = () => {
   if (retryCount.value < maxRetries) {
     loading.value = true
@@ -194,14 +200,16 @@ const retryLoad = () => {
   }
 }
 
-// 图片操作功能
+// 显示灯箱
 const showLightbox = () => {
   if (!loading.value && !error.value) {
-    getAllPageImages() // 打开灯箱时获取所有图片
+    const index = updatePageImages()
+    currentImageIndex.value = Math.max(0, index)
     visible.value = true
   }
 }
 
+// 隐藏灯箱
 const handleHide = () => {
   visible.value = false
   if (document.fullscreenElement) {
@@ -209,6 +217,7 @@ const handleHide = () => {
   }
 }
 
+// 切换全屏显示
 const toggleFullscreen = () => {
   const lightboxEl = document.querySelector('.vel-modal')
   if (!lightboxEl) return
@@ -222,8 +231,9 @@ const toggleFullscreen = () => {
   }
 }
 
-// 懒加载实现
+// 图片懒加载实现
 onMounted(() => {
+  // 创建交叉观察器用于懒加载
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -238,6 +248,7 @@ onMounted(() => {
     observer.observe(imageRef.value)
   }
 
+  // 组件卸载时清理观察器
   onUnmounted(() => {
     observer.disconnect()
   })
