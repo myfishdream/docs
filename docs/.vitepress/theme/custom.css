@@ -77,3 +77,8 @@
       var(--vp-home-hero-bg-color2) 50%);
   /* --vp-home-hero-image-filter: blur(40px); */
 }
+
+.custom-image-container{
+  background-color: var(--vp-c-bg-elv) !important;
+  border: var(--vp-c-divider) 2px dashed !important;
+}
