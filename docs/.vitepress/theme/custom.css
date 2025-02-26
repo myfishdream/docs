@@ -80,5 +80,7 @@
 
 .custom-image-container{
   background-color: var(--vp-c-bg-elv) !important;
-  border: var(--vp-c-divider) 2px dashed !important;
+  border: var(--vp-c-divider) 1px dashed !important;
+  display: inline-block !important;
+  max-width: 100% !important;
 }
