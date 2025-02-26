@@ -283,4 +283,4 @@ npm run build:dir
 
 ### 全局弹窗组件
 
-<Picture src='./assets/全局弹窗组件.gif'  alt='描述信息'/>
+<Picture src='/picture/全局弹窗组件.gif'  alt='描述信息'/>
