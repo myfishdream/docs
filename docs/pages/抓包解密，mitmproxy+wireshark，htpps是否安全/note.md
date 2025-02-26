@@ -25,7 +25,7 @@ star: false           # 是否标星
 指的是在<span style="font-weight:bold;">客户端</span>和<span style="font-weight:bold;">服务器</span>之间插入一个 **代理**
 
 <div class="custom-image-container" style="padding: 10px; border: 1px dashed #ccc; background: #f9f9f9; margin: 10px 0;">
-<Picture src='../../public/picture/抓包解密，mitmproxy+wireshark，htpps是否安全/image_1740581289070_3.png' alt='description'/> 
+<Picture src='/picture/抓包解密，mitmproxy+wireshark，htpps是否安全/image_1740581289070_3.png' alt='description'/> 
 <div style="color: #666; font-size: 12px; margin-top: 5px;">image_1740581289070_3.png</div>
 </div>
 
@@ -60,7 +60,7 @@ mitmweb -p 9000 --set web_port=9001
 ```
 
 <div class="custom-image-container" style="padding: 10px; border: 1px dashed #ccc; background: #f9f9f9; margin: 10px 0;">
-<Picture src='../../public/picture/抓包解密，mitmproxy+wireshark，htpps是否安全/image_1740580851589_2.png' alt='description'/> 
+<Picture src='/picture/抓包解密，mitmproxy+wireshark，htpps是否安全/image_1740580851589_2.png' alt='description'/> 
 <div style="color: #666; font-size: 12px; margin-top: 5px;">image_1740580851589_2.png</div>
 </div>指定以网页的形式启动抓包工具，代理端口为9000，网页端口为9001
 
@@ -69,7 +69,7 @@ mitmweb -p 9000 --set web_port=9001
 ### 配置代理
 
 <div class="custom-image-container" style="padding: 10px; border: 1px dashed #ccc; background: #f9f9f9; margin: 10px 0;">
-<Picture src='../../public/picture/抓包解密，mitmproxy+wireshark，htpps是否安全/image_1740580878729_3.png' alt='description'/> 
+<Picture src='/picture/抓包解密，mitmproxy+wireshark，htpps是否安全/image_1740580878729_3.png' alt='description'/> 
 <div style="color: #666; font-size: 12px; margin-top: 5px;">image_1740580878729_3.png</div>
 </div>
 
