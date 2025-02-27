@@ -22,14 +22,6 @@ hero:
       link: MessageBoards
 
 features:
-  - icon: 😋 
-    title: 介绍 
-    details: 一个专注于分享的小天地，在这里，我会记录自己的学习心得、实践经验以及生活中的点滴感悟。
-    # link: /index/introduce
-  - icon: 💡 
-    title: 灵感 
-    details: 捕捉灵感瞬间，点亮创意无限。
-    link: /index/inspiration
   - icon: 📷 
     title: 记录 
     details: 记录时光，珍藏每一份思考与成长。
@@ -40,8 +32,8 @@ features:
 
 <MouseEvent/>
 
-<script setup>
+<!-- <script setup>
 import show from '.vitepress/theme/components/home/show.vue'
 </script>
 
-<show/>
+<show/> -->

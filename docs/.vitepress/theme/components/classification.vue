@@ -69,7 +69,28 @@
     <div class="dividingLine"></div>
     <!-- 文档列表 -->
     <div class="documents-grid">
-      <DocCard v-for="doc in paginatedDocs" :key="doc.path" :doc="doc" />
+      <div v-for="(doc, index) in paginatedDocs" 
+           :key="doc.path" 
+           class="doc-card-wrapper"
+           v-motion
+           :initial="{
+             opacity: 0,
+             y: 20,
+             scale: 0.95
+           }"
+           :enter="{
+             opacity: 1,
+             y: 0,
+             scale: 1,
+             transition: {
+               type: 'spring',
+               stiffness: 250,
+               damping: 25,
+               delay: index * 50
+             }
+           }">
+        <DocCard :doc="doc" />
+      </div>
       <div v-if="!paginatedDocs.length" class="no-docs">
         暂无符合条件的文档
       </div>
@@ -429,9 +450,9 @@ const toggleCategory = (category) => {
 
 // 添加折叠状态管理
 const openSections = ref({
-  category: true,
+  category: false,
   tags: true,
-  date: true
+  date: false
 })
 
 // 切换折叠状态
@@ -538,6 +559,7 @@ onMounted(() => {
   margin-bottom: 16px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
+  border-color: var(--vp-c-divider);
 }
 
 .filter-section:hover {
@@ -631,137 +653,106 @@ onMounted(() => {
 .documents-grid {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   padding: 20px 0;
 }
 
 .doc-card {
+  width: 100%;
+  background: var(--vp-c-bg);
   border: 1px solid var(--vp-c-divider);
   border-radius: 12px;
   padding: 20px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  background: var(--vp-c-bg);
-  min-height: 150px;
+  overflow: hidden;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.doc-card::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(120deg,
-      var(--vp-c-brand) 0%,
-      var(--vp-c-brand-light) 30%,
-      var(--vp-c-brand) 60%,
-      var(--vp-c-brand-light) 100%);
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: -2;
-}
-
-.doc-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--vp-c-bg);
-  border-radius: inherit;
-  z-index: -1;
-  transition: all 0.4s ease;
+  gap: 12px;
 }
 
 .doc-card:hover {
-  transform: translateY(-6px);
-  box-shadow:
-    0 10px 20px rgba(0, 0, 0, 0.1),
-    0 6px 6px rgba(0, 0, 0, 0.06);
-}
-
-.doc-card:hover::before {
-  opacity: 1;
-  animation: borderRotate 4s linear infinite;
-}
-
-.doc-card:hover::after {
-  inset: 2px;
-  background: linear-gradient(to bottom right,
-      var(--vp-c-bg),
-      var(--vp-c-bg-soft));
-}
-
-.doc-card:active {
-  transform: translateY(-2px);
-}
-
-@keyframes borderRotate {
-  0% {
-    filter: hue-rotate(0deg);
-  }
-
-  100% {
-    filter: hue-rotate(360deg);
-  }
-}
-
-.doc-card-link {
-  text-decoration: none;
-  color: inherit;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  transform: translateY(-4px);
+  border-color: var(--vp-c-brand);
+  box-shadow: 
+    0 6px 16px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(var(--vp-c-brand-rgb), 0.1);
 }
 
 .doc-content {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.doc-header {
+  display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .doc-title {
-  margin: 0 0 10px 0;
-  font-size: 1.1em;
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: 500;
   color: var(--vp-c-text-1);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  position: relative;
-  display: inline-block;
-  transition: all 0.3s ease;
-}
-
-.doc-title:hover {
-  color: var(--vp-c-brand);
-  transform: translateX(4px);
+  flex: 1;
 }
 
 .doc-meta {
-  font-size: 0.9em;
-  color: var(--vp-c-text-2);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  transition: all 0.3s ease;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .doc-date {
+  white-space: nowrap;
   color: var(--vp-c-text-2);
-  font-size: 0.9em;
+}
+
+.doc-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 2px 10px;
+  background: var(--vp-c-brand-soft);
+  border-radius: 12px;
+  font-size: 0.85em;
+  color: var(--vp-c-text-1);
+  transition: all 0.3s ease;
+}
+
+.doc-summary {
+  color: var(--vp-c-text-2);
+  font-size: 0.95em;
+  line-height: 1.6;
+  margin-top: 4px;
 }
 
 .no-docs {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 40px;
+  padding: 60px 20px;
   background: var(--vp-c-bg-soft);
-  border-radius: 8px;
+  border-radius: 12px;
   color: var(--vp-c-text-2);
+  font-size: 1.1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.no-docs::before {
+  content: '📝';
+  font-size: 2em;
+  opacity: 0.8;
 }
 
 .tag-btn,
@@ -812,51 +803,30 @@ onMounted(() => {
   box-shadow: 0 2px 8px rgba(var(--vp-c-brand-rgb), 0.35);
 }
 
-.doc-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.tag {
-  font-size: 0.8em;
-  padding: 2px 8px;
-  background: var(--vp-c-brand-soft);
-  border-radius: 12px;
-  color: var(--vp-c-text-1);
-  transition: all 0.3s ease;
-}
-
-.doc-card:hover .tag {
-  transform: translateY(-2px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.doc-summary {
-  margin-top: 8px;
-  font-size: 0.9em;
-  color: var(--vp-c-text-2);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
 .pagination {
+  margin-top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
-  margin-top: 30px;
+  gap: 20px;
 }
 
 .page-btn {
-  padding: 6px 12px;
+  padding: 8px 16px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 6px;
-  background: var(--vp-c-bg-soft);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  font-size: 0.9em;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-btn:not(:disabled):hover {
+  background: var(--vp-c-brand);
+  color: white;
+  border-color: var(--vp-c-brand);
+  transform: translateY(-2px);
 }
 
 .page-btn:disabled {
@@ -867,32 +837,10 @@ onMounted(() => {
 .page-info {
   font-size: 0.9em;
   color: var(--vp-c-text-2);
-}
-
-.section-title {
-  margin: 30px 0 20px;
-  font-size: 1.2em;
-  color: var(--vp-c-text-1);
-}
-
-.sticky-docs {
-  margin-bottom: 40px;
-}
-
-.doc-card.sticky {
-  border: 2px solid var(--vp-c-brand);
   background: var(--vp-c-bg-soft);
+  padding: 6px 12px;
+  border-radius: 6px;
 }
-
-.doc-card.sticky::before {
-  content: '📌';
-  position: absolute;
-  top: 8px;
-  right: 8px;
-}
-
-
-
 
 .year-filter,
 .month-filter {
@@ -900,7 +848,9 @@ onMounted(() => {
   flex-wrap: wrap;
   gap: 8px;
 }
-
+.month-filter{
+  margin-top: 5px;
+}
 .year-btn,
 .month-btn {
   padding: 4px 12px;
@@ -912,7 +862,6 @@ onMounted(() => {
   transition: all 0.3s ease;
   font-size: 0.9em;
   margin-top: 5px;
-
 }
 
 .year-btn {
@@ -985,8 +934,35 @@ onMounted(() => {
 
   /* 文档网格布局调整 */
   .documents-grid {
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .doc-card {
+    padding: 16px;
+  }
+
+  .doc-header {
+    flex-direction: column;
     gap: 8px;
-    margin: 8px 0;
+  }
+
+  .doc-title {
+    font-size: 1.1em;
+  }
+
+  .doc-meta {
+    gap: 12px;
+  }
+
+  .pagination {
+    margin-top: 24px;
+    gap: 12px;
+  }
+
+  .page-btn {
+    padding: 6px 12px;
+    font-size: 0.85em;
   }
 }
 
@@ -1009,18 +985,27 @@ onMounted(() => {
     backdrop-filter: blur(8px) brightness(0.8);
   }
 
-  .doc-card::after {
+  .doc-card {
     background: var(--vp-c-bg-soft);
   }
 
-  .doc-card:hover::after {
-    background: linear-gradient(to bottom right,
-        var(--vp-c-bg-soft),
-        var(--vp-c-bg-mute));
+  .doc-card:hover {
+    background: var(--vp-c-bg-mute);
+    box-shadow: 
+      0 6px 16px rgba(0, 0, 0, 0.2),
+      0 2px 8px rgba(var(--vp-c-brand-rgb), 0.15);
   }
 
   .filter-content {
     background: var(--vp-c-bg-soft);
+  }
+
+  .no-docs {
+    background: var(--vp-c-bg-mute);
+  }
+
+  .tag {
+    background: rgba(var(--vp-c-brand-rgb), 0.1);
   }
 }
 </style>

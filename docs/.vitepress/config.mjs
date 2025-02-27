@@ -37,6 +37,7 @@ export default defineConfig({
     returnToTopLabel: '顶部',
     // externalLinkIcon:true, // 外部链接旁显示外部链接图标
     lastUpdated: {
+      text: '最后更新时间',
       formatOptions: {
         dateStyle: 'short',
         timeStyle: 'short'

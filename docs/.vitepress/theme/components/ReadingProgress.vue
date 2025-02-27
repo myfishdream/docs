@@ -51,6 +51,14 @@
             <path d="M85.3328 42.6664a42.6664 42.6664 0 0 1 42.6664-42.6664h767.9952a42.6664 42.6664 0 0 1 42.6664 42.6664v938.6608a42.6664 42.6664 0 0 1-66.346252 35.498445L511.9968 776.613813l-360.317748 240.211832A42.6664 42.6664 0 0 1 85.3328 981.3272V42.6664z" />
           </svg>
         </div>
+        <div class="scroll-top-button" 
+             @click="scrollToTop"
+             v-show="progress > 0"
+             :title="'返回顶部'">
+          <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+            <path d="M512 432L760 680C776 696 800 696 816 680C832 664 832 640 816 624L536 344C528 336 520 332 512 332C504 332 496 336 488 344L208 624C192 640 192 664 208 680C224 696 248 696 264 680L512 432Z" />
+          </svg>
+        </div>
       </div>
     </div>
 
@@ -200,6 +208,14 @@ const updateProgress = () => {
   const wordsPerMinute = 300
   const totalMinutes = Math.ceil(totalWords.value / wordsPerMinute)
   remainingTime.value = Math.ceil(totalMinutes * (1 - progress.value / 100))
+}
+
+// 添加返回顶部方法
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 }
 
 onMounted(async () => {
@@ -427,6 +443,34 @@ onUnmounted(() => {
   opacity: 1;
 }
 
+/* 添加返回顶部按钮样式 */
+.scroll-top-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--vp-c-divider);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: var(--vp-c-bg);
+}
+
+.scroll-top-button:hover {
+  transform: scale(1.1);
+  border-color: var(--vp-c-brand);
+}
+
+.scroll-top-button svg {
+  fill: var(--vp-c-brand);
+  transition: all 0.3s ease;
+}
+
+.scroll-top-button:hover svg {
+  transform: translateY(-2px);
+}
+
 /* 移动端适配 */
 @media (max-width: 768px) {
   .progress-info {
@@ -469,6 +513,16 @@ onUnmounted(() => {
 
   :global(.reading-mark-toast.show) {
     transform: translateX(-50%);
+  }
+
+  .scroll-top-button {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .scroll-top-button svg {
+    width: 16px;
+    height: 16px;
   }
 }
 </style> 
