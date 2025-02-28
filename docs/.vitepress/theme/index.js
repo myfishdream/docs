@@ -13,6 +13,7 @@ import ReadingProgress from './components/ReadingProgress.vue'  // 阅读进度
 import Picture from './components/Picture.vue' // 增强图片组件
 import Timelines from './components/Timelines.vue' // 时间轴组件
 import DocsMsg from './components/docsMsg.vue' // 文档信息组件
+import SimpleSecureContent from './components/SimpleSecureContent.vue' // 简单的加密内容组件
 
 
 // 引入懒加载图片
@@ -48,6 +49,7 @@ export default {
     app.component('Picture', Picture); // 注册增强图片组件
     app.component('Timelines', Timelines); // 注册时间轴组件
     app.component('DocsMsg', DocsMsg); // 注册文档信息组件
+    app.component('SimpleSecureContent', SimpleSecureContent); // 注册简单加密内容组件
     app.use(VueLazyloadNext, {
       loading: loadingIMG, // 加载占位图
       error: errorIMG,     // 错误占位图

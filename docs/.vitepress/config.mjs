@@ -142,7 +142,8 @@ export default defineConfig({
         ]
       },
       {
-        text: '随记', items: [
+        text: '随记',
+        items: [
           { text: 'Github Action部署', link: '/pages/GithubActionTemplate/note' },
           { text: '局域网服务器部署', link: '/pages/LAN server deployment/note' },
           { text: 'Typora增强', link: '/pages/TyporaPlugin/note' },
@@ -152,6 +153,8 @@ export default defineConfig({
           { text: '工具', link: 'other/Download/note' },
           { text: 'Cool_CSS', link: 'pages/CSS/CoolCss' },
           { text: '前端杂谈', link: 'pages/前端杂谈/note' },
+          { text: '加密文档示例', link: '/pages/Supabase/secure-example' },
+          { text: '加密文档管理', link: '/pages/Supabase/secure-admin' },
         ]
       },
       {
