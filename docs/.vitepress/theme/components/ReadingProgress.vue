@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRoute } from 'vitepress'
 
 const route = useRoute()
@@ -90,6 +90,13 @@ const dashOffset = computed(() => {
 const showRestorePrompt = ref(false)
 const hasBookmark = ref(false)
 const bookmarkPosition = ref(0)
+const lastScrollTop = ref(0)  // 上一次滚动位置 
+const isNavVisible = ref(true)  // 导航栏是否可见
+const scrollDirection = ref('up')  // 滚动方向
+const scrollTimer = ref(null)  // 滚动计时器
+
+// 检查是否在客户端  防止在SSR服务端渲染时报错
+const isClient = typeof window !== 'undefined'
 
 // 获取存储键
 const getStorageKey = (type) => {
@@ -168,6 +175,8 @@ const checkBookmark = async () => {
 
 // 显示提示消息
 const showToast = (message) => {
+  if (!isClient) return
+
   const toast = document.createElement('div')
   toast.className = 'reading-mark-toast'
   toast.textContent = message
@@ -186,6 +195,8 @@ const showToast = (message) => {
 
 // 字数计算
 const calculateWords = () => {
+  if (!isClient) return 0
+
   const article = document.querySelector('.vp-doc')
   if (!article) return 0
 
@@ -200,9 +211,36 @@ const calculateWords = () => {
 }
 
 const updateProgress = () => {
+  if (!isClient) return
+
   const scrolled = window.scrollY
   const height = document.documentElement.scrollHeight - window.innerHeight
   progress.value = (scrolled / height) * 100
+  
+  // 优化的导航栏显示隐藏逻辑
+  const currentScrollTop = window.scrollY
+  const scrollDelta = currentScrollTop - lastScrollTop.value
+  
+  // 更新滚动方向
+  if (Math.abs(scrollDelta) > 5) {  // 减小阈值，提高灵敏度
+    scrollDirection.value = scrollDelta > 0 ? 'down' : 'up'
+  }
+
+  // 使用防抖处理导航栏状态更新
+  if (scrollTimer.value) {
+    clearTimeout(scrollTimer.value)
+  }
+
+  scrollTimer.value = setTimeout(() => {
+    // 根据滚动方向和位置决定导航栏状态
+    if (scrollDirection.value === 'down' && currentScrollTop > 100) {
+      isNavVisible.value = false
+    } else if (scrollDirection.value === 'up' || currentScrollTop < 100) {
+      isNavVisible.value = true
+    }
+  }, 10) // 100ms 的防抖时间
+
+  lastScrollTop.value = currentScrollTop
   
   totalWords.value = calculateWords()
   const wordsPerMinute = 300
@@ -212,6 +250,7 @@ const updateProgress = () => {
 
 // 添加返回顶部方法
 const scrollToTop = () => {
+  if (!isClient) return
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
@@ -219,13 +258,50 @@ const scrollToTop = () => {
 }
 
 onMounted(async () => {
-  window.addEventListener('scroll', updateProgress)
+  if (!isClient) return
+
+  window.addEventListener('scroll', updateProgress, { passive: true })
   await checkBookmark()
   setTimeout(updateProgress, 500)
+  
+  // 添加样式到文档头部
+  const style = document.createElement('style')
+  style.textContent = `
+    .VPNav {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .VPNav.nav-hidden {
+      transform: translateY(-100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .VPNav.nav-visible {
+      transform: translateY(0);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  `
+  document.head.appendChild(style)
+  
+  // 监听导航栏状态变化
+  watch(isNavVisible, (visible) => {
+    const nav = document.querySelector('.VPNav')
+    if (nav) {
+      if (visible) {
+        nav.classList.remove('nav-hidden')
+        nav.classList.add('nav-visible')
+      } else {
+        nav.classList.add('nav-hidden')
+        nav.classList.remove('nav-visible')
+      }
+    }
+  })
 })
 
 onUnmounted(() => {
+  if (!isClient) return
   window.removeEventListener('scroll', updateProgress)
+  if (scrollTimer.value) {
+    clearTimeout(scrollTimer.value)
+  }
 })
 </script>
 
@@ -355,6 +431,7 @@ onUnmounted(() => {
 
 .bookmark-button:hover {
   transform: scale(1.1);
+  border-color: #42b883;
 }
 
 .bookmark-button svg {
@@ -459,7 +536,7 @@ onUnmounted(() => {
 
 .scroll-top-button:hover {
   transform: scale(1.1);
-  border-color: var(--vp-c-brand);
+  border-color: #42b883;
 }
 
 .scroll-top-button svg {
@@ -526,5 +603,20 @@ onUnmounted(() => {
     width: 16px;
     height: 16px;
   }
+}
+
+/* 优化导航栏动画样式 */
+:global(.VPNav) {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:global(.VPNav.nav-hidden) {
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:global(.VPNav.nav-visible) {
+  transform: translateY(0);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style> 
