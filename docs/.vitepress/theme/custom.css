@@ -84,3 +84,119 @@
   display: inline-block !important;
   max-width: 100% !important;
 }
+
+/* 警告框基础样式 */
+.custom-block {
+  margin: 28px 0;
+  padding: 16px;
+  border-radius: 2px;
+  background-color: var(--vp-c-bg-soft);
+  border-left: 5px solid;
+  transition: border-color 0.5s, background-color 0.5s;
+}
+
+.custom-block p {
+  margin: 8px 0;
+  line-height: 24px;
+}
+
+.custom-block-title {
+  font-weight: 600;
+  margin-bottom: 8px !important;
+  font-size: 16px;
+}
+
+/* BUG 警告框样式 */
+.custom-block.bug {
+  border-left-color: #e7c000;
+  background-color: #e7c0001a;
+}
+
+.dark .custom-block.bug {
+  background-color: #e7c00026;
+}
+
+.custom-block.bug .custom-block-title {
+  color: #e7c000;
+}
+
+.custom-block.bug .custom-block-title::before {
+  content: "🚧 ";
+  margin-right: 6px;
+}
+
+/* FAILURE 警告框样式 */
+.custom-block.failure {
+  border-left-color: #e03131;
+  background-color: #e031311a;
+}
+
+.dark .custom-block.failure {
+  background-color: #e0313126;
+}
+
+.custom-block.failure .custom-block-title {
+  color: #e03131;
+}
+
+.custom-block.failure .custom-block-title::before {
+  content: "❌ ";
+  margin-right: 6px;
+}
+
+/* QUESTION 警告框样式 */
+.custom-block.question {
+  border-left-color: #f08c00;
+  background-color: #f08c001a;
+}
+
+.dark .custom-block.question {
+  background-color: #f08c0026;
+}
+
+.custom-block.question .custom-block-title {
+  color: #f08c00;
+}
+
+.custom-block.question .custom-block-title::before {
+  content: "❓ ";
+  margin-right: 6px;
+}
+
+/* SUCCESS 警告框样式 */
+.custom-block.success {
+  border-left-color: #37b24d;
+  background-color: #37b24d1a;
+}
+
+.dark .custom-block.success {
+  background-color: #37b24d26;
+}
+
+.custom-block.success .custom-block-title {
+  color: #37b24d;
+}
+
+.custom-block.success .custom-block-title::before {
+  content: "✔ ";
+  margin-right: 6px;
+}
+
+/* INFO 警告框样式 */
+.custom-block.info {
+  border-left-color: #0ca678;
+  background-color: #0ca6781a;
+}
+
+.dark .custom-block.info {
+  background-color: #0ca67826;
+}
+
+.custom-block.info .custom-block-title {
+  color: #0ca678;
+}
+
+.custom-block.info .custom-block-title::before {
+  content: "ℹ ";
+  margin-right: 6px;
+}

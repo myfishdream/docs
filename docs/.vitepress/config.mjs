@@ -1,6 +1,9 @@
 import { defineConfig } from 'vitepress'
 import MarkdownPreview from 'vite-plugin-markdown-preview'
 
+import { setupAlertBoxes } from './markdown-extensions.js' // 导入自定义的警告框处理函数
+
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   // base: "/blog/",
@@ -10,6 +13,10 @@ export default defineConfig({
   markdown: {
     image: {
       lazyLoading: true
+    },
+    config: (md) => {
+      // 添加自定义的警告框支持
+      setupAlertBoxes(md);
     },
     container: {
       tipLabel: '提示',

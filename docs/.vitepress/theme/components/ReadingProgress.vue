@@ -265,7 +265,7 @@ onMounted(async () => {
   setTimeout(updateProgress, 500)
   
   // 添加样式到文档头部
-  const style = document.createElement('style')
+const style = document.createElement('style') // 创建一个style标签，通过追加到head标签中进行样式修改
   style.textContent = `
     .VPNav {
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -552,7 +552,7 @@ onUnmounted(() => {
 
 /* 移动端适配 */
 @media (max-width: 768px) {
-  .progress-info { 
+  .progress-info {
     right: 10px;
     bottom: 10px;
     padding: 8px;
