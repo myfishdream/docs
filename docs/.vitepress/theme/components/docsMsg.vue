@@ -225,7 +225,6 @@ const copyPageUrl = async () => {
 
 .tag {
   background: var(--vp-c-brand-soft);
-  color: var(--vp-c-brand-dark);
   padding: 0.1rem 0.5rem;
   border-radius: 12px;
   font-size: 0.85em;

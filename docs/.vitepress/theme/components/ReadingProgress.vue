@@ -1,12 +1,5 @@
 <template>
   <div class="reading-progress">
-    <!-- 顶部进度条 -->
-    <div class="progress-container">
-      <div class="progress-bar" :style="{ width: `${progress}%` }">
-        <div class="progress-glow"></div>
-      </div>
-    </div>
-    
     <!-- 右下角信息面板 -->
     <div class="progress-info" :class="{ 'show': progress > 0 }">
       <div class="info-row">
@@ -309,34 +302,6 @@ onUnmounted(() => {
 .reading-progress {
   position: fixed;
   z-index: 100;
-}
-
-.progress-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--vp-c-divider);
-}
-
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--reading-pg-line-color1), var(--reading-pg-line-color2));
-  transition: width 0.3s ease;
-  position: relative;
-}
-
-.progress-glow {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 10px;
-  height: 10px;
-  background: var(--reading-pg-line-color1);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--reading-pg-line-color1);
 }
 
 .progress-info {

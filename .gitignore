@@ -9,3 +9,4 @@ cache
 .cache
 .temp
 *.local
+script/ 

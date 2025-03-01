@@ -89,15 +89,6 @@ const studyEvents = [
 
 <TimeLine :events="studyEvents"/>
 
-# 学习历程
-
-## <span style="color:#009999;">记录我的技术学习之路，包括重要里程碑、学习成果和日常更新。</span>
-
-## 类型说明
-
-## - 🏆 <span style="color:#0066CC;">里程碑</span>：重要的学习成就和突破
-## - 🎯 **<span style="color:#009900;">成就</span>**：阶段性学习目标的完成
-## - 📝 **<span style="color:#CCCC00;">更新</span>**：日常学习和进展记录
 
 <style scoped>
 h1 {

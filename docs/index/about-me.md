@@ -5,9 +5,9 @@ layout: doc
 
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
-import Nav from './.vitepress/theme/components/nav.vue'
-import SkillTag from './.vitepress/theme/components/SkillTag.vue'
-import TypeWriter from './.vitepress/theme/components/TypeWriter.vue'
+import Nav from '../.vitepress/theme/components/nav.vue'
+import SkillTag from '../.vitepress/theme/components/SkillTag.vue'
+import TypeWriter from '../.vitepress/theme/components/TypeWriter.vue'
 
 const skills = [
   {
@@ -181,7 +181,7 @@ const profile = {
 
 <SkillTag :skills="skills"/>
 
-## 💼 项目经历
+## 💼 项目经历  
 
 <Nav :tools="projects"/>
 
