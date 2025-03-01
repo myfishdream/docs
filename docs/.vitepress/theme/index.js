@@ -10,9 +10,8 @@ import Classification from './components/classification.vue'  // 分类
 import ReadingProgress from './components/ReadingProgress.vue'  // 阅读进度
 import Picture from './components/Picture.vue' // 增强图片组件
 import Timelines from './components/Timelines.vue' // 时间轴组件
-import DocsMsg from './components/DocsMsg.vue' // 文档信息组件
 import SimpleSecureContent from './components/SimpleSecureContent.vue' // 简单的加密内容组件
-
+import DocsMsg from './components/DocsMsg.vue' // 文档信息组件
 
 // 引入懒加载图片
 import loadingIMG from '../../src/status/xhj.gif'
