@@ -1,8 +1,9 @@
 <template>
-  <div class="enhanced-image-container" :data-image-id="uniqueId">
+  <div class="enhanced-image-container" :data-image-id="uniqueId" :data-src="src">
     <!-- 图片加载组件 -->
     <div class="image-loader" :class="{ 'is-loading': loading, 'has-error': error }" @click="showLightbox">
-      <img :src="src" :alt="alt" @load="handleLoad" @error="handleError" class="image"
+      <!-- 使用空白占位符作为初始src -->
+      <img :src="hasLoaded ? src : placeholderImage" :data-src="src" :alt="alt" @load="handleLoad" @error="handleError" class="image"
         :style="{ width: props.width, height: props.height }" ref="imageRef" />
       <div v-if="loading" class="loading-container">
         <Loading />
@@ -105,7 +106,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import VueEasyLightbox from 'vue-easy-lightbox'
 import Loading from './Loading.vue'
 
@@ -131,16 +132,22 @@ const props = defineProps({
 // 生成唯一ID，用于追踪每个图片组件
 const uniqueId = ref(`img-${Math.random().toString(36).substr(2, 9)}`)
 
+// 1x1像素的透明占位符图片
+const placeholderImage = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+
 // 状态管理
 const loading = ref(true) // 是否正在加载
 const error = ref(false) // 是否加载失败
-const retryCount = ref(0) // 重试次数
-const maxRetries = 3 // 最大重试次数
+const retryCount = ref(0) // 自动重试次数
+const maxRetries = 3 // 最大自动重试次数
+const manualRetryCount = ref(0) // 手动重试次数，不限制最大值
 const visible = ref(false) // 是否显示灯箱
 const imageRef = ref(null) // 图片元素引用
 const lightbox = ref(null) // 灯箱组件引用
 const pageImages = ref([]) // 页面上的所有图片
 const currentImageIndex = ref(0) // 当前图片索引
+const hasLoaded = ref(false) // 是否已经加载过
+const isIntersecting = ref(false) // 是否进入视口
 
 // 获取页面上的所有图片并更新当前索引
 const updatePageImages = () => {
@@ -150,10 +157,10 @@ const updatePageImages = () => {
   
   // 遍历所有图片容器，收集已加载的图片
   containers.forEach(container => {
-    const img = container.querySelector('.image')
+    const src = container.getAttribute('data-src')
     const id = container.getAttribute('data-image-id')
-    if (img && img.complete && img.naturalWidth && img.src) {
-      images.push(img.src)
+    if (src) {
+      images.push(src)
       imageIds.push(id)
     }
   })
@@ -174,38 +181,119 @@ const switchImage = (direction) => {
       currentImageIndex.value = pageImages.value.length - 1
     }
   }
+  
+  // 预加载当前图片
+  preloadImage(pageImages.value[currentImageIndex.value])
+}
+
+// 预加载图片
+const preloadImage = (src) => {
+  if (!src) return
+  
+  // 查找对应的图片元素并加载
+  const containers = document.querySelectorAll('.enhanced-image-container')
+  containers.forEach(container => {
+    if (container.getAttribute('data-src') === src) {
+      const img = container.querySelector('.image')
+      if (img && !img.complete) {
+        img.src = src
+      }
+    }
+  })
+  
+  // 同时预加载下一张图片
+  const nextIndex = (currentImageIndex.value + 1) % pageImages.value.length
+  const nextSrc = pageImages.value[nextIndex]
+  if (nextSrc) {
+    const nextImg = new Image()
+    nextImg.src = nextSrc
+  }
 }
 
 // 事件处理
-const handleLoad = () => {
-  loading.value = false
-  error.value = false
+const handleLoad = (event) => {
+  // 只有当加载的是实际图片而不是占位符时才更新状态
+  if (event.target.src !== placeholderImage) {
+    loading.value = false
+    error.value = false
+    hasLoaded.value = true
+  }
 }
 
 const handleError = () => {
-  loading.value = false
-  error.value = true
+  // 只有当不是占位符图片出错时才显示错误
+  if (imageRef.value && imageRef.value.src !== placeholderImage) {
+    loading.value = false
+    error.value = true
+    
+    // 记录加载失败的图片URL
+    console.error(`[图片错误] 图片加载失败: ${props.src}`)
+    
+    // 自动尝试重试加载
+    if (retryCount.value < maxRetries) {
+      console.log(`[图片重试] 自动重试加载图片，当前是第${retryCount.value + 1}次尝试`)
+      setTimeout(() => {
+        autoRetryLoad()
+      }, 500) // 延迟0.5秒后重试
+    }
+  }
 }
 
-// 重试加载图片
-const retryLoad = () => {
+// 自动重试加载图片
+const autoRetryLoad = () => {
   if (retryCount.value < maxRetries) {
     loading.value = true
     error.value = false
     retryCount.value++
-    const img = new Image()
-    img.src = props.src
-    img.onload = handleLoad
-    img.onerror = handleError
+    
+    // 添加控制台日志，记录重试次数和图片URL
+    console.log(`[图片自动重试] 第${retryCount.value}次自动重试加载图片: ${props.src}`)
+    
+    if (imageRef.value) {
+      // 先重置为占位符，然后设置实际src
+      imageRef.value.src = placeholderImage
+      setTimeout(() => {
+        if (imageRef.value) {
+          imageRef.value.src = props.src
+        }
+      }, 50)
+    }
+  } else {
+    console.warn(`[图片自动重试] 图片加载失败，已达到最大自动重试次数(${maxRetries}): ${props.src}`)
+  }
+}
+
+// 手动重试加载图片（点击错误图标触发）
+const retryLoad = () => {
+  loading.value = true
+  error.value = false
+  manualRetryCount.value++
+  
+  // 添加控制台日志，记录手动重试次数和图片URL
+  console.log(`[图片手动重试] 第${manualRetryCount.value}次手动重试加载图片: ${props.src}`)
+  
+  if (imageRef.value) {
+    // 先重置为占位符，然后设置实际src
+    imageRef.value.src = placeholderImage
+    setTimeout(() => {
+      if (imageRef.value) {
+        imageRef.value.src = props.src
+      }
+    }, 50)
   }
 }
 
 // 显示灯箱
 const showLightbox = () => {
-  if (!loading.value && !error.value) {
+  if (!loading.value && !error.value && hasLoaded.value) {
     const index = updatePageImages()
     currentImageIndex.value = Math.max(0, index)
     visible.value = true
+    
+    // 预加载当前图片和相邻图片
+    nextTick(() => {
+      preloadImage(pageImages.value[currentImageIndex.value])
+    })
   }
 }
 
@@ -231,17 +319,36 @@ const toggleFullscreen = () => {
   }
 }
 
+// 加载图片
+const loadImage = () => {
+  if (imageRef.value && !hasLoaded.value) {
+    loading.value = true
+    // 使用setTimeout确保DOM更新后再加载图片
+    setTimeout(() => {
+      if (imageRef.value) {
+        imageRef.value.src = props.src
+      }
+    }, 10)
+  }
+}
+
 // 图片懒加载实现
 onMounted(() => {
   // 创建交叉观察器用于懒加载
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target
-        img.src = props.src
-        observer.unobserve(img)
+      if (entry.isIntersecting && !hasLoaded.value) {
+        isIntersecting.value = true
+        loadImage()
+        // 只有当图片成功加载后才解除观察
+        if (hasLoaded.value) {
+          observer.unobserve(entry.target)
+        }
       }
     })
+  }, {
+    rootMargin: '200px 0px', // 提前200px加载 
+    threshold: 0.01 // 只要有1%进入视口就触发
   })
 
   if (imageRef.value) {
@@ -250,7 +357,9 @@ onMounted(() => {
 
   // 组件卸载时清理观察器
   onUnmounted(() => {
-    observer.disconnect()
+    if (observer) {
+      observer.disconnect()
+    }
   })
 })
 </script>
@@ -268,6 +377,8 @@ onMounted(() => {
   min-width: 100px;
   min-height: 100px;
   cursor: zoom-in;
+  background-color: var(--vp-c-bg-soft);
+  border-radius: 4px;
 }
 
 .image {
@@ -275,6 +386,7 @@ onMounted(() => {
   max-width: 100%;
   height: auto;
   transition: all 0.3s ease;
+  min-height: 100px;
 }
 
 .loading-container,
@@ -335,7 +447,7 @@ onMounted(() => {
 }
 
 /* 自定义工具栏样式 */
-.custom-toolbar {
+:deep(.custom-toolbar) {
   display: flex;
   gap: 8px;
   padding: 8px;
@@ -348,7 +460,7 @@ onMounted(() => {
   z-index: 2001;
 }
 
-.toolbar-btn {
+:deep(.toolbar-btn) {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -363,12 +475,12 @@ onMounted(() => {
   transition: all 0.3s ease;
 }
 
-.toolbar-btn:hover {
+:deep(.toolbar-btn:hover) {
   background: rgba(255, 255, 255, 0.2);
   transform: scale(1.1);
 }
 
-.toolbar-btn svg {
+:deep(.toolbar-btn svg) {
   width: 24px;
   height: 24px;
 }
@@ -385,7 +497,7 @@ onMounted(() => {
 }
 
 /* 切换按钮样式 */
-.switch-btn {
+:deep(.switch-btn) {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
@@ -402,20 +514,20 @@ onMounted(() => {
   z-index: 2001;
 }
 
-.switch-btn:hover {
+:deep(.switch-btn:hover) {
   background: rgba(0, 0, 0, 0.5);
   transform: translateY(-50%) scale(1.1);
 }
 
-.prev-btn {
+:deep(.prev-btn) {
   left: 20px;
 }
 
-.next-btn {
+:deep(.next-btn) {
   right: 20px;
 }
 
-.switch-btn svg {
+:deep(.switch-btn svg) {
   width: 24px;
   height: 24px;
 }
