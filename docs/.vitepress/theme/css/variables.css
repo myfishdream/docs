@@ -1,15 +1,12 @@
 :root {
     /* 主页文字颜色 */
-    --vp-home-hero-bg-color1: #0095ff;
-    --vp-home-hero-bg-color2: #33c5a9;
+    --vp-home-hero-bg-color1: #3451b2;
+    --vp-home-hero-bg-color2: #3451b2;
 
-    /* 阅读进度条颜色 */
-    --reading-pg-line-color1: #42b883;
-    --reading-pg-line-color2: #35495e;
 
     /* 按钮颜色 */
-    --vp-c-indigo-3:#33c5a9;
-    --vp-c-indigo-2:#0095ff;
+    /* --vp-c-indigo-3:#33c5a9; */
+    /* --vp-c-indigo-2:#0095ff; */
 
     --vp-c-brand-dark: #0095ff;
     --vp-c-brand-darker: #0095ff;
@@ -19,13 +16,12 @@
 
 
 .dark {
-    --vp-home-hero-bg-color1: #0095ff;
-    --vp-home-hero-bg-color2: #33c5a9;
+    --vp-home-hero-bg-color1: #7c1f28;
+    --vp-home-hero-bg-color2: #c95203;
 
-    --reading-pg-line-color1: var(--vp-home-hero-bg-color2);
-    --reading-pg-line-color2: var(--vp-home-hero-bg-color1);
+    
 
-    --vp-c-indigo-3:#0095ff;
-    --vp-c-indigo-2:#33c5a9;
+    /* --vp-c-indigo-3:#0095ff; */
+    /* --vp-c-indigo-2:#33c5a9; */
 
 }

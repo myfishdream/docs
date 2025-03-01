@@ -118,7 +118,7 @@ const config: UserConfig = {
 
 export default config
 ```
-<<< @/script/AutoCreateDocs.js#snippet{1,2 js:line-numbers} [外部引入代码]
+<!-- <<< @/script/AutoCreateDocs.js#snippet{1,2 js:line-numbers} [外部引入代码] -->
 
 :::
 
