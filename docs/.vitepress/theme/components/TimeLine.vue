@@ -15,6 +15,9 @@
           itemRefs[index] = el;
           setupIntersectionObserver(el, index);
         }"
+        :style="{
+          '--animation-duration': `${props.animationDuration}ms`
+        }"
       >
         <!-- 时间点 -->
         <div class="timeline-dot"></div>
@@ -74,67 +77,100 @@ const props = defineProps({
     type: Array,
     required: true,
     default: () => []
+  },
+  animationDelay: {
+    type: Number,
+    default: 80
+  },
+  animationDuration: {
+    type: Number,
+    default: 400
+  },
+  batchSize: {
+    type: Number,
+    default: 3
   }
 })
 
-// 修改显示状态管理
 const itemRefs = ref([])
 const visibleItems = ref(new Set())
 const observers = ref([])
+const animationTimers = ref([])
 
 const setupIntersectionObserver = (el, index) => {
   if (!el) return
 
-  // 如果已经可见，不需要设置观察器
   if (visibleItems.value.has(index)) return
 
   const observer = useIntersectionObserver(
     el,
     ([{ isIntersecting }]) => {
       if (isIntersecting) {
-        visibleItems.value.add(index)
-        // 停止观察
+        const batchIndex = Math.floor(index / props.batchSize)
+        const delay = props.animationDelay * batchIndex
+        
+        const timer = setTimeout(() => {
+          visibleItems.value.add(index)
+        }, delay)
+        
+        animationTimers.value.push(timer)
+        
         if (observers.value[index]) {
           observers.value[index].stop()
           observers.value[index] = null
         }
       }
     },
-    { threshold: 0, rootMargin: '50px' }
+    { threshold: 0.05, rootMargin: '100px' }
   )
 
   observers.value[index] = observer
 }
 
-// 在组件卸载时清理所有观察器
 onUnmounted(() => {
   observers.value.forEach(observer => {
     if (observer) {
       observer.stop()
     }
   })
+  
+  animationTimers.value.forEach(timer => {
+    clearTimeout(timer)
+  })
 })
 
-// 初始检查
 onMounted(() => {
   nextTick(() => {
-    itemRefs.value.forEach((el, index) => {
-      if (el) {
-        const rect = el.getBoundingClientRect()
-        if (rect.top < window.innerHeight) {
-          visibleItems.value.add(index)
-          // 如果元素已经可见，确保停止观察
-          if (observers.value[index]) {
-            observers.value[index].stop()
-            observers.value[index] = null
+    const timelineEl = document.querySelector('.timeline-line')
+    if (timelineEl) {
+      timelineEl.classList.add('animate-line')
+    }
+    
+    requestAnimationFrame(() => {
+      itemRefs.value.forEach((el, index) => {
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          if (rect.top < window.innerHeight) {
+            const batchIndex = Math.floor(index / props.batchSize)
+            const delay = props.animationDelay * batchIndex
+            
+            const timer = setTimeout(() => {
+              visibleItems.value.add(index)
+            }, delay)
+            
+            animationTimers.value.push(timer)
+            
+            if (observers.value[index]) {
+              observers.value[index].stop()
+              observers.value[index] = null
+            }
           }
         }
-      }
+      })
     })
   })
 })
 
-// 日期格式化
 const formatDate = (dateStr) => {
   const date = new Date(dateStr.replace(/-/g, '/'))
   return date.toLocaleDateString('zh-CN', {
@@ -144,7 +180,6 @@ const formatDate = (dateStr) => {
   })
 }
 
-// 排序事件
 const sortedEvents = computed(() => {
   return [...props.events].sort((a, b) => {
     const dateA = new Date(a.date.replace(/-/g, '/'))
@@ -153,7 +188,6 @@ const sortedEvents = computed(() => {
   })
 })
 
-// 获取项目位置
 const getItemPosition = (item, index) => {
   if (item.position) {
     return item.position
@@ -161,7 +195,6 @@ const getItemPosition = (item, index) => {
   return index % 2 === 0 ? 'left' : 'right'
 }
 
-// 判断是否为外部链接
 const isExternalLink = (link) => {
   return /^https?:\/\//.test(link)
 }
@@ -173,6 +206,8 @@ const isExternalLink = (link) => {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  transform: translateZ(0);
+  will-change: contents;
 }
 
 .timeline {
@@ -188,30 +223,42 @@ const isExternalLink = (link) => {
   height: 100%;
   background: var(--vp-c-divider);
   opacity: 0.6;
+  transform-origin: top center;
+  transition: all var(--animation-duration, 600ms) ease-out;
+  transform: translateX(-50%) scaleY(0);
+}
+
+.timeline-line.animate-line {
+  transform: translateX(-50%) scaleY(1);
 }
 
 .timeline-item {
   position: relative;
   margin: 3rem 0;
   width: 50%;
-  transition: all 0.3s ease;
+  transition: all var(--animation-duration, 400ms) ease-out;
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(20px);
+  transform: translateY(20px) translateZ(0);
+  will-change: transform, opacity;
+  contain: layout style;
 }
 
 .timeline-item.left {
   padding-right: 3rem;
   left: 0;
+  transform: translateX(-10px) translateY(20px) translateZ(0);
 }
 
 .timeline-item.right {
   padding-left: 3rem;
   left: 50%;
+  transform: translateX(10px) translateY(20px) translateZ(0);
 }
 
 .timeline-item.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) translateX(0) translateZ(0);
 }
 
 .timeline-dot {
@@ -222,7 +269,13 @@ const isExternalLink = (link) => {
   border: 2px solid currentColor;
   border-radius: 50%;
   top: 24px;
-  transition: all 0.3s ease;
+  transition: all calc(var(--animation-duration, 300ms) * 0.75) ease-out;
+  transform: scale(0);
+}
+
+.timeline-item.is-visible .timeline-dot {
+  transform: scale(1);
+  transition-delay: 0.1s;
 }
 
 .timeline-item.left .timeline-dot {
@@ -242,12 +295,22 @@ const isExternalLink = (link) => {
   background: var(--vp-c-bg-soft);
   border-radius: 12px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all var(--animation-duration, 400ms) ease-out;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(10px);
+  opacity: 0;
+  transform: translateY(10px) translateZ(0);
+  will-change: transform, opacity;
+}
+
+.timeline-item.is-visible .timeline-card {
+  transform: translateY(0) translateZ(0);
+  opacity: 1;
+  transition-delay: 0.05s;
 }
 
 .timeline-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) translateZ(0);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -311,7 +374,7 @@ const isExternalLink = (link) => {
   margin-top: 1rem;
   text-decoration: none;
   font-size: 0.9rem;
-  transition: all 0.3s ease;
+  transition: all calc(var(--animation-duration, 300ms) * 0.75) ease;
   cursor: pointer;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -326,14 +389,13 @@ const isExternalLink = (link) => {
 }
 
 .link-arrow {
-  transition: transform 0.3s ease;
+  transition: transform calc(var(--animation-duration, 300ms) * 0.75) ease;
 }
 
 .timeline-link:hover .link-arrow {
   transform: translateX(4px);
 }
 
-/* 类型样式 */
 .timeline-item.milestone {
   color: var(--vp-c-brand) !important;
 }
@@ -382,7 +444,6 @@ const isExternalLink = (link) => {
   border-color: var(--vp-c-yellow-1) !important;
 }
 
-/* 尺寸样式 */
 .size-large .timeline-title {
   font-size: 1.5rem;
 }
@@ -391,7 +452,6 @@ const isExternalLink = (link) => {
   font-size: 1.1rem;
 }
 
-/* 移动端适配 */
 @media (max-width: 768px) {
   .timeline-container {
     padding: 1rem;
@@ -453,7 +513,6 @@ const isExternalLink = (link) => {
     font-size: 0.9rem;
   }
 
-  /* 优化小尺寸卡片在移动端的显示 */
   .size-small .timeline-image {
     height: 150px !important;
   }
@@ -466,7 +525,6 @@ const isExternalLink = (link) => {
     font-size: 0.9rem;
   }
 
-  /* 优化大尺寸卡片在移动端的显示 */
   .size-large .timeline-image {
     height: 230px !important;
   }
@@ -475,7 +533,6 @@ const isExternalLink = (link) => {
     font-size: 1.4rem;
   }
 
-  /* 调整卡片间距和阴影 */
   .timeline-card {
     margin: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -487,7 +544,6 @@ const isExternalLink = (link) => {
   }
 }
 
-/* 针对更小屏幕的优化 */
 @media (max-width: 480px) {
   .timeline-container {
     padding: 0.5rem;
@@ -534,14 +590,48 @@ const isExternalLink = (link) => {
     padding: 0.4rem 0.8rem;
     font-size: 0.85rem;
   }
+
+  .timeline-item {
+    transform: translateY(15px) translateZ(0);
+  }
+  
+  .timeline-item.is-visible {
+    transform: translateY(0) translateZ(0);
+  }
 }
 
-/* 深色模式适配 */
 :root.dark .timeline-card {
   background: var(--vp-c-bg-soft);
 }
 
 :root.dark .timeline-dot {
   box-shadow: 0 0 0 4px var(--vp-c-bg-soft);
+}
+
+@media (prefers-reduced-motion: reduce), (max-width: 768px) and (max-height: 600px) {
+  .timeline-item,
+  .timeline-card,
+  .timeline-dot,
+  .timeline-line {
+    transition: opacity calc(var(--animation-duration, 200ms) * 0.5) ease !important;
+    transform: none !important;
+  }
+  
+  .timeline-item.is-visible {
+    opacity: 1;
+  }
+  
+  @media (max-width: 480px) {
+    .timeline-item,
+    .timeline-card,
+    .timeline-dot,
+    .timeline-line {
+      transition: none !important;
+    }
+    
+    .timeline-line {
+      transform: translateX(-50%) !important;
+    }
+  }
 }
 </style>

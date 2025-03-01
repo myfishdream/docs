@@ -21,6 +21,13 @@ import TimeLine from './.vitepress/theme/components/TimeLine.vue'
   },
 */
 const studyEvents = [
+  //     {
+  //   date: '2025-2-28',
+  //   title: '学习',
+  //   description: '多方面技术栈综合使用',
+  //   type: 'milestone',
+  //   size: 'large',
+  // },
      {
     date: '2025-2-19',
     title: 'Electron+Vue3+TypeScript项目启动',
@@ -85,9 +92,12 @@ const studyEvents = [
 ]
 </script>
 
+<!-- animationDelay 默认 80（毫秒） 控制每批次事件项目显示的延迟时间。较小的值会使动画更快地连续播放，较大的值会使动画之间有更明显的间隔。 -->
 
+ <!-- animationDuration 默认值：400（毫秒）说明：控制单个动画的持续时间。这个值影响CSS过渡的速度，较小的值会使动画更快，较大的值会使动画更慢更平滑。 -->
 
-<TimeLine :events="studyEvents"/>
+ <!-- batchSize 默认值：3 说明：控制每批次加载的事件项目数量。这是一个性能优化参数，用于减少同时进行的动画数量。例如，当设置为3时，每3个项目会作为一组几乎同时显示，然后再显示下一组。 -->
+<TimeLine :events="studyEvents" :animationDelay="80" :animationDuration="500" :batchSize="5"/>
 
 
 <style scoped>

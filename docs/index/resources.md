@@ -5,6 +5,7 @@ layout: doc
 
 <script setup>
 import Nav from '../.vitepress/theme/components/nav.vue'
+import Valine from '../.vitepress/theme/components/Valine.vue'
 
 const tools1 = [
   {
@@ -145,4 +146,4 @@ const tools2 = [
 
 
 ## 补充 ↓
-<Giscus/>
+<Valine/>

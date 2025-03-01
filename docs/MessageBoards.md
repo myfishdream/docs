@@ -1,9 +1,15 @@
 ---
-layout: page
+layout: doc
 ---
 
 <script setup>
-import MessageBoards from '.vitepress/theme/components/MessageBoards.vue'
+import Valine from '.vitepress/theme/components/Valine.vue'
 </script>
 
-<MessageBoards/>
+<br>
+
+# 留言板
+
+<br>
+
+<Valine/>

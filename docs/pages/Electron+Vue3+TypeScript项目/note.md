@@ -58,6 +58,11 @@ star: true           # 是否标星
       time: '2025-02-24',
       type: 'blue',
     },
+    {
+      title: '暂停',
+      time: '2025-02-25',
+      type: 'red',
+    },
   ]" />
 
 # Electron+Vue3+TypeScript项目
