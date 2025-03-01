@@ -153,8 +153,6 @@ export default defineConfig({
           { text: '工具', link: 'other/Download/note' },
           { text: 'Cool_CSS', link: 'pages/CSS/CoolCss' },
           { text: '前端杂谈', link: 'pages/前端杂谈/note' },
-          { text: '加密文档示例', link: '/pages/Supabase/secure-example' },
-          { text: '加密文档管理', link: '/pages/Supabase/secure-admin' },
         ]
       },
       {

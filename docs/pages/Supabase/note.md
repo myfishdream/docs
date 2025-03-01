@@ -34,8 +34,17 @@ Supabase 提供了丰富的开箱即用功能，开发者可以快速搭建应�
 
 **实时功能**：Supabase 的实时数据库和实时数据同步功能，使得开发者可以轻松实现实时应用，如聊天应用、实时协作工具等。
 
+<SimpleSecureContent id='note1' title="">
+
 <img v-lazy="'https://s21.ax1x.com/2025/02/03/pEZT4KK.png'" alt="加载中..." />
 
+[文档管理](./secure-admin.md)
+
+[文档示例](./secure-example.md)
+
+**防小人不防君子** - 正如这句古话所暗示的，安全措施的意义不仅在于技术上的防护，更在于树立一种边界和规范，让人们意识到什么内容不应随意访问。
+
+</SimpleSecureContent>
 
 
 > [!BUG]

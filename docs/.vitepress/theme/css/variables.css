@@ -10,6 +10,11 @@
     /* 按钮颜色 */
     --vp-c-indigo-3:#33c5a9;
     --vp-c-indigo-2:#0095ff;
+
+    --vp-c-brand-dark: #0095ff;
+    --vp-c-brand-darker: #0095ff;
+
+    --vp-c-danger: #ff0000;
 }
 
 
