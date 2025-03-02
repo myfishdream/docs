@@ -418,26 +418,6 @@ onMounted(() => {
   font-size: 24px;
 }
 
-.error-text {
-  color: var(--vp-c-text-2);
-  font-size: 14px;
-}
-
-.retry-button {
-  padding: 6px 12px;
-  background: var(--vp-c-brand);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.retry-button:hover {
-  background: var(--vp-c-brand-dark);
-}
-
 .is-loading .image {
   opacity: 0;
 }
