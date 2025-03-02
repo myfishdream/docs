@@ -293,5 +293,4 @@ onMounted(() => {
 
 <template>
   <!-- 不显示任何UI -->
-  🛰
 </template>
