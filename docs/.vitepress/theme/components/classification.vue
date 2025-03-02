@@ -2,35 +2,37 @@
   <div class="classification-container">
     <!-- 添加调试信息显示 -->
     <div v-if="documents.length === 0" class="debug-info">
-      <Loading/>
+      <Loading />
     </div>
     <div v-else>
       <!-- ... -->
     </div>
     <!-- 筛选器组 -->
     <div class="filters">
-      <!-- 分类筛选 -->
-      <div class="filter-section" v-if="allCategories.length">
-        <div class="filter-header" @click="toggleSection('category')">
-          <h3>分类筛选</h3>
-          <span class="toggle-icon" :class="{ 'is-open': openSections.category }">▼</span>
-        </div>
-        <div class="filter-content" v-show="openSections.category">
-          <div class="categories-filter">
-            <button v-for="category in allCategories" :key="category"
-              :class="['category-btn', selectedCategory === category ? 'active' : '']"
-              @click="toggleCategory(category)">
-              {{ category }}
-            </button>
+      <div v-if="openFilter">
+        <!-- 分类筛选 -->
+        <div class="filter-section" v-if="allCategories.length">
+          <div class="filter-header" @click="toggleSection('category')">
+            <h3>分类筛选</h3>
+            <span class="toggle-icon" :class="{ 'is-open': openSections.category }">▼</span>
+          </div>
+          <div class="filter-content" v-show="openSections.category">
+            <div class="categories-filter">
+              <button v-for="category in allCategories" :key="category"
+                :class="['category-btn', selectedCategory === category ? 'active' : '']"
+                @click="toggleCategory(category)">
+                {{ category }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
-
       <!-- 标签筛选 -->
       <div class="filter-section" v-if="allTags.length">
         <div class="filter-header" @click="toggleSection('tags')">
+
           <h3>标签筛选</h3>
-          <span class="toggle-icon" :class="{ 'is-open': openSections.tags }">▼</span>
+          <span class="toggle-icon" :class="{ 'is-open': !openSections.tags }">▼</span>
         </div>
         <div class="filter-content" v-show="openSections.tags">
           <div class="tags-filter">
@@ -38,29 +40,31 @@
               @click="toggleTag(tag)">
               {{ tag }}
             </button>
+            <button class="tag-btn" :class="{ active: openFilter }" @click="openFilter = !openFilter">详细分类</button>
           </div>
         </div>
       </div>
-
-      <!-- 时间筛选 -->
-      <div class="filter-section" v-if="dateFilters.length">
-        <div class="filter-header" @click="toggleSection('date')">
-          <h3>时间筛选</h3>
-          <span class="toggle-icon" :class="{ 'is-open': openSections.date }">▼</span>
-        </div>
-        <div class="filter-content" v-show="openSections.date">
-          <div class="date-filters">
-            <div class="year-filter">
-              <button v-for="item in dateFilters" :key="item.year"
-                :class="['year-btn', selectedYear === item.year ? 'active' : '']" @click="toggleYear(item.year)">
-                {{ item.year }}
-              </button>
-            </div>
-            <div class="month-filter" v-if="selectedYear">
-              <button v-for="month in dateFilters.find(d => d.year === selectedYear)?.months" :key="month"
-                :class="['month-btn', selectedMonth === month ? 'active' : '']" @click="toggleMonth(month)">
-                {{ month }}月
-              </button>
+      <div v-if="openFilter">
+        <!-- 时间筛选 -->
+        <div class="filter-section" v-if="dateFilters.length">
+          <div class="filter-header" @click="toggleSection('date')">
+            <h3>时间筛选</h3>
+            <span class="toggle-icon" :class="{ 'is-open': openSections.date }">▼</span>
+          </div>
+          <div class="filter-content" v-show="openSections.date">
+            <div class="date-filters">
+              <div class="year-filter">
+                <button v-for="item in dateFilters" :key="item.year"
+                  :class="['year-btn', selectedYear === item.year ? 'active' : '']" @click="toggleYear(item.year)">
+                  {{ item.year }}
+                </button>
+              </div>
+              <div class="month-filter" v-if="selectedYear">
+                <button v-for="month in dateFilters.find(d => d.year === selectedYear)?.months" :key="month"
+                  :class="['month-btn', selectedMonth === month ? 'active' : '']" @click="toggleMonth(month)">
+                  {{ month }}月
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -69,26 +73,21 @@
     <div class="dividingLine"></div>
     <!-- 文档列表 -->
     <div class="documents-grid">
-      <div v-for="(doc, index) in paginatedDocs" 
-           :key="doc.path" 
-           class="doc-card-wrapper"
-           v-motion
-           :initial="{
-             opacity: 0,
-             y: 20,
-             scale: 0.95
-           }"
-           :enter="{
-             opacity: 1,
-             y: 0,
-             scale: 1,
-             transition: {
-               type: 'spring',
-               stiffness: 250,
-               damping: 25,
-               delay: index * 50
-             }
-           }">
+      <div v-for="(doc, index) in paginatedDocs" :key="doc.path" class="doc-card-wrapper" v-motion :initial="{
+        opacity: 0,
+        y: 20,
+        scale: 0.95
+      }" :enter="{
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: {
+              type: 'spring',
+              stiffness: 250,
+              damping: 25,
+              delay: index * 50
+            }
+          }">
         <DocCard :doc="doc" />
       </div>
       <div v-if="!paginatedDocs.length" class="no-docs">
@@ -121,7 +120,7 @@ const selectedCategory = ref(null)
 const currentPage = ref(1)
 const pageSize = 12
 const sortType = ref('default')
-
+let openFilter = ref(false)
 
 // 计算所有可用的标签
 const allTags = computed(() => {
@@ -316,7 +315,7 @@ const toggleMonth = (month) => {
 const filteredDocs = computed(() => {
   try {
     let filtered = documents.value
-    
+
     // 标签过滤
     if (selectedTags.value.length > 0) {
       filtered = filtered.filter(doc =>
@@ -356,7 +355,7 @@ const filteredDocs = computed(() => {
 // 修改文档排序逻辑
 const sortedDocuments = computed(() => {
   let docs = [...filteredDocs.value]
-  
+
   switch (sortType.value) {
     case 'newest':
       // 只按日期排序，不考虑置顶
@@ -524,7 +523,7 @@ onMounted(() => {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -538,6 +537,7 @@ onMounted(() => {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -547,11 +547,13 @@ onMounted(() => {
   margin-bottom: 30px;
 
 }
-.dividingLine{
+
+.dividingLine {
   height: 1px;
   border: 1px var(--vp-c-divider);
   border-style: dashed;
 }
+
 .filter-section {
   background: var(--vp-c-bg-soft);
   border-radius: 4px;
@@ -675,7 +677,7 @@ onMounted(() => {
 .doc-card:hover {
   transform: translateY(-4px);
   border-color: var(--vp-c-brand);
-  box-shadow: 
+  box-shadow:
     0 6px 16px rgba(0, 0, 0, 0.1),
     0 2px 8px rgba(var(--vp-c-brand-rgb), 0.1);
 }
@@ -848,9 +850,11 @@ onMounted(() => {
   flex-wrap: wrap;
   gap: 8px;
 }
-.month-filter{
+
+.month-filter {
   margin-top: 5px;
 }
+
 .year-btn,
 .month-btn {
   padding: 4px 12px;
@@ -923,10 +927,11 @@ onMounted(() => {
   .cloud-btn {
     width: 50px;
     height: 50px;
+
     .cloud-icon {
       font-size: 1.2em;
     }
-    
+
     .cloud-text {
       font-size: 0.7em;
     }
@@ -991,7 +996,7 @@ onMounted(() => {
 
   .doc-card:hover {
     background: var(--vp-c-bg-mute);
-    box-shadow: 
+    box-shadow:
       0 6px 16px rgba(0, 0, 0, 0.2),
       0 2px 8px rgba(var(--vp-c-brand-rgb), 0.15);
   }
