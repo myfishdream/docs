@@ -6,7 +6,7 @@ hero:
   name: "鱼梦江湖" 
 
   text: "YuMengJiangHu"
-  tagline: 你的潜力超乎你的想象，勇敢去尝试吧！
+  tagline: 累了就歇，醒了再走 。
   image:
     src: "https://s21.ax1x.com/2025/02/15/pEKJAwF.png"
     alt: '背景图片'

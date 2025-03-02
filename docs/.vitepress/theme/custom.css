@@ -66,17 +66,7 @@
 .VPDoc {
   padding: 0px 32px 0 !important;
 }
-/* 自定义文字渐变 */
-:root {
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg,
-      var(--vp-home-hero-bg-color1) 30%,
-      var(--vp-home-hero-bg-color2));
 
-  --vp-home-hero-image-background-image: linear-gradient(-45deg,
-      var(--vp-home-hero-bg-color1) 50%,
-      var(--vp-home-hero-bg-color2) 50%);
-  --vp-home-hero-image-filter: blur(40px);
-}
 
 @keyframes animate {
   0%,100% {
@@ -88,10 +78,36 @@
   }
 }
 
+/* 自定义文字渐变 */
+
 .clip{
   background: linear-gradient(120deg, #2d60ec, #3ccfda) !important; 
   -webkit-background-clip: text !important;
   animation: animate 15s linear infinite;
+}
+/* 自定义图片背景 */
+.image-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, #2d60ec, #3ccfda) !important;
+  animation: animate 15s linear infinite;
+  filter: blur(50px);
+}
+/* 自定义按钮背景 */
+.VPButton.brand {
+  background: linear-gradient(120deg, #2d60ec, #3ccfda) !important;
+  color: #fff !important;
+  animation: animate 15s linear infinite;
+
 }
 
 /* 图片容器 */
