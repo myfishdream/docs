@@ -16,7 +16,7 @@ hero:
       link: timeline
     - theme: brand
       text: 文档导航 
-      link: nav
+      link: /index/study-notes
     - theme: alt
       text: 留言板
       link: MessageBoards
