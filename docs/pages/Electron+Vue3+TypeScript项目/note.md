@@ -83,6 +83,12 @@ star: true           # 是否标星
 
 ### 搭建步骤
 
+使用npm
+
+```sh
+npm create electron-vite
+```
+
 #### 克隆模板项目
 
 原仓库:https://github.com/electron-vite/electron-vite-vue
