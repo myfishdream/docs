@@ -78,6 +78,23 @@
   --vp-home-hero-image-filter: blur(40px);
 }
 
+@keyframes animate {
+  0%,100% {
+    filter: hue-rotate(0deg);
+  }
+
+  50% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.clip{
+  background: linear-gradient(120deg, #2d60ec, #3ccfda) !important; 
+  -webkit-background-clip: text !important;
+  animation: animate 15s linear infinite;
+}
+
+/* 图片容器 */
 .custom-image-container{
   background-color: var(--vp-c-bg-elv) !important;
   border: var(--vp-c-divider) 1px dashed !important;

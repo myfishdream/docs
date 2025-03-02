@@ -1,7 +1,7 @@
 :root {
     /* 主页文字颜色 */
-    --vp-home-hero-bg-color1: #3451b2;
-    --vp-home-hero-bg-color2: #3451b2;
+    /* --vp-home-hero-bg-color1: #ffffff; */
+    /* --vp-home-hero-bg-color2: #ffffff; */
 
 
     /* 按钮颜色 */
@@ -16,8 +16,8 @@
 
 
 .dark {
-    --vp-home-hero-bg-color1: #7c1f28;
-    --vp-home-hero-bg-color2: #c95203;
+    /* --vp-home-hero-bg-color1: transition; */
+    /* --vp-home-hero-bg-color2: transition; */
 
     
 
