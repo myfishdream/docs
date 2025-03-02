@@ -13,6 +13,7 @@ import Timelines from './components/Timelines.vue' // 时间轴组件
 import SimpleSecureContent from './components/SimpleSecureContent.vue' // 简单的加密内容组件
 import DocsMsg from './components/docsMsg.vue' // 文档信息组件
 import Valine from './components/Valine.vue'
+import Visitor from './components/visitor/visitor.vue' // 访客记录组件（无UI）
 
 // 引入懒加载图片
 import loadingIMG from '../../src/status/xhj.gif'
@@ -32,6 +33,7 @@ export default {
     return h(DefaultTheme.Layout, null, {
       // ...
       'doc-before': () => h(DocsMsg), // 特点位置插入组件
+      'doc-footer-before': () => h(Visitor), // 页面访问组件
     })
   },
 
@@ -47,6 +49,7 @@ export default {
     app.component('DocsMsg', DocsMsg); // 注册文档信息组件
     app.component('SimpleSecureContent', SimpleSecureContent); // 注册简单加密内容组件
     app.component('Valine', Valine); // 注册Valine评论组件
+    app.component('Visitor', Visitor); // 注册访客记录组件（无UI）
     app.use(VueLazyloadNext, {
       loading: loadingIMG, // 加载占位图
       error: errorIMG,     // 错误占位图

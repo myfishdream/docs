@@ -32,7 +32,7 @@ function detectDeviceType() {
 
   return 'desktop';
 }
-console.log(detectDeviceType());
+// console.log(detectDeviceType());
 
 if (detectDeviceType() == 'desktop') {
   new CursorEffects.rainbowCursor({
