@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import MarkdownPreview from 'vite-plugin-markdown-preview'
 import { nav } from './nav.js' // 导入导航配置
+import { sidebar } from './sidebar.js' // 导入侧边栏配置
 
 import { setupAlertBoxes } from './extend-md/markdown-extensions' // 导入自定义的警告框处理函数
 
@@ -45,10 +46,10 @@ export default defineConfig({
       }
     },
     logo: '/logo3.png',
-    sidebar: false, // 关闭侧边栏
-    aside: 'left', // 设置右侧侧边栏在左侧显示
+    sidebar, // 使用导入的侧边栏配置
+    aside: 'left', // 将大纲显示在右侧
     outlineTitle: '目录',
-    outline: 'deep',  // 根据h1 - h2 自动排版
+    outline: 'deep',  // 根据h1 - h6 自动排版
 
     // 设置搜索框的样式
     search: {

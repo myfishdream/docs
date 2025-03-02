@@ -268,6 +268,14 @@ const copyPageUrl = async () => {
   .title-row {
     gap: 0.5rem;
   }
+  
+  .divider {
+    display: none;
+  }
+  
+  .meta-info {
+    gap: 0.7rem;
+  }
 }
 
 @media (min-width: 640px) {
