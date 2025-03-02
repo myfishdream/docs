@@ -37,6 +37,7 @@ export const nav = [
     items: [
       { text: '图床测试', link: '/other/imgbed/note' },
       { text: '前端杂谈', link: '/pages/前端杂谈/note' },
+      { text: '博客日志', link: '/other/blogLog/note' },
     ]
   },
 ]; 
