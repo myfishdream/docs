@@ -28,7 +28,7 @@
                   <path d="M510.862222 665.031111c485.546667 0 480.711111 307.427556 480.711111 307.427556a43.349333 43.349333 0 0 1-44.032 50.517333H74.069333c-27.989333 0-48.810667-22.926222-44.032-50.517333 0 0-4.835556-307.370667 480.768-307.370667zM510.634667 0.512h304.014222V307.2c0 169.415111-136.135111 306.801778-304.014222 306.801778-167.879111 0-304.014222-137.386667-304.014223-306.801778 0-169.415111 136.135111-306.744889 304.014223-306.744889z" fill="#467CFD"></path>
                 </svg>
               </span>
-              <span>{{ frontmatter.author }}</span>
+              <a class="author-link" href="/index/about-me.html">{{ frontmatter.author }}</a>
             </span>
             <span class="divider">|</span>
             <span class="info-item">
@@ -214,6 +214,10 @@ const copyPageUrl = async () => {
 
 .label .icon {
   margin-right: 2px;
+}
+
+.author-link:hover {
+  color: var(--vp-c-brand);
 }
 
 .tags {
