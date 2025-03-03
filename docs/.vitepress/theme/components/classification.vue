@@ -32,7 +32,7 @@
         <div class="filter-header" @click="toggleSection('tags')">
 
           <h3>标签筛选</h3>
-          <span class="toggle-icon" :class="{ 'is-open': !openSections.tags }">▼</span>
+          <span class="toggle-icon" :class="{ 'is-open': openSections.tags }">▼</span>
         </div>
         <div class="filter-content" v-show="openSections.tags">
           <div class="tags-filter">
