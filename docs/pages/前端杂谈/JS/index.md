@@ -22,3 +22,55 @@ aside: 'right'
 <!-- <ReadingProgress :autoHideNav="false"/> -->
 
 # JavaScript
+
+> [!INFO]
+> 
+>
+
+> [!BUG]
+> 
+>
+
+> [!FAILURE]
+> 
+>
+
+> [!QUESTION]
+> 
+>
+
+> [!SUCCESS]
+> 
+>
+
+> [!NOTE]
+
+> [!TIP]
+
+> [!IMPORTANT]
+
+> [!WARNING]
+
+> [!CAUTION]
+
+::: danger
+
+:::
+
+::: tip
+
+:::
+
+::: warning
+
+:::
+
+::: info
+
+:::
+
+
+
+::: details
+
+:::
