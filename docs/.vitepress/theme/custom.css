@@ -67,6 +67,10 @@
   padding: 0px 32px 0 !important;
 }
 
+/* 标题上方空位置 */
+.vp-doc h1{
+  margin-top: 24px !important;
+}
 
 @keyframes animate {
   0%,100% {
@@ -115,6 +119,7 @@
   animation: animate 15s linear infinite;
   border-width: 2px !important;
 }
+
 
 /* 图片容器 */
 .custom-image-container{

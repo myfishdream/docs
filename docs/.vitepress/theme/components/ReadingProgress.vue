@@ -88,6 +88,10 @@ const props = defineProps({
   showOnlyTopButton: {
     type: Boolean,
     default: false
+  },
+  autoHideNav: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -231,30 +235,32 @@ const updateProgress = () => {
   const height = document.documentElement.scrollHeight - window.innerHeight
   progress.value = (scrolled / height) * 100
   
-  // 优化的导航栏显示隐藏逻辑
-  const currentScrollTop = window.scrollY
-  const scrollDelta = currentScrollTop - lastScrollTop.value
-  
-  // 更新滚动方向
-  if (Math.abs(scrollDelta) > 5) {  // 减小阈值，提高灵敏度
-    scrollDirection.value = scrollDelta > 0 ? 'down' : 'up'
-  }
-
-  // 使用防抖处理导航栏状态更新
-  if (scrollTimer.value) {
-    clearTimeout(scrollTimer.value)
-  }
-
-  scrollTimer.value = setTimeout(() => {
-    // 根据滚动方向和位置决定导航栏状态
-    if (scrollDirection.value === 'down' && currentScrollTop > 100) {
-      isNavVisible.value = false
-    } else if (scrollDirection.value === 'up' || currentScrollTop < 100) {
-      isNavVisible.value = true
+  // 只有在启用自动隐藏时才执行导航栏显示隐藏逻辑
+  if (props.autoHideNav) {
+    const currentScrollTop = window.scrollY
+    const scrollDelta = currentScrollTop - lastScrollTop.value
+    
+    // 更新滚动方向
+    if (Math.abs(scrollDelta) > 5) {  // 减小阈值，提高灵敏度
+      scrollDirection.value = scrollDelta > 0 ? 'down' : 'up'
     }
-  }, 10) // 100ms 的防抖时间
 
-  lastScrollTop.value = currentScrollTop
+    // 使用防抖处理导航栏状态更新
+    if (scrollTimer.value) {
+      clearTimeout(scrollTimer.value)
+    }
+
+    scrollTimer.value = setTimeout(() => {
+      // 根据滚动方向和位置决定导航栏状态
+      if (scrollDirection.value === 'down' && currentScrollTop > 100) {
+        isNavVisible.value = false
+      } else if (scrollDirection.value === 'up' || currentScrollTop < 100) {
+        isNavVisible.value = true
+      }
+    }, 10) // 100ms 的防抖时间
+  }
+
+  lastScrollTop.value = window.scrollY
   
   totalWords.value = calculateWords()
   const wordsPerMinute = 300
