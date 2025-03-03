@@ -22,7 +22,7 @@ hero:
       link: MessageBoards
 
 features:
-  - icon: 📚 
+  - icon: 📃 
     title: 学习笔记 
     details: 各类技术学习笔记和心得体会，包含前端、后端、算法等知识点总结。
     link: /index/study-notes
@@ -42,12 +42,12 @@ features:
   #   details: 精选实用工具、学习资源和开发环境配置指南。
   #   link: /index/resources  
   #   linkText: 获取资源
-  - icon: 🌈 
+  - icon: 📷 
     title: 生活随笔 
     details: 记录日常感悟、阅读心得和生活中的美好瞬间。
     link: /index/life-notes
     linkText: 阅读随笔
-  - icon: 👨‍💻 
+  - icon: 🤪 
     title: 关于我 
     details: 个人简介、技能栈展示和联系方式，了解我的成长历程。
     link: /index/about-me

@@ -105,9 +105,15 @@
 /* 自定义按钮背景 */
 .VPButton.brand {
   background: linear-gradient(120deg, #2d60ec, #3ccfda) !important;
+  background-size: 120% 100% !important;
   color: #fff !important;
   animation: animate 15s linear infinite;
+}
 
+/* 自定义feature背景 */
+.VPFeature{
+  animation: animate 15s linear infinite;
+  border-width: 2px !important;
 }
 
 /* 图片容器 */
