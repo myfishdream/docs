@@ -7,8 +7,8 @@ export const sidebar = {
             collapsed: true,  // 是否折叠
             items: [
                 { text: '框架搭建', link: '/pages/Electron+Vue3+TypeScript项目/note' },
-                { text: '开发日志', link: '/pages/Electron+Vue3+TypeScript项目/log/note' },
-                { text: '时间线', link: '/pages/Electron+Vue3+TypeScript项目/timeline/note' },
+                { text: '开发日志', link: '/pages/Electron+Vue3+TypeScript项目/log/index' },
+                { text: '时间线', link: '/pages/Electron+Vue3+TypeScript项目/timeline/index' },
                 {
                     text: '核心技术',
                     items: [
