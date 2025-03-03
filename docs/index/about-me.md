@@ -4,48 +4,30 @@ layout: doc
 ---
 
 <script setup>
-import { VPTeamMembers } from 'vitepress/theme'
-import Nav from '../.vitepress/theme/components/nav.vue'
-import TypeWriter from '../.vitepress/theme/components/TypeWriter.vue'
-
-
-const projects = [
-  {
-    title: '代办事项',
-    desc: '基于Electron+Vue3+TS的桌面级应用',
-    url: 'https://github.com/myfishdream/to-dos',
-    badge: 'Beta',
-    badgeType: 'beta',
-    icon: 'https://api.iconify.design/logos:todoist.svg'
-  }
-]
-const profile = {
-  bio: [
-    '不要害怕尝试新技术，失败是成功路上的必经之路。',
-    '成长是一场与自己的较量，你只需要比昨天的自己更好。',
-    '每一个Bug都是一次成长的机会。',
-    '每一次优化，都是对完美的追求。',
-    '技术没有终点，只有不断的学习和突破。'
-  ]
-}
 </script>
 
 <br>
 
 # 鱼梦江湖 <Badge type="danger" text="YuMeng" />
 
+## 个人简介
 
+一名热爱技术的开发者。我热衷于探索新技术，享受编程带来的乐趣。
 
-<TypeWriter 
-:texts="profile.bio"
-:typeSpeed="40"  
-:deleteSpeed="40"
-:delayBetween="2000"
-/>
+## 兴趣爱好
 
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+  <img src="https://img.shields.io/badge/-编程-2D3748?style=flat&logo=code&logoColor=white" alt="编程">
+  <img src="https://img.shields.io/badge/-阅读-805AD5?style=flat&logo=book&logoColor=white" alt="阅读">
+  <img src="https://img.shields.io/badge/-音乐-4299E1?style=flat&logo=music&logoColor=white" alt="音乐">
+  <img src="https://img.shields.io/badge/-电影-ED64A6?style=flat&logo=film&logoColor=white" alt="电影">
+</div>
+
+## 邮箱
 
 ![Email](https://img.shields.io/badge/Email-yumengjianghu@outlook.com-blue?style=for-the-badge&logo=gmail&logoColor=white)
 
+## 技能
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
   <img src="https://img.shields.io/badge/-HTML-E34F26?style=flat&logo=html5&logoColor=white" alt="HTML">
@@ -70,12 +52,8 @@ const profile = {
 
 <br>
 
-<Nav :tools="projects"/>
-
 <Valine/>
 
 <style scoped>
-.io{
-  display:inline;
-}
+
 </style>
