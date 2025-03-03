@@ -97,11 +97,11 @@
 
     <!-- 分页 -->
     <div class="pagination" v-if="totalPages > 1">
-      <button class="page-btn" :disabled="currentPage === 1" @click="currentPage--">
+      <button class="page-btn" :disabled="currentPage === 1" @click="currentPage--; scrollToTop()">
         上一页
       </button>
       <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
-      <button class="page-btn" :disabled="currentPage === totalPages" @click="currentPage++">
+      <button class="page-btn" :disabled="currentPage === totalPages" @click="currentPage++; scrollToTop()">
         下一页
       </button>
     </div>
@@ -457,6 +457,14 @@ const openSections = ref({
 // 切换折叠状态
 const toggleSection = (section) => {
   openSections.value[section] = !openSections.value[section]
+}
+
+// 在 script setup 部分添加 scrollToTop 函数
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 }
 
 onMounted(() => {
