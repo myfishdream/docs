@@ -24,7 +24,7 @@
 aside: "right"
 ---
 
-<ReadingProgress :showOnlyTopButton="true" />
+<ReadingProgress :showOnlyTopButton="true" :autoHideNav="false"/>
 
 <br>
 

@@ -24,7 +24,7 @@ star: true           # 是否标星
 aside: "right"
 ---
 
-<ReadingProgress/>
+<ReadingProgress :autoHideNav="false"/>
 
 
 # Electron+Vue3+TypeScript项目

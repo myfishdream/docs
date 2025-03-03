@@ -7,25 +7,33 @@ export const sidebar = {
             collapsed: true,  // 是否折叠
             items: [
                 { text: '框架搭建', link: '/pages/Electron+Vue3+TypeScript项目/note' },
-                { text: '开发日志', link: '/pages/Electron+Vue3+TypeScript项目/log/index' },
-                { text: '时间线', link: '/pages/Electron+Vue3+TypeScript项目/timeline/index' },
+                { text: '开发日志', link: '/pages/Electron+Vue3+TypeScript项目/log/' },
+                { text: '时间线', link: '/pages/Electron+Vue3+TypeScript项目/timeline/' },
                 {
                     text: '核心技术',
                     items: [
-                        { text: 'A1', link: '/pages/Electron+Vue3+TypeScript项目/core/A1/index' },
-                        { text: 'A2', link: '/pages/Electron+Vue3+TypeScript项目/core/A2/index' },
-                        { text: 'A3', link: '/pages/Electron+Vue3+TypeScript项目/core/A3/index' },
-                        { text: 'A4', link: '/pages/Electron+Vue3+TypeScript项目/core/A4/index' },
-                        { text: 'A5', link: '/pages/Electron+Vue3+TypeScript项目/core/A5/index' },
-                        { text: 'A6', link: '/pages/Electron+Vue3+TypeScript项目/core/A6/index' },
-                        { text: 'A7', link: '/pages/Electron+Vue3+TypeScript项目/core/A7/index' },
-                        { text: 'A8', link: '/pages/Electron+Vue3+TypeScript项目/core/A8/index' },
-                        { text: 'A9', link: '/pages/Electron+Vue3+TypeScript项目/core/A9/index' },
-                        { text: 'A10', link: '/pages/Electron+Vue3+TypeScript项目/core/A10/index' },
+                        { text: 'A1', link: '/pages/Electron+Vue3+TypeScript项目/core/A1/' },
+                        { text: 'A2', link: '/pages/Electron+Vue3+TypeScript项目/core/A2/' },
+                        { text: 'A3', link: '/pages/Electron+Vue3+TypeScript项目/core/A3/' },
+                        { text: 'A4', link: '/pages/Electron+Vue3+TypeScript项目/core/A4/' },
+                        { text: 'A5', link: '/pages/Electron+Vue3+TypeScript项目/core/A5/' },
+                        { text: 'A6', link: '/pages/Electron+Vue3+TypeScript项目/core/A6/' },
+                        { text: 'A7', link: '/pages/Electron+Vue3+TypeScript项目/core/A7/' },
+                        { text: 'A8', link: '/pages/Electron+Vue3+TypeScript项目/core/A8/' },
+                        { text: 'A9', link: '/pages/Electron+Vue3+TypeScript项目/core/A9/' },
+                        { text: 'A10', link: '/pages/Electron+Vue3+TypeScript项目/core/A10/' },
                     ]
                 },
+
+
             ]
         },
+        {
+            text: '教程',
+            items: [
+                { text: 'Electron快速上手', link: '/pages/Electron快速上手/note.html' },
+            ]
+        }
     ],
     'pages/前端杂谈/': [
         {

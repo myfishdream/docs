@@ -7,7 +7,7 @@ aside: 'right'
 
 ## 项目启动
 
-<ReadingProgress :showOnlyTopButton="true" />
+<ReadingProgress :showOnlyTopButton="true" :autoHideNav="false"/>
 
 
 <Timelines :items="[
