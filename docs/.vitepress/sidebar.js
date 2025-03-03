@@ -12,16 +12,16 @@ export const sidebar = {
                 {
                     text: '核心技术',
                     items: [
-                        { text: 'A1', link: '/pages/Electron+Vue3+TypeScript项目/core/A1/' },
-                        { text: 'A2', link: '/pages/Electron+Vue3+TypeScript项目/core/A2/' },
-                        { text: 'A3', link: '/pages/Electron+Vue3+TypeScript项目/core/A3/' },
-                        { text: 'A4', link: '/pages/Electron+Vue3+TypeScript项目/core/A4/' },
-                        { text: 'A5', link: '/pages/Electron+Vue3+TypeScript项目/core/A5/' },
-                        { text: 'A6', link: '/pages/Electron+Vue3+TypeScript项目/core/A6/' },
-                        { text: 'A7', link: '/pages/Electron+Vue3+TypeScript项目/core/A7/' },
-                        { text: 'A8', link: '/pages/Electron+Vue3+TypeScript项目/core/A8/' },
-                        { text: 'A9', link: '/pages/Electron+Vue3+TypeScript项目/core/A9/' },
-                        { text: 'A10', link: '/pages/Electron+Vue3+TypeScript项目/core/A10/' },
+                        { text: '全局提示', link: '/pages/Electron+Vue3+TypeScript项目/core/A1/' },
+                        // { text: 'A2', link: '/pages/Electron+Vue3+TypeScript项目/core/A2/' },
+                        // { text: 'A3', link: '/pages/Electron+Vue3+TypeScript项目/core/A3/' },
+                        // { text: 'A4', link: '/pages/Electron+Vue3+TypeScript项目/core/A4/' },
+                        // { text: 'A5', link: '/pages/Electron+Vue3+TypeScript项目/core/A5/' },
+                        // { text: 'A6', link: '/pages/Electron+Vue3+TypeScript项目/core/A6/' },
+                        // { text: 'A7', link: '/pages/Electron+Vue3+TypeScript项目/core/A7/' },
+                        // { text: 'A8', link: '/pages/Electron+Vue3+TypeScript项目/core/A8/' },
+                        // { text: 'A9', link: '/pages/Electron+Vue3+TypeScript项目/core/A9/' },
+                        // { text: 'A10', link: '/pages/Electron+Vue3+TypeScript项目/core/A10/' },
                     ]
                 },
 
