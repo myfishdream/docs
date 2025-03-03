@@ -12,16 +12,16 @@ export const sidebar = {
                 {
                     text: '核心技术',
                     items: [
-                        { text: 'A1', link: '/pages/Electron+Vue3+TypeScript项目/core/A1/note' },
-                        { text: 'A2', link: '/pages/Electron+Vue3+TypeScript项目/core/A2/note' },
-                        { text: 'A3', link: '/pages/Electron+Vue3+TypeScript项目/core/A3/note' },
-                        { text: 'A4', link: '/pages/Electron+Vue3+TypeScript项目/core/A4/note' },
-                        { text: 'A5', link: '/pages/Electron+Vue3+TypeScript项目/core/A5/note' },
-                        { text: 'A6', link: '/pages/Electron+Vue3+TypeScript项目/core/A6/note' },
-                        { text: 'A7', link: '/pages/Electron+Vue3+TypeScript项目/core/A7/note' },
-                        { text: 'A8', link: '/pages/Electron+Vue3+TypeScript项目/core/A8/note' },
-                        { text: 'A9', link: '/pages/Electron+Vue3+TypeScript项目/core/A9/note' },
-                        { text: 'A10', link: '/pages/Electron+Vue3+TypeScript项目/core/A10/note' },
+                        { text: 'A1', link: '/pages/Electron+Vue3+TypeScript项目/core/A1/index' },
+                        { text: 'A2', link: '/pages/Electron+Vue3+TypeScript项目/core/A2/index' },
+                        { text: 'A3', link: '/pages/Electron+Vue3+TypeScript项目/core/A3/index' },
+                        { text: 'A4', link: '/pages/Electron+Vue3+TypeScript项目/core/A4/index' },
+                        { text: 'A5', link: '/pages/Electron+Vue3+TypeScript项目/core/A5/index' },
+                        { text: 'A6', link: '/pages/Electron+Vue3+TypeScript项目/core/A6/index' },
+                        { text: 'A7', link: '/pages/Electron+Vue3+TypeScript项目/core/A7/index' },
+                        { text: 'A8', link: '/pages/Electron+Vue3+TypeScript项目/core/A8/index' },
+                        { text: 'A9', link: '/pages/Electron+Vue3+TypeScript项目/core/A9/index' },
+                        { text: 'A10', link: '/pages/Electron+Vue3+TypeScript项目/core/A10/index' },
                     ]
                 },
             ]
