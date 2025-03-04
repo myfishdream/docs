@@ -10,7 +10,7 @@ import { setupAlertBoxes } from './extend-md/markdown-extensions' // 导入自�
 export default defineConfig({
   // base: "/blog/",
   vite: {
-    plugins: [MarkdownPreview()],
+    // plugins: [MarkdownPreview()],
   },
   markdown: {
     image: {

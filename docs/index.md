@@ -5,7 +5,7 @@ layout: home
 hero: 
   name: "鱼梦江湖" 
 
-  text: "YuMengJiangHu"
+  text: "的狂人日记"
   tagline: 累了就歇，醒了再走 。
   image:
     src: "https://s21.ax1x.com/2025/02/15/pEKJAwF.png"

@@ -12,9 +12,13 @@ export const sidebar = {
                 {
                     text: '核心技术',
                     items: [
-                        { text: '全局提示', link: '/pages/Electron+Vue3+TypeScript项目/core/A1/' },
-                        // { text: 'A2', link: '/pages/Electron+Vue3+TypeScript项目/core/A2/' },
-                        // { text: 'A3', link: '/pages/Electron+Vue3+TypeScript项目/core/A3/' },
+                        {
+                            text: '全局提示', items: [
+                                { text: '概述', link: '/pages/Electron+Vue3+TypeScript项目/core/A1/' },
+                                { text: '实现', link: '/pages/Electron+Vue3+TypeScript项目/core/A2/' },
+                            ]
+                        },
+                        { text: 'A3', link: '/pages/Electron+Vue3+TypeScript项目/core/A3/' },
                         // { text: 'A4', link: '/pages/Electron+Vue3+TypeScript项目/core/A4/' },
                         // { text: 'A5', link: '/pages/Electron+Vue3+TypeScript项目/core/A5/' },
                         // { text: 'A6', link: '/pages/Electron+Vue3+TypeScript项目/core/A6/' },
