@@ -41,7 +41,7 @@
               </span>
               <span>{{ frontmatter.category }}</span>
             </span>
-            <span class="divider" v-if="frontmatter.tags.length<=5">|</span>
+            <span class="divider" v-if="frontmatter.tags.length<=5 || frontmatter.aside !== 'right'">|</span>
             <span class="info-item tags" v-if="frontmatter.tags && frontmatter.tags.length">
               <span class="label">
                 <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
