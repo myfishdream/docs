@@ -251,11 +251,9 @@ defineExpose({
 
 ##### nextTick 
 
-::: info
-
-在 Vue 中，nextTick 是一个非常重要的 API，它允许我们等待下一个 DOM 更新周期后再执行特定的代码。
-
-:::
+> [!INFO]
+>
+> 在 Vue 中，nextTick 是一个非常重要的 API，它允许我们等待下一个 DOM 更新周期后再执行特定的代码。
 
 Vue 的响应式系统会批量处理数据变化并异步更新 DOM，以提高性能。这意味着当你改变响应式数据后，DOM 不会立即更新，而是在下一个"tick"中更新。
 
@@ -441,11 +439,9 @@ export default {
 
 ##### createVNode 
 
-::: info
-
-`createVNode` 是 Vue 3 中的一个底层 API，用于创建虚拟 DOM 节点（Virtual Node，简称 VNode）。
-
-:::
+> [!INFO]
+>
+> <span style="font-weight:bold;">createVNode </span>是 Vue 3 中的一个底层 API，用于创建虚拟 DOM 节点（Virtual Node，简称 VNode）。
 
 ###### 概念
 
@@ -480,11 +476,9 @@ function createMessage() {
 
 ##### render
 
-::: info
-
-`render` 函数用于将虚拟节点渲染到真实 DOM 容器中。
-
-:::
+> [!INFO]
+>
+> <span style="font-weight:bold;">render </span>函数用于将虚拟节点渲染到真实 DOM 容器中。
 
 ###### 概念
 
