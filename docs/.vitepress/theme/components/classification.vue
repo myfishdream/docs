@@ -491,55 +491,6 @@ onMounted(() => {
   margin: 0 auto;
 }
 
-.control-panel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  gap: 20px;
-  position: sticky;
-  top: 0;
-  background: var(--vp-c-bg);
-  z-index: 10;
-  padding: 10px 0;
-}
-
-.cloud-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, #3aa876 0%, #42b983 100%);
-}
-
-.cloud-btn:hover .cloud-icon {
-  transform: translateY(-2px) scale(1.1);
-}
-
-.cloud-btn:hover .cloud-text {
-  transform: translateY(2px);
-}
-
-.cloud-btn:active {
-  transform: translateY(-2px) scale(0.98);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* 添加光晕效果 */
-.cloud-btn::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.cloud-btn:hover::before {
-  opacity: 1;
-  animation: rotate 4s linear infinite;
-}
 
 @keyframes rotate {
   from {
@@ -768,8 +719,8 @@ onMounted(() => {
 .tag-btn,
 .category-btn {
   padding: 6px 16px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 5px;
+  border: 2px solid var(--vp-c-divider);
+  border-radius: 20px;
   background: var(--vp-c-bg);
   color: var(--vp-c-text-2);
   cursor: pointer;
@@ -979,46 +930,5 @@ onMounted(() => {
   }
 }
 
-/* 深色模式优化 */
-@media (prefers-color-scheme: dark) {
-  .filter-section {
-    background: var(--vp-c-bg-soft);
-  }
 
-  .filter-section:hover {
-    border-color: var(--vp-c-brand-soft);
-    background: var(--vp-c-bg-mute);
-  }
-
-  .filter-header:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .search-wrapper {
-    backdrop-filter: blur(8px) brightness(0.8);
-  }
-
-  .doc-card {
-    background: var(--vp-c-bg-soft);
-  }
-
-  .doc-card:hover {
-    background: var(--vp-c-bg-mute);
-    box-shadow:
-      0 6px 16px rgba(0, 0, 0, 0.2),
-      0 2px 8px rgba(var(--vp-c-brand-rgb), 0.15);
-  }
-
-  .filter-content {
-    background: var(--vp-c-bg-soft);
-  }
-
-  .no-docs {
-    background: var(--vp-c-bg-mute);
-  }
-
-  .tag {
-    background: rgba(var(--vp-c-brand-rgb), 0.1);
-  }
-}
 </style>
