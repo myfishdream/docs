@@ -44,7 +44,7 @@
               </svg>
               {{ formatDate(doc.date) }}
             </span>
-            |
+            <span v-if="doc.sticky" class="doc-tags">|</span>
             <span v-if="doc.sticky > 0" class="doc-sticky">
               <svg t="1741087698608" class="icon" viewBox="0 0 1024 1024" version="1.1"
                 xmlns="http://www.w3.org/2000/svg" p-id="23873" width="20" height="20">
