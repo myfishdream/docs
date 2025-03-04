@@ -133,7 +133,6 @@
 .custom-block {
   margin: 28px 0;
   padding: 16px;
-  /* border-radius: 2px; */
   background-color: var(--vp-c-bg-soft);
   border-left: 5px solid;
   transition: border-color 0.5s, background-color 0.5s;
@@ -149,6 +148,19 @@
   font-weight: 600;
   margin-bottom: 8px !important;
   font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.alert-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* BUG 警告框样式 */
@@ -165,9 +177,8 @@
   color: #e7c000;
 }
 
-.custom-block.bug .custom-block-title::before {
-  content: "🚧 ";
-  margin-right: 6px;
+.custom-block.bug .alert-icon svg {
+  color: #e7c000;
 }
 
 /* FAILURE 警告框样式 */
@@ -184,9 +195,8 @@
   color: #e03131;
 }
 
-.custom-block.failure .custom-block-title::before {
-  content: "❌ ";
-  margin-right: 6px;
+.custom-block.failure .alert-icon svg {
+  color: #e03131;
 }
 
 /* QUESTION 警告框样式 */
@@ -203,9 +213,8 @@
   color: #f08c00;
 }
 
-.custom-block.question .custom-block-title::before {
-  content: "❓ ";
-  margin-right: 6px;
+.custom-block.question .alert-icon svg {
+  color: #f08c00;
 }
 
 /* SUCCESS 警告框样式 */
@@ -222,9 +231,8 @@
   color: #37b24d;
 }
 
-.custom-block.success .custom-block-title::before {
-  content: "✔ ";
-  margin-right: 6px;
+.custom-block.success .alert-icon svg {
+  color: #37b24d;
 }
 
 /* INFO 警告框样式 */
@@ -241,7 +249,6 @@
   color: #0ca678;
 }
 
-.custom-block.info .custom-block-title::before {
-  content: "ℹ ";
-  margin-right: 6px;
+.custom-block.info .alert-icon svg {
+  color: #0ca678;
 }
