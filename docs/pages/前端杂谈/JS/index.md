@@ -19,7 +19,7 @@ star: false           # 是否标星
 aside: 'right'
 ---
 
-<!-- <ReadingProgress :autoHideNav="false"/> -->
+<ReadingProgress :autoHideNav="false"/>
 
 # JavaScript
 

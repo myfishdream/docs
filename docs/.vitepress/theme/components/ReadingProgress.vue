@@ -26,16 +26,16 @@
             <text x="18" y="20.35" class="percentage">{{ Math.round(progress) }}%</text>
           </svg>
         </div>
-        <div class="info-container">
+        <!-- <div class="info-container">
           <div class="time-info">
             <span class="label">预计剩余</span>
             <span class="value">{{ remainingTime }}分钟</span>
           </div>
           <div class="word-info">
-            <span class="label">文章字数</span>
+            <span class="label">总字数</span>
             <span class="value">{{ totalWords }}字</span>
           </div>
-        </div>
+        </div> -->
         <div class="bookmark-button" 
              @click="toggleBookmark" 
              :class="{ 'active': hasBookmark }"

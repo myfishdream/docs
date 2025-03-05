@@ -269,9 +269,9 @@ const copyPageUrl = async () => {
     gap: 0.5rem;
   }
   
-  .divider {
+  /* .divider {
     display: none;
-  }
+  } */
   
   .meta-info {
     gap: 0.7rem;

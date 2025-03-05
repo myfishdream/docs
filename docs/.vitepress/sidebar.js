@@ -44,7 +44,7 @@ export const sidebar = {
             text: '介绍',
             collapsed: false,  // 是否折叠
             items: [
-                { text: 'HTML', link: '/pages/前端杂谈/HTML/' },
+                // { text: 'HTML', link: '/pages/前端杂谈/HTML/' },
                 { text: 'CSS', link: '/pages/前端杂谈/CSS/' },
                 { text: 'JavaScript', link: '/pages/前端杂谈/JS/' },
             ]

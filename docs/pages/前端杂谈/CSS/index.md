@@ -20,7 +20,7 @@ aside: 'right'
 
 ---
 
-<!-- <ReadingProgress :autoHideNav="false"/> -->
+<ReadingProgress :autoHideNav="false"/> 
 
 # CSS
 
