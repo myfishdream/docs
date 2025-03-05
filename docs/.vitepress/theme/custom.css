@@ -237,18 +237,18 @@
 
 /* INFO 警告框样式 */
 .custom-block.info {
-  border-left-color: #0ca678;
-  background-color: #0ca6781a;
+  border-left-color: #2f35a8;
+  background-color: #e9eaff;
 }
 
 .dark .custom-block.info {
-  background-color: #0ca67826;
+  background-color: #2f35a826;
 }
 
 .custom-block.info .custom-block-title {
-  color: #0ca678;
+  color: #2f35a8;
 }
 
 .custom-block.info .alert-icon svg {
-  color: #0ca678;
+  color: #2f35a8;
 }
