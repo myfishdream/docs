@@ -58,7 +58,7 @@
     <!-- 当showOnlyTopButton为true时，单独显示返回顶部按钮 -->
     <transition name="fade-scale">
       <div v-if="showOnlyTopButton && progress > 0" class="top-button-only">
-        <div class="scroll-top-button" 
+        <div class="scroll-top-button only-top-button" 
              @click="scrollToTop"
              :title="'返回顶部'">
              <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
@@ -547,6 +547,15 @@ onUnmounted(() => {
   background: var(--vp-c-bg);
 }
 
+.only-top-button {
+  width: 56px !important;
+  height: 56px !important;
+}
+.only-top-button svg {
+  width: 38px !important;
+  height: 38px !important;
+}
+
 .scroll-top-button:hover {
   transform: scale(1.1);
   border-color: #42b883;
@@ -682,13 +691,13 @@ onUnmounted(() => {
   }
   
   .top-button-only .scroll-top-button {
-    width: 36px;
-    height: 36px;
+    width: 36px !important;
+    height: 36px !important;
   }
   
   .top-button-only .scroll-top-button svg {
-    width: 20px;
-    height: 20px;
+    width: 20px !important;
+    height: 20px !important;
   }
 }
 
