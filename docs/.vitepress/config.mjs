@@ -24,7 +24,7 @@ export default defineConfig({
       tipLabel: '提示',
       warningLabel: '警告',
       dangerLabel: '危险',
-      infoLabel: '信息',
+      infoLabel: 'INFO',
       detailsLabel: '详细信息'
     }
   },

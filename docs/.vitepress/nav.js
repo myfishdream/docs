@@ -33,11 +33,16 @@ export const nav = [
     ]
   },
   {
-    text: '随记',
+    text: '技巧',
     items: [
+      { text: '小技巧', link: '/pages/小技巧/note' },
+    ]
+  },
+  {
+    text: '随记',
+    items: [  
       { text: '图床测试', link: '/other/imgbed/note' },
       { text: '前端杂谈', link: '/pages/前端杂谈/JS/index' },
-      { text: '博客日志', link: '/other/blogLog/note' },
     ]
   },
 ]; 

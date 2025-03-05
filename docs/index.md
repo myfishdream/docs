@@ -8,7 +8,7 @@ hero:
   text: "的狂人日记"
   tagline: 累了就歇，醒了再走 。
   image:
-    src: "https://s21.ax1x.com/2025/02/15/pEKJAwF.png"
+    src: "https://s21.ax1x.com/2025/02/03/pEZT5DO.png"
     alt: '背景图片'
   actions:
     - theme: alt

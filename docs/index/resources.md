@@ -16,7 +16,11 @@ const tools1 = [
     title: 'excalidraw',
     desc: '在线手绘风流程图绘制',
     url: 'https://excalidraw.com/',
-  }, {
+  },{
+    title: 'Video Compressor',
+    desc: '压缩视频90%且不影响肉眼质量',
+    url: 'https://tools.rotato.app/compress',
+  },{
     title: '文叔叔',
     desc: '在线快速分享文件',
     url: 'https://www.wenshushu.cn/',
