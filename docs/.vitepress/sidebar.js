@@ -50,5 +50,14 @@ export const sidebar = {
             ]
         },
     ],
-
+    'index/life-notes': [
+        {
+            text: '时间',
+            // collapsed: false,  // 是否折叠
+            items: [
+                { text: '2024', link: '/index/life-notes/2024/' },
+                { text: '2025', link: '/index/life-notes/2025/' },
+            ]
+        },
+    ],
 } 
