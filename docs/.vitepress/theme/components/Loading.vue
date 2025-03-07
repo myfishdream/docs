@@ -1,78 +1,116 @@
 <style scoped>
   .loader {
-    --color-success-300: #4bdf80;
-    --color-success-500: #1ed760;
-    --color-success-700: #18ac4d;
-    display: block;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .loader .form1,
-  .loader .form2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .square {
-    width: 40px;
-    height: 40px;
-    margin: 2px;
-    background-color: rgba(150, 150, 150, 0.253);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    width: 160px;
+    height: 100px;
+    margin-left: -80px;
+    margin-top: -50px;
     border-radius: 5px;
-    animation: blinking 0.8s ease-in-out infinite;
-    opacity: 0;
+    background: #1e3f57;
+    animation: dot1_ 3s cubic-bezier(0.55,0.3,0.24,0.99) infinite;
   }
 
-  @keyframes blinking {
-    0% {
-      opacity: 0.25;
-      background-color: rgba(4, 160, 30, 0.589);
+  .loader:nth-child(2) {
+    z-index: 11;
+    width: 150px;
+    height: 90px;
+    margin-top: -45px;
+    margin-left: -75px;
+    border-radius: 3px;
+    background: #3c517d;
+    animation-name: dot2_;
+  }
+
+  .loader:nth-child(3) {
+    z-index: 12;
+    width: 40px;
+    height: 20px;
+    margin-top: 50px;
+    margin-left: -20px;
+    border-radius: 0 0 5px 5px;
+    background: #6bb2cd;
+    animation-name: dot3_;
+  }
+
+  @keyframes dot1_ {
+    3%,97% {
+      width: 160px;
+      height: 100px;
+      margin-top: -50px;
+      margin-left: -80px;
     }
 
-    50% {
-      opacity: 0.5;
-      background-color: var(--color-success-300);
+    30%,36% {
+      width: 80px;
+      height: 120px;
+      margin-top: -60px;
+      margin-left: -40px;
     }
 
-    75% {
-      opacity: 0.75;
-      background-color: var(--color-success-500);
-    }
-
-    100% {
-      opacity: 1;
-      background-color: var(--color-success-700);
+    63%,69% {
+      width: 40px;
+      height: 80px;
+      margin-top: -40px;
+      margin-left: -20px;
     }
   }
 
-  .form1 .square:nth-child(1) {
-    animation-delay: 0.2s;
+  @keyframes dot2_ {
+    3%,97% {
+      height: 90px;
+      width: 150px;
+      margin-left: -75px;
+      margin-top: -45px;
+    }
+
+    30%,36% {
+      width: 70px;
+      height: 96px;
+      margin-left: -35px;
+      margin-top: -48px;
+    }
+
+    63%,69% {
+      width: 32px;
+      height: 60px;
+      margin-left: -16px;
+      margin-top: -30px;
+    }
   }
 
-  .form1 .square:nth-child(2) {
-    animation-delay: 0.4s;
-  }
+  @keyframes dot3_ {
+    3%,97% {
+      height: 20px;
+      width: 40px;
+      margin-left: -20px;
+      margin-top: 50px;
+    }
 
-  .form2 .square:nth-child(2) {
-    animation-delay: 0.6s;
-  }
+    30%,36% {
+      width: 8px;
+      height: 8px;
+      margin-left: -5px;
+      margin-top: 49px;
+      border-radius: 8px;
+    }
 
-  .form2 .square:nth-child(1) {
-    animation-delay: 0.8s;
+    63%,69% {
+      width: 16px;
+      height: 4px;
+      margin-left: -8px;
+      margin-top: -37px;
+      border-radius: 10px;
+    }
   }
 </style>
 
 <template>
-  <div class="loader">
-    <div class="form1">
-      <div class="square"></div>
-      <div class="square"></div>
-    </div>
-    <div class="form2">
-      <div class="square"></div>
-      <div class="square"></div>
-    </div>
+  <div class="container">
+  	<div class="loader"></div>
+  	<div class="loader"></div>
+  	<div class="loader"></div>
   </div>
 </template>

@@ -11,22 +11,22 @@ hero:
     src: "https://s21.ax1x.com/2025/02/03/pEZT5DO.png"
     alt: '背景图片'
   actions:
-    - theme: alt
-      text: 时间线
-      link: timeline
+    # - theme: alt
+    #   text: 时间线
+    #   link: timeline
     - theme: brand
       text: 文档导航 
       link: /index/study-notes
-    - theme: alt
-      text: 留言板
-      link: MessageBoards
+    # - theme: alt
+    #   text: 留言板
+    #   link: MessageBoards
 
 features:
-  - icon: 📃 
-    title: 学习笔记 
-    details: 各类技术学习笔记和心得体会，知识点总结。
-    link: /index/study-notes
-    linkText: 查看笔记
+  # - icon: 📃 
+  #   title: 学习笔记 
+  #   details: 各类技术学习笔记和心得体会，知识点总结。
+  #   link: /index/study-notes
+  #   linkText: 查看笔记
   # - icon: 🏗️ 
   #   title: 项目展示 
   #   details: 个人开发的项目作品集，记录每个项目的开发过程和技术选型。
@@ -47,11 +47,11 @@ features:
     details: 记录日常感悟、阅读心得和生活中的美好瞬间。
     link: /index/life-notes
     linkText: 阅读随笔
-  - icon: 🤪 
-    title: 关于我 
-    details: 个人简介、技能栈展示和联系方式。
-    link: /index/about-me
-    linkText: 了解更多    
+  # - icon: 🤪 
+  #   title: 关于我 
+  #   details: 个人简介、技能栈展示和联系方式。
+  #   link: /index/about-me
+  #   linkText: 了解更多    
 ---
 
 
