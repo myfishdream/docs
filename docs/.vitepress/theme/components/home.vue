@@ -1,57 +1,59 @@
 <template>
-    <div class="home-container">
-        <!-- 顶部插图 -->
-        <div class="hero-image">
-            <img src="https://s21.ax1x.com/2025/02/15/pEKJAwF.png" alt="hero illustration">
-        </div>
+    <div class="home-page-container">
+        <div class="home-page-content">
+            <!-- 顶部插图 -->
+            <div class="home-page-hero">
+                <img src="https://s21.ax1x.com/2025/02/15/pEKJAwF.png" alt="hero illustration">
+            </div>
 
-        <!-- 个人简介 -->
-        <div class="profile">
-            <h1 class="greeting">你好，我是鱼梦江湖 <span class="wave-emoji">👋</span></h1>
-            <p class="subtitle">这是我的个人博客</p>
-            <p class="email">yumengjianghu@gmail.com</p>
-        </div>
+            <!-- 个人简介 -->
+            <div class="home-page-profile">
+                <h1 class="home-page-greeting">你好，我是鱼梦江湖 <span class="home-page-wave-emoji">👋</span></h1>
+                <p class="home-page-subtitle">这是我的个人博客</p>
+                <p class="home-page-email">yumengjianghu@outlook.com</p>
+            </div>
 
-        <!-- 博客列表标题 -->
-        <div class="blogs-header">
-            <h2>Blogs  博客</h2>
-        </div>
+            <!-- 博客列表标题 -->
+            <div class="home-page-blogs-header">
+                <h2>Blogs 博客</h2>
+            </div>
 
-        <!-- 博客文章列表 -->
-        <div v-if="documents.length === 0" class="loading">
-            <Loading/>
-        </div>
-        <div v-else class="blog-list">
-            <a v-for="doc in paginatedDocs" :key="doc.path" :href="doc.path" class="blog-item">
-                <div class="blog-content">
-                    <h3>{{ doc.title }}</h3>
-                    <div class="meta-info">
-                        <span class="date">{{ formatDate(doc.date) }}</span>
-                        <div class="tags" v-if="doc.tags?.length">
-                            <span v-for="tag in doc.tags" :key="tag" class="tag">{{ tag }}</span>
+            <!-- 博客文章列表 -->
+            <div v-if="documents.length === 0" class="home-page-loading">
+                <Loading/>
+            </div>
+            <div v-else class="home-page-blog-list">
+                <a v-for="doc in paginatedDocs" :key="doc.path" :href="doc.path" class="home-page-blog-item">
+                    <div class="home-page-blog-content">
+                        <h3>{{ doc.title }}</h3>
+                        <div class="home-page-meta-info">
+                            <span class="home-page-date">{{ formatDate(doc.date) }}</span>
+                            <div class="home-page-tags" v-if="doc.tags?.length">
+                                <span v-for="tag in doc.tags" :key="tag" class="home-page-tag">{{ tag }}</span>
+                            </div>
                         </div>
+                        <p v-if="doc.description" class="home-page-description">{{ doc.description }}</p>
                     </div>
-                    <p v-if="doc.description" class="description">{{ doc.description }}</p>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
 
-        <!-- 分页 -->
-        <div class="pagination" v-if="totalPages > 1">
-            <button class="page-btn" :disabled="currentPage === 1" @click="currentPage--">
-                ➕
-            </button>
-            <div class="page-numbers">
-                <button v-for="page in displayPages" 
-                        :key="page" 
-                        :class="['number-btn', { active: currentPage === page }]"
-                        @click="currentPage = page">
-                    {{ page }}
+            <!-- 分页 -->
+            <div class="home-page-pagination" v-if="totalPages > 1">
+                <button class="home-page-btn" :disabled="currentPage === 1" @click="currentPage--">
+                    ➕
+                </button>
+                <div class="home-page-numbers">
+                    <button v-for="page in displayPages" 
+                            :key="page" 
+                            :class="['home-page-number-btn', { active: currentPage === page }]"
+                            @click="currentPage = page">
+                        {{ page }}
+                    </button>
+                </div>
+                <button class="home-page-btn" :disabled="currentPage === totalPages" @click="currentPage++">
+                    ➖
                 </button>
             </div>
-            <button class="page-btn" :disabled="currentPage === totalPages" @click="currentPage++">
-                ➖
-            </button>
         </div>
     </div>
 </template>
@@ -258,28 +260,40 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.home-container {
+/* 更新所有样式类名，添加 home-page- 前缀 */
+.home-page-container {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+.home-page-content {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    z-index: 2;
 }
 
-.hero-image {
+/* 更新其他所有样式类名，把 . 后面的类名都加上 home-page- 前缀 */
+.home-page-hero {
     width: 200px;
     margin-bottom: 40px;
+    position: relative;
 }
 
-.hero-image img {
+.home-page-hero img {
     width: 100%;
     height: auto;
     transition: transform 0.5s ease-out;
     border-radius: 50%; /* 可选：添加圆形效果 */
 }
 
-.hero-image img:hover {
+.home-page-hero img:hover {
     animation: rotate 1s linear infinite;
 }
 
@@ -293,63 +307,63 @@ onMounted(() => {
 }
 
 /* 移开时平滑停止 */
-.hero-image img:not(:hover) {
+.home-page-hero img:not(:hover) {
     animation: none;
     transition: transform 0.5s ease-out;
 }
 
-.profile {
+.home-page-profile {
     text-align: center;
     margin-bottom: 40px;
 }
 
-.greeting {
+.home-page-greeting {
     font-size: 2em;
     margin-bottom: 10px;
 }
 
-.subtitle {
+.home-page-subtitle {
     color: var(--vp-c-text-1);
     margin-bottom: 10px;
 }
 
-.email {
+.home-page-email {
     color: var(--vp-c-text-1);
 }
 
-.blogs-header {
+.home-page-blogs-header {
     width: 100%;
     margin-bottom: 20px;
     text-align: center;
 }
 
-.blogs-header h2 {
+.home-page-blogs-header h2 {
     font-size: 1.5em;
     color: #333;
 }
 
-.blog-list {
+.home-page-blog-list {
     width: 100%;
 }
 
-.meta-info {
+.home-page-meta-info {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-top: 8px;
 }
 
-.date {
+.home-page-date {
     color: var(--vp-c-text-2);
     font-size: 0.9em;
 }
 
-.tags {
+.home-page-tags {
     display: flex;
     gap: 8px;
 }
 
-.tag {
+.home-page-tag {
     padding: 2px 8px;
     background: var(--vp-c-brand-soft);
     background: var(--vp-c-bg-soft);
@@ -358,20 +372,20 @@ onMounted(() => {
     color: var(--vp-c-text-1);
 }
 
-.description {
+.home-page-description {
     margin-top: 8px;
     color: var(--vp-c-text-2);
     font-size: 0.9em;
     line-height: 1.5;
 }
 
-.loading {
+.home-page-loading {
     text-align: center;
     padding: 40px;
     color: var(--vp-c-text-2);
 }
 
-.blog-item {
+.home-page-blog-item {
     display: block;
     padding: 20px;
     margin-bottom: 15px;
@@ -382,13 +396,13 @@ onMounted(() => {
     transition: all 0.3s ease;
 }
 
-.blog-item:hover {
+.home-page-blog-item:hover {
     transform: translateY(-2px);
     border-color: var(--vp-c-brand);
     box-shadow: 0 0px 8px rgba(0, 0, 0, 0.1);
 }
 
-.blog-content h3 {
+.home-page-blog-content h3 {
     margin: 0;
     color: var(--vp-c-brand);
     color: var(--vp-c-text-1);
@@ -397,7 +411,7 @@ onMounted(() => {
 }
 
 /* 修改分页样式 */
-.pagination {
+.home-page-pagination {
     margin-top: 40px;
     display: flex;
     justify-content: center;
@@ -405,12 +419,12 @@ onMounted(() => {
     gap: 12px;
 }
 
-.page-numbers {
+.home-page-numbers {
     display: flex;
     gap: 8px;
 }
 
-.page-btn, .number-btn {
+.home-page-btn, .home-page-number-btn {
     min-width: 36px;
     height: 36px;
     border: 1px solid var(--vp-c-divider);
@@ -426,81 +440,81 @@ onMounted(() => {
     padding: 0;
 }
 
-.number-btn {
+.home-page-number-btn {
     font-weight: 500;
 }
 
-.number-btn.active {
+.home-page-number-btn.active {
     background: var(--vp-c-brand);
     color: white;
     border-color: var(--vp-c-brand);
 }
 
-.page-btn:not(:disabled):hover,
-.number-btn:not(.active):hover {
+.home-page-btn:not(:disabled):hover,
+.home-page-number-btn:not(.active):hover {
     background: var(--vp-c-brand);
     color: white;
     border-color: var(--vp-c-brand);
 }
 
-.page-btn:disabled {
+.home-page-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
 /* 移动端优化 */
 @media (max-width: 768px) {
-    .home-container {
+    .home-page-container {
         padding: 16px;
     }
 
-    .hero-image {
+    .home-page-hero {
         width: 150px;
         margin-bottom: 30px;
     }
 
-    .greeting {
+    .home-page-greeting {
         font-size: 1.5em;
     }
 
-    .wave-emoji {
+    .home-page-wave-emoji {
         display: none;
         /* 在移动端隐藏挥手表情 */
     }
 
 
-    .blog-item {
+    .home-page-blog-item {
         padding: 15px;
         margin-bottom: 12px;
     }
 
-    .blog-content h3 {
+    .home-page-blog-content h3 {
         font-size: 1.1em;
     }
 
-    .meta-info {
+    .home-page-meta-info {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
     }
 
-    .tags {
+    .home-page-tags {
         flex-wrap: wrap;
     }
 
-    .tag {
+    .home-page-tag {
         font-size: 0.75em;
     }
 
-    .description {
+    .home-page-description {
         font-size: 0.85em;
     }
 
-    .pagination {
+    .home-page-pagination {
         gap: 8px;
     }
 
-    .page-btn, .number-btn {
+    .home-page-btn, .home-page-number-btn {
         min-width: 32px;
         height: 32px;
         font-size: 0.85em;

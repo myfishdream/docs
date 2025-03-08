@@ -55,12 +55,6 @@
   border: none;
 }
 
-/* 自定义底部距离 */
-/* @media (min-width: 768px) {
-  .VPFooter {
-    padding: 10px !important;
-  }
-} */
 
 /* 移除标题组件上方空位置 */  
 .VPDoc {
