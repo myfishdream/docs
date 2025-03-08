@@ -1,9 +1,9 @@
 export const nav = [
-  { text: 'Home', link: '/' },
-  { text: 'Tools', link: '/index/resources' },
-  { text: 'Tags', link: '/index/study-notes' },
+  { text: '🏠️Home', link: '/' },
+  { text: '🛠Tools', link: '/index/resources' },
+  { text: '🏷️Tags', link: '/index/study-notes' },
   {
-    text: 'Web', items: [
+    text: '🏳‍🌈Web', items: [
       {
         text: '',
         items: [
@@ -34,7 +34,7 @@ export const nav = [
     ]
   },
   {
-    text: 'Note',
+    text: '📝Note',
     items: [
       { text: '开发技巧', link: '/pages/小技巧/note' },
       { text: '八股文', link: '/' },
