@@ -1,6 +1,6 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
-layout: home
+layout: page
 
 hero: 
   name: "鱼梦江湖" 
@@ -54,6 +54,12 @@ features:
   #   linkText: 了解更多    
 ---
 
+<script setup>
+import home from './.vitepress/theme/components/home.vue'
+
+</script>
 
 <MouseEvent/>
 <Visitor/>
+
+<home/>

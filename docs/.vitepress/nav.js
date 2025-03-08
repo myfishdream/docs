@@ -1,6 +1,7 @@
 export const nav = [
-  { text: '首页', link: '/' },
-  { text: '工具导航', link: '/index/resources' },
+  { text: 'Home', link: '/' },
+  { text: 'Tools', link: '/index/resources' },
+  { text: 'Tags', link: '/index/study-notes' },
   {
     text: 'Web', items: [
       {
@@ -33,7 +34,7 @@ export const nav = [
     ]
   },
   {
-    text: '笔记',
+    text: 'Note',
     items: [
       { text: '开发技巧', link: '/pages/小技巧/note' },
       { text: '八股文', link: '/' },

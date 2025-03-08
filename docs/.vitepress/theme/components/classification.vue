@@ -30,7 +30,6 @@
       <!-- 标签筛选 -->
       <div class="filter-section" v-if="allTags.length">
         <div class="filter-header" @click="toggleSection('tags')">
-
           <h3>标签筛选</h3>
           <span class="toggle-icon" :class="{ 'is-open': openSections.tags }">▼</span>
         </div>
@@ -39,8 +38,8 @@
             <button v-for="tag in allTags" :key="tag" :class="['tag-btn', selectedTags.includes(tag) ? 'active' : '']"
               @click="toggleTag(tag)">
               {{ tag }}
+              <span class="tag-count">{{ getTagCount(tag) }}</span>
             </button>
-            <button class="tag-btn" :class="{ active: openFilter }" @click="openFilter = !openFilter">详细分类</button>
           </div>
         </div>
       </div>
@@ -70,33 +69,42 @@
         </div>
       </div>
     </div>
-    <div class="dividingLine"></div>
     <!-- 文档列表 -->
     <div class="documents-grid">
-      <div v-for="(doc, index) in paginatedDocs" :key="doc.path" class="doc-card-wrapper" v-motion :initial="{
-        opacity: 0,
-        y: 20,
-        scale: 0.95
-      }" :enter="{
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            transition: {
-              type: 'spring',
-              stiffness: 250,
-              damping: 25,
-              delay: index * 50
-            }
-          }">
-        <DocCard :doc="doc" />
-      </div>
-      <div v-if="!paginatedDocs.length" class="no-docs">
-        暂无符合条件的文档
+      <!-- 当有筛选条件时显示文档列表 -->
+      <template v-if="hasActiveFilters">
+        <div v-for="(doc, index) in paginatedDocs" :key="doc.path" class="doc-card-wrapper" v-motion :initial="{
+          opacity: 0,
+          y: 20,
+          scale: 0.95
+        }" :enter="{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              transition: {
+                type: 'spring',
+                stiffness: 250,
+                damping: 25,
+                delay: index * 50
+              }
+            }">
+          <DocCard :doc="doc" />
+        </div>
+        <!-- 有筛选条件但没有匹配的文档 -->
+        <div v-if="!paginatedDocs.length" class="no-docs">
+          暂无符合条件的文档
+        </div>
+      </template>
+      <!-- 没有筛选条件时显示提示 -->
+      <div v-else>
+        <div class="no-docs">
+          请选择筛选条件以查看文档
+        </div>
       </div>
     </div>
 
     <!-- 分页 -->
-    <div class="pagination" v-if="totalPages > 1">
+    <div class="pagination" v-if="hasActiveFilters && totalPages > 1">
       <button class="page-btn" :disabled="currentPage === 1" @click="currentPage--; scrollToTop()">
         上一页
       </button>
@@ -109,7 +117,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import DocCard from './DocCard.vue'
 import Loading from './Loading.vue'
 
@@ -467,6 +475,30 @@ const scrollToTop = () => {
   })
 }
 
+// 添加计算标签文档数量的方法
+const getTagCount = (tag) => {
+  return documents.value.filter(doc => 
+    doc.tags && doc.tags.includes(tag)
+  ).length
+}
+
+// 添加一个计算属性来判断是否有活跃的筛选条件
+const hasActiveFilters = computed(() => {
+  return selectedTags.value.length > 0 || 
+         selectedCategory.value !== null || 
+         selectedYear.value !== null || 
+         selectedMonth.value !== null
+})
+
+// 添加键盘事件处理函数
+const handleKeydown = (e) => {
+  // 检查是否按下 Ctrl + X
+  if (e.ctrlKey && e.key.toLowerCase() === 'x') {
+    e.preventDefault() // 阻止默认行为
+    openFilter.value = !openFilter.value
+  }
+}
+
 onMounted(() => {
   fetchDocuments()
   const cards = document.querySelectorAll('.doc-card')
@@ -481,6 +513,14 @@ onMounted(() => {
       card.style.setProperty('--y', `${y}%`)
     })
   })
+
+  // 添加键盘事件监听
+  window.addEventListener('keydown', handleKeydown)
+})
+
+// 在组件卸载时移除事件监听
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
 })
 </script>
 
@@ -507,25 +547,22 @@ onMounted(() => {
 
 }
 
-.dividingLine {
+/* .dividingLine {
   height: 1px;
   border: 1px var(--vp-c-divider);
   border-style: dashed;
-}
+} */
 
 .filter-section {
-  background: var(--vp-c-bg-soft);
+  /* background: var(--vp-c-bg-soft); */
   border-radius: 4px;
   padding: 5px;
   margin-bottom: 16px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
+  border: none;
+  border-bottom: 1px solid var(--vp-c-divider);
   border-color: var(--vp-c-divider);
-}
-
-.filter-section:hover {
-  border-color: var(--vp-c-brand-soft);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .filter-header {
@@ -573,14 +610,12 @@ onMounted(() => {
 }
 
 .filter-header:hover .toggle-icon {
-  background: var(--vp-c-brand-soft);
   color: var(--vp-c-brand);
 }
 
 .toggle-icon.is-open {
   transform: rotate(180deg);
-  background: var(--vp-c-brand);
-  color: white;
+  color: var(--vp-c-brand);
 }
 
 .filter-content {
@@ -615,7 +650,6 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px 0;
 }
 
 .doc-card {
@@ -700,8 +734,6 @@ onMounted(() => {
   grid-column: 1 / -1;
   text-align: center;
   padding: 60px 20px;
-  background: var(--vp-c-bg-soft);
-  border-radius: 12px;
   color: var(--vp-c-text-2);
   font-size: 1.1em;
   display: flex;
@@ -710,16 +742,10 @@ onMounted(() => {
   gap: 16px;
 }
 
-.no-docs::before {
-  content: '📝';
-  font-size: 2em;
-  opacity: 0.8;
-}
-
 .tag-btn,
 .category-btn {
   padding: 6px 16px;
-  border: 2px solid var(--vp-c-divider);
+  /* border: 2px solid var(--vp-c-divider); */
   border-radius: 20px;
   background: var(--vp-c-bg);
   color: var(--vp-c-text-2);
@@ -727,42 +753,35 @@ onMounted(() => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 0.9em;
   position: relative;
-  overflow: hidden;
-}
-
-.tag-btn::after,
-.category-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--vp-c-brand);
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: -1;
-  border-radius: inherit;
+  overflow: visible; /* 修改为visible以显示计数器 */
 }
 
 .tag-btn:hover,
 .category-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   color: var(--vp-c-brand);
-}
-
-.tag-btn:active,
-.category-btn:active {
-  transform: translateY(0);
 }
 
 .tag-btn.active,
 .category-btn.active {
-  background: var(--vp-c-brand);
-  color: white;
-  border-color: var(--vp-c-brand);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(var(--vp-c-brand-rgb), 0.35);
+  color: var(--vp-c-brand);
 }
+
+/* 添加标签计数器样式 */
+.tag-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  color: var(--vp-c-brand);
+  font-size: 0.75em;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  transform: scale(1.2);
+}
+
 
 .pagination {
   margin-top: 40px;
@@ -817,9 +836,6 @@ onMounted(() => {
 .year-btn,
 .month-btn {
   padding: 4px 12px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 16px;
-  background: var(--vp-c-bg-soft);
   color: var(--vp-c-text-2);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -838,14 +854,12 @@ onMounted(() => {
 
 .year-btn:hover,
 .month-btn:hover {
-  background: var(--vp-c-bg-mute);
+  color: var(--vp-c-brand);
 }
 
 .year-btn.active,
 .month-btn.active {
-  background: var(--vp-c-brand);
-  color: white;
-  border-color: var(--vp-c-brand);
+  color: var(--vp-c-brand);
 }
 
 /* 移动端优化 */
@@ -929,6 +943,7 @@ onMounted(() => {
     font-size: 0.85em;
   }
 }
+
 
 
 </style>

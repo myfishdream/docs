@@ -113,13 +113,31 @@ const toggleExpand = () => {
 }
 
 // 格式化创建日期
-const formatDate = (date) => {
-  if (!date) return ''
-  date = date.split('#')[0].trim()
-  const [year, month, day] = date.split('-').map(s => s.trim())
-  return `${year}-${month}-${day}`
+// 修改日期格式化函数
+const formatDate = (dateStr) => {
+  if (!dateStr) return ''
+  try {
+    // 移除注释并清理空格
+    const cleanDate = dateStr.split('#')[0].trim()
+    // 分割日期部分
+    const [year, month, day] = cleanDate.split('-').map(s => s.trim())
+    
+    // 月份名称映射
+    const monthNames = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ]
+    
+    // 获取月份名称
+    const monthName = monthNames[parseInt(month) - 1]
+    
+    // 返回格式化后的日期
+    return `${monthName} ${parseInt(day)}, ${year}`
+  } catch (e) {
+    console.warn('日期格式无效：', dateStr)
+    return dateStr
+  }
 }
-
 // // 格式化最后更新时间
 // const formatLastUpdated = (timestamp) => {
 //   if (!timestamp) return ''
