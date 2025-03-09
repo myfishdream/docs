@@ -144,15 +144,20 @@ const fetchDocuments = async () => {
                     title: frontmatter.title || folderName,
                     path: path.replace('.md', '.html'),
                     author: frontmatter.author?.split('#')[0].trim() || '',
-                    tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
+                    tags: Array.isArray(frontmatter.tags) ? frontmatter.tags.filter(tag => tag && tag.trim()) : [],
                     category: frontmatter.category?.split('#')[0].trim() || '',
                     description: frontmatter.description?.split('#')[0].trim() || '',
                     sticky: frontmatter.sticky || 0,
                     star: frontmatter.star || false,
-                    date: frontmatter.date || null
+                    date: frontmatter.date?.split('#')[0].trim() || null
                 }
 
-                docs.push(docInfo)
+                // 检查是否有描述信息
+                if (frontmatter.description && frontmatter.description.trim()) {
+                    docs.push(docInfo)
+                } else {
+                    console.debug(`跳过文档 ${path}: 没有描述信息`)
+                }
             } catch (error) {
                 console.error(`处理文档时出错: ${path}:`, error)
             }
