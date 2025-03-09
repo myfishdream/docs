@@ -263,6 +263,49 @@ watch(currentPage, () => {
 
 onMounted(() => {
     fetchDocuments()
+    
+    // 添加头像旋转动画逻辑
+    const heroImg = document.querySelector('.home-page-hero img')
+    let rotationAngle = 0
+    let rotationSpeed = 0
+    let isHovering = false
+    let lastTimestamp = 0
+    let animationFrameId = null
+
+    function updateRotation(timestamp) {
+        if (!lastTimestamp) lastTimestamp = timestamp
+        const deltaTime = timestamp - lastTimestamp
+        lastTimestamp = timestamp
+
+        if (isHovering) {
+            // 当鼠标悬浮时，速度逐渐增加
+            rotationSpeed = Math.min(rotationSpeed + 0.01, 100) // 限制最大速度
+        } else {
+            // 当鼠标离开时，速度逐渐减小
+            rotationSpeed = Math.max(rotationSpeed - 0.01, 0)
+        }
+
+        if (rotationSpeed > 0) {
+            rotationAngle += rotationSpeed
+            heroImg.style.transform = `rotate(${rotationAngle}deg)`
+            animationFrameId = requestAnimationFrame(updateRotation)
+        } else {
+            lastTimestamp = 0
+            animationFrameId = null
+        }
+    }
+
+    heroImg.addEventListener('mouseenter', () => {
+        isHovering = true
+        if (!animationFrameId) {
+            lastTimestamp = 0
+            animationFrameId = requestAnimationFrame(updateRotation)
+        }
+    })
+
+    heroImg.addEventListener('mouseleave', () => {
+        isHovering = false
+    })
 })
 </script>
 
@@ -295,28 +338,9 @@ onMounted(() => {
 .home-page-hero img {
     width: 100%;
     height: auto;
-    transition: transform 0.5s ease-out;
     border-radius: 50%;
     border: 5px solid var(--vp-c-divider);
-}
-
-.home-page-hero img:hover {
-    animation: rotate 1s linear infinite;
-}
-
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.home-page-hero img:not(:hover) {
-    animation: none;
-    transition: transform 0.5s ease-out;
+    transform: rotate(0deg);
 }
 
 .home-page-profile {
