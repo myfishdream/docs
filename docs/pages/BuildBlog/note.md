@@ -434,3 +434,7 @@ import './Customize.css'
 ## 部署
 
 ...
+
+<ReadingProgress/>
+
+<Giscus/>

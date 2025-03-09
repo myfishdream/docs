@@ -64,10 +64,9 @@ import { ref, computed, onMounted, watch } from 'vue'
 import Loading from './Loading.vue'
 
 // 文档数据
-const documents = ref([])
-const currentPage = ref(1)
-const pageSize = 5
-
+const documents = ref([])  // 存储所有文档数据
+const currentPage = ref(1)  // 当前页码
+const pageSize = 5  // 每页显示的文档数量
 // 获取文档列表
 const fetchDocuments = async () => {
     try {

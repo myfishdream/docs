@@ -21,8 +21,20 @@
               </span>
               <span>{{ formatDate(frontmatter.date) }}</span>
             </span>
-            <span class="divider">|</span>
-            <span class="info-item">
+            <template v-if="showLastUpdated">
+              <span class="divider" style="padding: 0rem; color: var(--vp-c-brand);"> -> </span>
+              <span class="info-item">
+                <span class="label">
+                  <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+                    <path d="M512 42.666667C252.793333 42.666667 42.666667 252.793333 42.666667 512s210.126667 469.333333 469.333333 469.333333 469.333333-210.126667 469.333333-469.333333S771.206667 42.666667 512 42.666667z m0 853.333333C294.4 896 128 729.6 128 512S294.4 128 512 128s384 166.4 384 384-166.4 384-384 384z" fill="#467CFD"/>
+                    <path d="M512 256c-25.6 0-42.666667 17.066667-42.666667 42.666667v213.333333c0 12.8 4.266667 21.333333 12.8 29.866667l149.333334 149.333333c17.066667 17.066667 42.666667 17.066667 59.733333 0s17.066667-42.666667 0-59.733333L554.666667 494.933333V298.666667c0-25.6-17.066667-42.666667-42.666667-42.666667z" fill="#8BAEF7"/>
+                  </svg>
+                </span>
+                <span class="last-updated" :title="fullDateTime">{{ lastUpdatedDate }}</span>
+              </span>
+            </template>
+            <span class="divider desktop-only">|</span>
+            <span class="info-item ">
               <span class="label">
                 <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                   <path d="M510.862222 665.031111c485.546667 0 480.711111 307.427556 480.711111 307.427556a43.349333 43.349333 0 0 1-44.032 50.517333H74.069333c-27.989333 0-48.810667-22.926222-44.032-50.517333 0 0-4.835556-307.370667 480.768-307.370667zM510.634667 0.512h304.014222V307.2c0 169.415111-136.135111 306.801778-304.014222 306.801778-167.879111 0-304.014222-137.386667-304.014223-306.801778 0-169.415111 136.135111-306.744889 304.014223-306.744889z" fill="#467CFD"></path>
@@ -41,9 +53,9 @@
               </span>
               <span>{{ frontmatter.category }}</span>
             </span>
-            <span class="divider" v-if="frontmatter.tags.length<=5 || frontmatter.aside !== 'right'">|</span>
-            <span class="info-item tags" v-if="frontmatter.tags && frontmatter.tags.length">
-              <span class="label">
+            <span class="divider desktop-only" v-if="frontmatter.tags.length<=5 || frontmatter.aside !== 'right'">|</span>
+            <span class="info-item tags desktop-only" v-if="frontmatter.tags && frontmatter.tags.length">
+              <span class="label" v-if="frontmatter.tags.length<=5 || frontmatter.aside !== 'right'">
                 <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
                   <path d="M995.125144 559.61812l-415.998603-415.998602A52.986489 52.986489 0 0 0 541.413335 127.99957H338.847348c-3.166656-26.559911-9.286635-51.046495-17.999939-71.333094C299.734146 7.333309 271.154242 0 256.00096 0c-13.939953 0-40.439864 6.339979-61.259794 48.806503-10.473298 21.366595-17.946606 48.966502-21.573261 79.193067H53.334974a53.393154 53.393154 0 0 0-53.333154 53.333154v360.078791a52.986489 52.986489 0 0 0 15.619948 37.713206l415.998602 415.998603a53.333154 53.333154 0 0 0 75.426413 0l26.286579-26.293245 26.286578 26.293245a53.426487 53.426487 0 0 0 16.719944 11.333295 21.333262 21.333262 0 0 0 36.079879 11.293295l382.705381-382.705381a53.399821 53.399821 0 0 0 0-75.426413z" fill="#ffd679"></path>
                 </svg>
@@ -59,12 +71,47 @@
 
 <script setup>
 import { useData, useRoute } from 'vitepress'
-import { computed, ref, onMounted, watch } from 'vue'
+import { computed, ref, onMounted, watch, nextTick } from 'vue'
 import { onContentUpdated } from 'vitepress/client'
 
 const { frontmatter } = useData()
 const route = useRoute()
 const isCopied = ref(false)
+const fullDateTime = ref('')
+const showLastUpdated = ref(false)
+const lastUpdatedDate = ref('')
+
+// 处理最后更新时间的函数
+const processLastUpdated = () => {
+  if (import.meta.env.SSR) return
+  
+  const lastUpdatedElement = document?.querySelector('.VPLastUpdated')
+  if (!lastUpdatedElement) return
+  
+  const fullText = lastUpdatedElement.textContent.replace('最后更新于：', '')
+  
+  // 存储完整时间用于title显示
+  fullDateTime.value = fullText
+  
+  // 解析创建时间和更新时间
+  const createDate = formatDate(frontmatter.value.date)
+  const updateMatch = fullText.match(/(\d{4})\/(\d{1,2})\/(\d{1,2})/)
+  
+  if (updateMatch) {
+    const [_, year, month, day] = updateMatch
+    const updateDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    
+    // 比较创建时间和更新时间是否在同一天
+    showLastUpdated.value = createDate !== updateDate
+    
+    if (showLastUpdated.value) {
+      lastUpdatedDate.value = updateDate
+    }
+  }
+  
+  // 隐藏原始元素
+  lastUpdatedElement.style.display = 'none'
+}
 
 // 验证所有必需的字段是否存在且有值
 const showCard = computed(() => {
@@ -92,10 +139,11 @@ const showCard = computed(() => {
   return true
 })
 
-// 移除标题的函数
-const removeTitle = () => {
+// 移除标题并处理最后更新时间
+const processPage = () => {
   if (import.meta.env.SSR || !showCard.value) return
 
+  // 移除标题
   const selectors = [
     '.vp-doc h1:first-of-type',
     '.content h1:first-of-type',
@@ -110,11 +158,16 @@ const removeTitle = () => {
       break
     }
   }
+
+  // 处理最后更新时间
+  nextTick(() => {
+    processLastUpdated()
+  })
 }
 
 // 监听内容更新
 onContentUpdated(() => {
-  removeTitle()
+  processPage()
 })
 
 // 格式化创建日期
@@ -122,7 +175,10 @@ const formatDate = (date) => {
   if (!date) return ''
   date = date.split('#')[0].trim()
   const [year, month, day] = date.split('-').map(s => s.trim())
-  return `${year}-${month}-${day}`
+  // 确保月和日是两位数
+  const formattedMonth = month.padStart(2, '0')
+  const formattedDay = day.padStart(2, '0')
+  return `${year}-${formattedMonth}-${formattedDay}`
 }
 
 // 复制页面链接
@@ -137,6 +193,17 @@ const copyPageUrl = async () => {
     console.error('复制失败:', err)
   }
 }
+
+// 使用watch监听路由变化
+const currentRoute = ref(route.path)
+watch(() => route.path, (newPath) => {
+  currentRoute.value = newPath
+  processPage()
+})
+
+onMounted(() => {
+  processPage()
+})
 </script>
 
 <style scoped>
@@ -252,6 +319,10 @@ const copyPageUrl = async () => {
 }
 
 @media (max-width: 639px) {
+  .desktop-only {
+    display: none !important;
+  }
+
   .card-content {
     flex-direction: column;
     align-items: stretch;
@@ -268,10 +339,6 @@ const copyPageUrl = async () => {
   .title-row {
     gap: 0.5rem;
   }
-  
-  /* .divider {
-    display: none;
-  } */
   
   .meta-info {
     gap: 0.7rem;
@@ -294,5 +361,14 @@ const copyPageUrl = async () => {
   .title-row {
     gap: 2rem;
   }
+}
+
+.last-updated-wrapper {
+  color: var(--vp-c-text-2);
+}
+
+.last-updated {
+  color: var(--vp-c-text-1);
+  cursor: help;
 }
 </style>
