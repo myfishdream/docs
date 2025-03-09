@@ -52,7 +52,7 @@ layout: doc
 
 <br>
 
-<Valine/>
+<Giscus/>
 
 <style scoped>
 

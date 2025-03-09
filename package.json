@@ -13,7 +13,6 @@
     "@vueuse/motion": "^2.2.6",
     "cursor-effects": "^1.0.17",
     "vite-plugin-markdown-preview": "^1.1.1",
-    "vue-easy-lightbox": "^1.19.0",
-    "vue-lazyload-next": "^0.0.2"
+    "vue-easy-lightbox": "^1.19.0"
   }
 }

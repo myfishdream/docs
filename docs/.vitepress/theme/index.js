@@ -8,11 +8,10 @@ import VueLazyloadNext  from 'vue-lazyload-next'   // 懒加载指令
 import MouseEvent from './components/MouseEvent.vue' // 鼠标跟随特效
 import Classification from './components/classification.vue'  // 分类
 import ReadingProgress from './components/ReadingProgress.vue'  // 阅读进度
-import Picture from './components/Picture.vue' // 增强图片组件
+import Picture from './components/Picture.vue' // 增强图片组件  
 import Timelines from './components/Timelines.vue' // 时间轴组件
 import SimpleSecureContent from './components/SimpleSecureContent.vue' // 简单的加密内容组件
 import DocsMsg from './components/docsMsg.vue' // 文档信息组件
-import Valine from './components/Valine.vue'
 import Visitor from './components/visitor/visitor.vue' // 访客记录组件（无UI）
 import Home from './components/home.vue' // 首页组件
 // 引入懒加载图片
@@ -46,9 +45,7 @@ export default {
     app.component('ReadingProgress', ReadingProgress); 
     app.component('Picture', Picture); // 注册增强图片组件
     app.component('Timelines', Timelines); // 注册时间轴组件
-    app.component('DocsMsg', DocsMsg); // 注册文档信息组件
     app.component('SimpleSecureContent', SimpleSecureContent); // 注册简单加密内容组件
-    app.component('Valine', Valine); // 注册Valine评论组件
     app.component('Visitor', Visitor); // 注册访客记录组件（无UI）
     app.component('Home', Home); // 注册首页组件
     app.use(VueLazyloadNext, {
