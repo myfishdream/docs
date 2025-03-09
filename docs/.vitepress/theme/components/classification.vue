@@ -542,10 +542,6 @@ onUnmounted(() => {
   }
 }
 
-.filters {
-  margin-bottom: 30px;
-
-}
 
 /* .dividingLine {
   height: 1px;
@@ -561,7 +557,7 @@ onUnmounted(() => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
   border: none;
-  border-bottom: 1px solid var(--vp-c-divider);
+  border-bottom: 2px dashed var(--vp-c-divider);
   border-color: var(--vp-c-divider);
 }
 
@@ -577,24 +573,12 @@ onUnmounted(() => {
   user-select: none;
 }
 
-.filter-header:hover {
-  background: var(--vp-c-bg-mute);
-}
-
-.filter-header:active {
-  transform: scale(0.98);
-}
-
 .filter-header h3 {
   margin: 0 0 0 16px;
   font-size: 1em;
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.3s ease;
-}
-
-.filter-section:hover .filter-header h3 {
-  color: var(--vp-c-brand);
 }
 
 .toggle-icon {
@@ -610,12 +594,12 @@ onUnmounted(() => {
 }
 
 .filter-header:hover .toggle-icon {
-  color: var(--vp-c-brand);
+  color: #ef9d9f;
 }
 
 .toggle-icon.is-open {
   transform: rotate(180deg);
-  color: var(--vp-c-brand);
+  color: #ef9d9f;
 }
 
 .filter-content {
@@ -748,7 +732,7 @@ onUnmounted(() => {
   /* border: 2px solid var(--vp-c-divider); */
   border-radius: 20px;
   background: var(--vp-c-bg);
-  color: var(--vp-c-text-2);
+  color: var(--vp-c-text-3);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 0.9em;
@@ -758,12 +742,13 @@ onUnmounted(() => {
 
 .tag-btn:hover,
 .category-btn:hover {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-text-1);
 }
 
 .tag-btn.active,
 .category-btn.active {
-  color: var(--vp-c-brand);
+  color: var(--vp-c-text-1);
+  font-weight: bold;
 }
 
 /* 添加标签计数器样式 */
@@ -771,7 +756,7 @@ onUnmounted(() => {
   position: absolute;
   top: -8px;
   right: -8px;
-  color: var(--vp-c-brand);
+  color: #eb8688;
   font-size: 0.75em;
   min-width: 18px;
   height: 18px;

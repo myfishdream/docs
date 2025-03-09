@@ -1,28 +1,32 @@
 <template>
-  <div class="doc-card-wrapper" :class="{ expanded: isExpanded }">
-    <div class="doc-header" @click.prevent="toggleExpand">
-      <div class="doc-title-wrapper">
-        <h3 class="doc-title">{{ doc.title }}</h3>
+  <div class="doc-card-wrapper">
+    <div class="doc-tools">
+      <div class="doc-circle">
+        <span class="doc-box red"></span>
       </div>
-      <span v-if="doc.star" class="star-badge">
-        <svg t="1740134539094" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-          p-id="4065" width="25" height="25">
-          <path
-            d="M313.991837 914.285714c-20.37551 0-40.228571-6.269388-56.946939-18.808163-30.302041-21.942857-44.930612-58.514286-38.661225-95.085714l24.032654-141.061225c3.134694-18.285714-3.134694-36.571429-16.195919-49.110204L123.297959 509.910204c-26.644898-26.122449-36.04898-64.261224-24.555102-99.787755 11.493878-35.526531 41.795918-61.126531 78.889796-66.35102l141.583674-20.375511c18.285714-2.612245 33.959184-14.106122 41.795918-30.30204l63.216326-128.522449C440.946939 130.612245 474.383673 109.714286 512 109.714286s71.053061 20.897959 87.24898 54.334694L662.987755 292.571429c8.359184 16.195918 24.032653 27.689796 41.795918 30.30204l141.583674 20.375511c37.093878 5.22449 67.395918 30.82449 78.889796 66.35102 11.493878 35.526531 2.089796 73.665306-24.555102 99.787755l-102.4 99.787755c-13.061224 12.538776-19.330612 31.346939-16.195919 49.110204l24.032654 141.061225c6.269388 37.093878-8.359184 73.142857-38.661225 95.085714-30.302041 21.942857-69.485714 24.555102-102.4 7.314286L538.122449 836.440816c-16.195918-8.359184-35.526531-8.359184-51.722449 0l-126.955102 66.87347c-14.628571 7.314286-30.302041 10.971429-45.453061 10.971428z m162.481632-96.653061z"
-            fill="#F2CB51" p-id="4066"></path>
-        </svg>
-      </span>
-      <span v-if="isMobile" class="expand-indicator">
-        ▼
-      </span>
+      <div class="doc-circle">
+        <span class="doc-box yellow"></span>
+      </div>
+      <div class="doc-circle">
+        <span class="doc-box green"></span>
+      </div>
     </div>
 
-    <div v-show="!isMobile || isExpanded" class="doc-content">
+    <div class="doc-header">
+      <div class="doc-title-wrapper">
+        <h3 class="doc-title">{{ doc.title }}
+          <span v-if="doc.star" class="star-badge">
+            <svg t="1741495537850" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3915" width="20" height="20"><path d="M512 0c-15.990154 0-30.72 9.609846-37.100308 24.300308L349.459692 307.830154 35.209846 371.2c-14.729846 3.229538-26.230154 14.099692-30.72 28.199385C0 413.459692 3.859692 428.819692 14.729846 439.689846l218.899692 220.199385-61.44 315.510154c-2.56 15.399385 1.299692 30.050462 12.8 39.620923C192 1020.809846 201.609846 1024 210.589538 1024c5.750154 0 11.539692-1.220923 16.620308-3.899077L512 893.44l285.420308 126.700308C802.579692 1022.779077 807.699692 1024 813.410462 1024c8.979692 0 17.959385-3.190154 24.969846-9.019077 12.209231-8.900923 15.990154-24.221538 13.508923-39.620923l-61.518769-315.510154 218.860308-220.199385c10.870154-10.24 14.769231-26.269538 10.279385-40.290462-4.489846-14.099692-15.990154-24.969846-30.680615-28.199385l-314.249846-63.330462-125.479385-283.529846C542.759385 9.609846 528.029538 0 512 0zM512 177.270154l74.870154 169.590154c12.8 28.790154 38.360615 49.270154 68.489846 55.020308l213.740308 42.889846-146.550154 147.180308c-22.449231 22.370462-32.019692 54.980923-26.269538 86.370462l40.920615 210.628923-186.840615-83.219692c-12.130462-5.750154-24.930462-8.349538-38.360615-8.349538-13.430154 0-26.269538 2.56-39.030154 8.349538L286.72 888.989538l40.999385-210.628923c5.750154-31.389538-3.859692-64-26.269538-86.370462l-146.550154-147.180308 213.740308-42.889846c30.089846-5.750154 55.689846-26.230154 68.489846-55.020308L512 177.270154z" p-id="3916"></path></svg>
+          </span>
+        </h3>
+      </div>
+    </div>
+
+    <div class="doc-content">
       <a :href="doc.path" class="doc-card-link">
         <div class="doc-meta">
           <div class="doc-info">
-
-            <span v-if="doc.author" class="doc-author">
+            <span v-if="doc.author" class="doc-author info-item">
               <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="16"
                 height="16">
                 <path
@@ -31,8 +35,8 @@
               </svg>
               {{ doc.author }}
             </span>
-            |
-            <span v-if="doc.date" class="doc-date">
+            
+            <span v-if="doc.date" class="doc-date info-item">
               <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="16"
                 height="16">
                 <path
@@ -44,10 +48,9 @@
               </svg>
               {{ formatDate(doc.date) }}
             </span>
-            <span v-if="doc.sticky" class="doc-tags">|</span>
-            <span v-if="doc.sticky > 0" class="doc-sticky">
-              <svg t="1741087698608" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                xmlns="http://www.w3.org/2000/svg" p-id="23873" width="20" height="20">
+            <span v-if="doc.sticky > 0" class="doc-sticky info-item">
+              <svg t="1741087698608" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                p-id="23873" width="20" height="20">
                 <path
                   d="M511.998 360.649c-41.727 0-75.676 33.949-75.676 75.676S470.271 512 511.998 512s75.676-33.949 75.676-75.676-33.949-75.675-75.676-75.675z m0 94.594c-10.434 0-18.919-8.49-18.919-18.919s8.485-18.919 18.919-18.919c10.434 0 18.919 8.49 18.919 18.919 0 10.43-8.485 18.919-18.919 18.919z"
                   fill="#787878" p-id="23874"></path>
@@ -95,23 +98,6 @@ const props = defineProps({
   }
 })
 
-const isExpanded = ref(true)
-const isMobile = ref(false)
-
-onMounted(() => {
-  const checkMobile = () => {
-    isMobile.value = window.innerWidth <= 768
-  }
-  checkMobile()
-  window.addEventListener('resize', checkMobile)
-})
-
-const toggleExpand = () => {
-  if (isMobile.value) {
-    isExpanded.value = !isExpanded.value
-  }
-}
-
 // 格式化创建日期
 // 修改日期格式化函数
 const formatDate = (dateStr) => {
@@ -138,215 +124,292 @@ const formatDate = (dateStr) => {
     return dateStr
   }
 }
-// // 格式化最后更新时间
-// const formatLastUpdated = (timestamp) => {
-//   if (!timestamp) return ''
-//   return new Date(timestamp).toLocaleDateString('zh-CN', {
-//     year: 'numeric',
-//     month: 'long',
-//     day: 'numeric'
-//   })
-// }
 </script>
 
 <style scoped>
 .doc-card-wrapper {
-  padding: 16px;
-  height: 100%;
-  border: 2px solid var(--vp-c-divider);
-  border-radius: 15px;
-  /* background: var(--vp-c-bg-soft); */
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.doc-card-wrapper:hover {
-  transform: translateY(-2px);
-  border-color: var(--vp-c-brand);
-  box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
+.doc-tools {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.doc-card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  height: 100%;
+.doc-circle {
+  padding: 0 3px;
+}
+
+.doc-box {
+  display: inline-block;
+  align-items: center;
+  width: 10px;
+  height: 10px;
+  padding: 1px;
+  border-radius: 50%;
+}
+
+.doc-box.red {
+  background-color: #ff605c;
+}
+
+.doc-box.yellow {
+  background-color: #ffbd44;
+}
+
+.doc-box.green {
+  background-color: #00ca4e;
 }
 
 .doc-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
-  position: relative;
-  z-index: 1;
+  padding: 12px 16px 0;
 }
 
 .doc-content {
-  position: relative;
-  z-index: 1;
-}
-
-.doc-title-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex: 1;
+  padding: 12px 16px;
 }
 
 .doc-title {
   margin: 0;
-  font-size: 1.1em;
-  color: var(--vp-c-text-1);
-  color: var(--vp-c-brand);
-  font-weight: 700;
+  color: #2c3e50;
+  font-size: 1em;
+  font-weight: 600;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: space-between;
+}
+
+.star-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.star-badge .icon {
+  width: 20px;
+  height: 20px;
+}
+.star-badge .icon path {
+  fill: #ff605c;
 }
 
 .doc-meta {
-  margin-bottom: 8px;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 .doc-info {
   display: flex;
-  gap: 12px;
-  font-size: 0.9em;
-  color: var(--vp-c-text-2);
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.85em;
+  color: #64748b;
+}
+
+.info-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+
+.info-item:not(:last-child) {
+  padding-right: 12px;
+  margin-right: 6px;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+:root.dark .info-item:not(:last-child) {
+  border-right-color: rgba(255, 255, 255, 0.2);
 }
 
 .doc-author {
-  font-weight: 600;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
+}
+
+.doc-author .icon path {
+  fill: var(--vp-c-text-2);
 }
 
 .doc-date {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
-.doc-description {
-  font-size: 0.9em;
-  color: var(--vp-c-text-2);
-  margin-bottom: 12px;
-  line-height: 1.5;
+.doc-date .icon path {
+  fill: var(--vp-c-text-2);
 }
 
-.doc-footer {
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid var(--vp-c-divider);
-  display: flex;
+.doc-sticky {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 4px;
 }
 
 .doc-category {
-  font-size: 0.9em;
-  color: var(--vp-c-text-2);
-  margin-bottom: 8px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 5px;
+  font-size: 0.85em;
+  color: #64748b;
+  margin-bottom: 0;
 }
 
 .doc-category svg {
-  fill: var(--vp-c-brand);
-}
-
-.dark .doc-category svg {
-  fill: var(--vp-c-brand);
+  fill: var(--vp-c-text-2);
 }
 
 .doc-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  align-items: center;
 }
 
 .tag {
-  font-size: 0.8em;
-  padding: 2px 8px;
-  background: var(--vp-c-brand-soft);
-  border-radius: 12px;
-  color: var(--vp-c-text-1);
-}
-
-.star-badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  font-size: 1.2em;
-  color: #FFD700;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-  z-index: 2;
-}
-
-.doc-sticky {
-  font-size: 0.9em;
-  color: var(--vp-c-brand);
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  font-size: 0.75em;
+  padding: 3px 10px;
+  background: #f1f5f9;
+  border-radius: 16px;
+  color: #475569;
+  border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-.doc-sticky svg {
-  fill: var(--vp-c-brand);
+/* 调整图标大小和对齐 */
+.icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
-.dark .doc-sticky svg {
-  fill: var(--vp-c-brand);
+.doc-description {
+  margin: 8px 0;
+  color: #64748b;
+  font-size: 0.85em;
+  line-height: 1.5;
 }
 
-/* 在 <style scoped> 中添加/修改移动端样式 */
+.doc-footer {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.doc-card-wrapper:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* 深色模式适配 */
+:root.dark .doc-card-wrapper {
+  background-color: #1a1a1a;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+:root.dark .doc-tools {
+  background-color: #2a2a2a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+:root.dark .doc-title {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+:root.dark .doc-info,
+:root.dark .doc-description {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+:root.dark .doc-footer {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+:root.dark .tag {
+  background-color: #2a2a2a;
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:root.dark .doc-card-wrapper:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.4),
+    0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  background-color: #202020;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* 移动端适配 */
 @media (max-width: 768px) {
-  .star-badge {
-    top: -1px;
-    right: 30px;
+  .doc-card-wrapper {
+    margin: 4px;
   }
 
-  .doc-card-wrapper {
-    border-width: 1px;
+  .doc-tools {
+    padding: 6px;
+  }
+
+  .doc-box {
+    width: 8px;
+    height: 8px;
   }
 
   .doc-header {
-    cursor: pointer;
-    padding: 0px 12px;
-    position: relative;
+    padding: 10px 12px 0;
   }
 
   .doc-content {
-    padding: 0 12px 12px;
+    padding: 10px 12px;
   }
 
-  /* 默认隐藏内容 */
-  .doc-meta,
-  .doc-description,
-  .doc-footer {
-    display: block;
-  }
-
-  /* 标题样式调整 */
   .doc-title {
-    font-size: 0.9rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 0.9em;
   }
 
-  .expand-indicator {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 15px;
-    color: var(--vp-c-text-2);
-    opacity: 0.5;
-    transition: transform 0.3s;
+  .doc-info {
+    gap: 4px;
   }
 
-  .doc-card-wrapper.expanded .expand-indicator {
-    transform: translateY(-50%) rotate(180deg);
+  .info-item:not(:last-child) {
+    padding-right: 8px;
+    margin-right: 4px;
+  }
+
+  .doc-description {
+    font-size: 0.8em;
   }
 }
 </style>
