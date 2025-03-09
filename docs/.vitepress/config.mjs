@@ -30,7 +30,7 @@ export default defineConfig({
   },
   lastUpdated: true,
   head: [
-    ["link", { rel: "icon", href: "logo3.png" }],
+    ["link", { rel: "icon", href: "logo2.png" }],
   ],
   title: "鱼梦江湖",
   description: "知识文档",
@@ -52,7 +52,7 @@ export default defineConfig({
         timeStyle: 'short'
       }
     },
-    logo: '/logo3.png',
+    logo: '/logo2.png',
     sidebar, // 使用导入的侧边栏配置
     aside: 'left', // 将大纲显示在右侧
     outlineTitle: '目录',

@@ -3,7 +3,7 @@
         <div class="home-page-content">
             <!-- 顶部插图 -->
             <div class="home-page-hero">
-                <img src="https://s21.ax1x.com/2025/02/15/pEKJAwF.png" alt="hero illustration">
+                <img src="/logo3.png" alt="hero illustration">
             </div>
 
             <!-- 个人简介 -->
@@ -297,6 +297,7 @@ onMounted(() => {
     height: auto;
     transition: transform 0.5s ease-out;
     border-radius: 50%;
+    border: 5px solid var(--vp-c-divider);
 }
 
 .home-page-hero img:hover {
