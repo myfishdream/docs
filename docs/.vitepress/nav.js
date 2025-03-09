@@ -37,7 +37,7 @@ export const nav = [
     text: '📝Note',
     items: [
       { text: '开发技巧', link: '/pages/小技巧/note' },
-      { text: '八股文', link: '/' },
+      { text: '八股文', link: '/pages/八股文/note' },
       { text: '时间线', link: '/timeline' },
       { text: '前端物语', link: '/pages/前端杂谈/JS/index' },
     ]

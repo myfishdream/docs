@@ -98,21 +98,3 @@ const studyEvents = [
 
  <!-- batchSize 默认值：3 说明：控制每批次加载的事件项目数量。这是一个性能优化参数，用于减少同时进行的动画数量。例如，当设置为3时，每3个项目会作为一组几乎同时显示，然后再显示下一组。 -->
 <TimeLine :events="studyEvents" :animationDelay="80" :animationDuration="500" :batchSize="5"/>
-
-
-<style scoped>
-h1 {
-  background: linear-gradient(120deg, var(--vp-c-brand), var(--vp-c-brand-light));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-  padding: 2rem 0;
-  font-size: 2.5rem;
-}
-
-h2 {
-  color: var(--vp-c-text-1);
-  text-align: center;
-  margin: 2rem 0;
-}
-</style>
