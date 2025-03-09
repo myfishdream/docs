@@ -1,6 +1,6 @@
 ---
 # 文档基本信息
-title: 抓包解密，mitmproxy+wireshark，htpps是否安全
+title: HTTPS抓包解密
 date: 2025-02-26-    # 创建日期
 author: YuMeng    # 作者
 
