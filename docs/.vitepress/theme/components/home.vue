@@ -20,11 +20,22 @@
 
             <!-- 博客文章列表 -->
             <div v-if="documents.length === 0" class="home-page-loading">
-                <Loading/>
+                <Loading />
             </div>
             <div v-else class="home-page-blog-list">
-                <a v-for="doc in paginatedDocs" :key="doc.path" :href="doc.path" class="home-page-blog-item">
-                    <div class="home-page-blog-content">
+                <div v-for="doc in paginatedDocs" :key="doc.path" class="home-page-blog-item">
+                    <div class="home-page-tools">
+                        <div class="home-page-circle">
+                            <span class="home-page-box red"></span>
+                        </div>
+                        <div class="home-page-circle">
+                            <span class="home-page-box yellow"></span>
+                        </div>
+                        <div class="home-page-circle">
+                            <span class="home-page-box green"></span>
+                        </div>
+                    </div>
+                    <a :href="doc.path" class="home-page-blog-content">
                         <h3>{{ doc.title }}</h3>
                         <div class="home-page-meta-info">
                             <span class="home-page-date">{{ formatDate(doc.date) }}</span>
@@ -33,26 +44,16 @@
                             </div>
                         </div>
                         <p v-if="doc.description" class="home-page-description">{{ doc.description }}</p>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
 
             <!-- 分页 -->
             <div class="home-page-pagination" v-if="totalPages > 1">
-                <button class="home-page-btn" :disabled="currentPage === 1" @click="currentPage--">
-                    ➕
-                </button>
-                <div class="home-page-numbers">
-                    <button v-for="page in displayPages" 
-                            :key="page" 
-                            :class="['home-page-number-btn', { active: currentPage === page }]"
-                            @click="currentPage = page">
-                        {{ page }}
-                    </button>
+                <div class="radio-input">
+                    <input v-for="page in displayPages" :key="page" :class="['input', getColorClass(page)]" type="radio"
+                        name="radio" :checked="currentPage === page" @change="currentPage = page" />
                 </div>
-                <button class="home-page-btn" :disabled="currentPage === totalPages" @click="currentPage++">
-                    ➖
-                </button>
             </div>
         </div>
     </div>
@@ -241,6 +242,12 @@ const displayPages = computed(() => {
     return pages
 })
 
+// 添加颜色循环函数
+const getColorClass = (page) => {
+    const colors = ['green', 'yellow', 'red'];
+    return colors[(page - 1) % 3];
+}
+
 // 监听页码变化，确保在切换页面时回到顶部
 const scrollToTop = () => {
     window.scrollTo({
@@ -279,7 +286,6 @@ onMounted(() => {
     z-index: 2;
 }
 
-/* 更新其他所有样式类名，把 . 后面的类名都加上 home-page- 前缀 */
 .home-page-hero {
     width: 200px;
     margin-bottom: 40px;
@@ -290,7 +296,7 @@ onMounted(() => {
     width: 100%;
     height: auto;
     transition: transform 0.5s ease-out;
-    border-radius: 50%; /* 可选：添加圆形效果 */
+    border-radius: 50%;
 }
 
 .home-page-hero img:hover {
@@ -301,12 +307,12 @@ onMounted(() => {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
 }
 
-/* 移开时平滑停止 */
 .home-page-hero img:not(:hover) {
     animation: none;
     transition: transform 0.5s ease-out;
@@ -339,7 +345,7 @@ onMounted(() => {
 
 .home-page-blogs-header h2 {
     font-size: 1.5em;
-    color: #333;
+    color: var(--vp-c-text-1);
 }
 
 .home-page-blog-list {
@@ -351,6 +357,8 @@ onMounted(() => {
     align-items: center;
     gap: 12px;
     margin-top: 8px;
+    flex-wrap: wrap;
+    /* 允许换行 */
 }
 
 .home-page-date {
@@ -361,15 +369,25 @@ onMounted(() => {
 .home-page-tags {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
+    /* 允许标签换行 */
+    overflow: hidden;
+    /* 防止溢出 */
 }
 
 .home-page-tag {
     padding: 2px 8px;
-    background: var(--vp-c-brand-soft);
     background: var(--vp-c-bg-soft);
     border-radius: 12px;
     font-size: 0.8em;
     color: var(--vp-c-text-1);
+    white-space: nowrap;
+    /* 防止标签文字换行 */
+    max-width: 150px;
+    /* 限制最大宽度 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* 超出显示省略号 */
 }
 
 .home-page-description {
@@ -377,6 +395,12 @@ onMounted(() => {
     color: var(--vp-c-text-2);
     font-size: 0.9em;
     line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* 限制最多显示2行 */
+    -webkit-box-orient: vertical;
 }
 
 .home-page-loading {
@@ -386,87 +410,168 @@ onMounted(() => {
 }
 
 .home-page-blog-item {
-    display: block;
-    padding: 20px;
-    margin-bottom: 15px;
-    border: 1px solid var(--vp-c-divider);
-    border-radius: 8px;
-    text-decoration: none;
-    color: inherit;
+    background-color: #ffffff;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px;
     transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.home-page-blog-item:hover {
-    transform: translateY(-2px);
-    border-color: var(--vp-c-brand);
-    box-shadow: 0 0px 8px rgba(0, 0, 0, 0.1);
+.home-page-tools {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: #f8f9fa;
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.home-page-circle {
+    padding: 0 4px;
+}
+
+.home-page-box {
+    display: inline-block;
+    align-items: center;
+    width: 10px;
+    height: 10px;
+    padding: 1px;
+    border-radius: 50%;
+}
+
+.home-page-box.red {
+    background-color: #ff605c;
+}
+
+.home-page-box.yellow {
+    background-color: #ffbd44;
+}
+
+.home-page-box.green {
+    background-color: #00ca4e;
+}
+
+.home-page-blog-content {
+    display: block;
+    padding: 20px 24px;
+    text-decoration: none;
+    color: inherit;
 }
 
 .home-page-blog-content h3 {
     margin: 0;
-    color: var(--vp-c-brand);
-    color: var(--vp-c-text-1);
-    font-size: 1.2em;
+    color: #2c3e50;
+    font-size: 1.1em;
     font-weight: 600;
+    line-height: 1.4;
 }
 
-/* 修改分页样式 */
+.home-page-blog-item:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* 新的分页样式 */
 .home-page-pagination {
     margin-top: 40px;
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 12px;
 }
 
-.home-page-numbers {
-    display: flex;
-    gap: 8px;
-}
-
-.home-page-btn, .home-page-number-btn {
-    min-width: 36px;
-    height: 36px;
-    border: 1px solid var(--vp-c-divider);
-    border-radius: 50%;
-    background: var(--vp-c-bg);
-    color: var(--vp-c-text-1);
-    font-size: 0.9em;
+.input {
+    -webkit-appearance: none;
+    margin: 6px;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
+    vertical-align: middle;
+    box-shadow: hsla(0, 0%, 100%, 0.15) 0 1px 1px,
+        inset hsla(0, 0%, 0%, 0.5) 0 0 0 1px;
+    background-color: hsla(0, 0%, 0%, 0.2);
+    background-repeat: no-repeat;
+    -webkit-transition: background-position 0.15s cubic-bezier(0.8, 0, 1, 1),
+        -webkit-transform 0.25s cubic-bezier(0.8, 0, 1, 1);
+    outline: none;
 }
 
-.home-page-number-btn {
-    font-weight: 500;
+.input.green {
+    background-image: -webkit-radial-gradient(hsla(118, 100%, 90%, 1) 0%,
+            hsla(118, 100%, 70%, 1) 15%,
+            hsla(118, 100%, 60%, 0.3) 28%,
+            hsla(118, 100%, 30%, 0) 70%);
 }
 
-.home-page-number-btn.active {
-    background: var(--vp-c-brand);
-    color: white;
-    border-color: var(--vp-c-brand);
+.input.yellow {
+    background-image: -webkit-radial-gradient(hsla(50, 100%, 90%, 1) 0%,
+            hsla(50, 100%, 70%, 1) 15%,
+            hsla(50, 100%, 60%, 0.3) 28%,
+            hsla(50, 100%, 30%, 0) 70%);
 }
 
-.home-page-btn:not(:disabled):hover,
-.home-page-number-btn:not(.active):hover {
-    background: var(--vp-c-brand);
-    color: white;
-    border-color: var(--vp-c-brand);
+.input.red {
+    background-image: -webkit-radial-gradient(hsla(0, 100%, 90%, 1) 0%,
+            hsla(0, 100%, 70%, 1) 15%,
+            hsla(0, 100%, 60%, 0.3) 28%,
+            hsla(0, 100%, 30%, 0) 70%);
 }
 
-.home-page-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+.input:checked {
+    -webkit-transition: background-position 0.2s 0.15s cubic-bezier(0, 0, 0.2, 1),
+        -webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1);
 }
 
-/* 移动端优化 */
+.input:active {
+    -webkit-transform: scale(1.5);
+    -webkit-transition: -webkit-transform 0.1s cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* The up/down direction logic */
+.input,
+.input:active {
+    background-position: 24px 0;
+}
+
+.input:checked {
+    background-position: 0 0;
+}
+
+.input:checked~.input,
+.input:checked~.input:active {
+    background-position: -24px 0;
+}
+
+/* 移动端适配 */
 @media (max-width: 768px) {
     .home-page-container {
-        padding: 16px;
+        padding: 16px 0;
+        /* 移除左右内边距 */
     }
+
+    .home-page-content {
+        padding: 0;
+        /* 移除内边距 */
+        width: 100%;
+        /* 确保内容区域占满宽度 */
+    }
+
+    .home-page-blog-list {
+        width: 100%;
+        /* 确保列表占满宽度 */
+    }
+
+    .home-page-blog-item {
+        margin: 12px;
+        /* 只保留底部间距 */
+    }
+
 
     .home-page-hero {
         width: 150px;
@@ -482,42 +587,93 @@ onMounted(() => {
         /* 在移动端隐藏挥手表情 */
     }
 
-
-    .home-page-blog-item {
-        padding: 15px;
-        margin-bottom: 12px;
-    }
-
     .home-page-blog-content h3 {
-        font-size: 1.1em;
+        font-size: 1em;
     }
 
-    .home-page-meta-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
+    .home-page-tools {
+        padding: 8px;
+    }
+
+    .home-page-box {
+        width: 8px;
+        height: 8px;
+    }
+
+    .input {
+        margin: 4px;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
     }
 
     .home-page-tags {
-        flex-wrap: wrap;
-    }
-
-    .home-page-tag {
-        font-size: 0.75em;
+        display: none;
+        /* 移动端隐藏标签 */
     }
 
     .home-page-description {
-        font-size: 0.85em;
+        display: none;
+        /* 移动端隐藏描述 */
     }
 
-    .home-page-pagination {
-        gap: 8px;
+    .home-page-blog-content {
+        padding: 12px 16px;
     }
 
-    .home-page-btn, .home-page-number-btn {
-        min-width: 32px;
-        height: 32px;
+    .home-page-blog-content h3 {
+        font-size: 1em;
+        margin-bottom: 4px;
+        /* 由于隐藏了标签和描述，减少底部间距 */
+    }
+
+    .home-page-meta-info {
+        margin-top: 4px;
+    }
+
+    .home-page-date {
         font-size: 0.85em;
     }
+}
+
+/* 深色模式适配 */
+:root.dark .home-page-blog-item {
+    background-color: #1a1a1a;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.3),
+        0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+:root.dark .home-page-tools {
+    background-color: #2a2a2a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+:root.dark .home-page-blog-content h3 {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+:root.dark .home-page-date {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+:root.dark .home-page-description {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+:root.dark .home-page-tag {
+    background-color: #2a2a2a;
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+:root.dark .home-page-blog-item:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.4),
+        0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    background-color: #202020;
+    border-color: rgba(255, 255, 255, 0.08);
 }
 </style>

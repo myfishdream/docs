@@ -14,7 +14,7 @@ import SimpleSecureContent from './components/SimpleSecureContent.vue' // 简单
 import DocsMsg from './components/docsMsg.vue' // 文档信息组件
 import Valine from './components/Valine.vue'
 import Visitor from './components/visitor/visitor.vue' // 访客记录组件（无UI）
-
+import Home from './components/home.vue' // 首页组件
 // 引入懒加载图片
 import loadingIMG from '../../src/status/xhj.gif'
 import errorIMG from '../../src/status/loseimg.png'
@@ -50,6 +50,7 @@ export default {
     app.component('SimpleSecureContent', SimpleSecureContent); // 注册简单加密内容组件
     app.component('Valine', Valine); // 注册Valine评论组件
     app.component('Visitor', Visitor); // 注册访客记录组件（无UI）
+    app.component('Home', Home); // 注册首页组件
     app.use(VueLazyloadNext, {
       loading: loadingIMG, // 加载占位图
       error: errorIMG,     // 错误占位图
