@@ -3,7 +3,6 @@ import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import { MotionPlugin } from '@vueuse/motion'
 import Giscus from './components/Giscus.vue'       // 评论组件
-import MouseEvent from './components/MouseEvent.vue' // 鼠标跟随特效
 import Classification from './components/classification.vue'  // 分类
 import ReadingProgress from './components/ReadingProgress.vue'  // 阅读进度
 import Picture from './components/Picture.vue' // 增强图片组件  
@@ -26,7 +25,6 @@ export default {
   enhanceApp({ app, router, siteData }) { 
     app.component('Classification', Classification);
     app.component('Giscus', Giscus);
-    app.component('MouseEvent', MouseEvent);
     app.component('ReadingProgress', ReadingProgress); 
     app.component('Picture', Picture); // 注册增强图片组件
     app.component('Timelines', Timelines); // 注册时间轴组件
