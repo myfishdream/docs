@@ -1,5 +1,7 @@
 <template>
     <div class="home-page-container">
+        <!-- 添加粒子容器 -->
+        <div id="particles-js"></div>
         <div class="home-page-content">
             <!-- 顶部插图 -->
             <div class="home-page-hero">
@@ -268,6 +270,99 @@ watch(currentPage, () => {
 onMounted(() => {
     fetchDocuments()
     
+    // 动态加载 particles.js
+    const script = document.createElement('script')
+    script.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js'
+    script.onload = () => {
+        window.particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80, // 增加粒子数量
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#666666'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.6,
+                    random: true, // 启用随机透明度
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#666666',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: true, // 启用反弹
+                    attract: {
+                        enable: true,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab' // 改为 grab 模式
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    repulse: {
+                        distance: 200,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        })
+    }
+    document.head.appendChild(script)
+    
     // 添加头像旋转动画逻辑
     const heroImg = document.querySelector('.home-page-hero img')
     let rotationAngle = 0
@@ -314,7 +409,17 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 更新所有样式类名，添加 home-page- 前缀 */
+/* 添加粒子容器样式 */
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* 更新容器样式以确保内容在粒子之上 */
 .home-page-container {
     width: 100%;
     min-height: 100vh;
@@ -704,5 +809,13 @@ onMounted(() => {
         0 4px 6px -2px rgba(0, 0, 0, 0.3);
     background-color: #202020;
     border-color: rgba(255, 255, 255, 0.08);
+}
+
+:root.dark #particles-js {
+    background-color: #1a1a1a;
+}
+
+:root.dark .particles-js-canvas-el {
+    opacity: 0.3;
 }
 </style>
