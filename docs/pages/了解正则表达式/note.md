@@ -129,3 +129,96 @@ console.log(string.match(regex));
 其是贪婪模式，会尽可能匹配
 
 比如给 6 个，要 5 个，给 3 个，要三个，在匹配范围内，越多越好
+
+**惰性匹配**就是尽可能地**少匹配**
+
+```js
+let regex = /\d{2,5}?/g;
+let string = "123 1234 12345 123456 1234567";
+console.log(string.match(regex));
+// (11) ["12", "12", "34", "12", "34", "12", "34", "56", "12", "34", "56"]
+```
+
+其中`的/\d{2,5}?/`表示，虽然2到5次都行，但是2个就够的时候就不要往下尝试了
+
+所以，通过在量词后面加上一个**问号**`?`就能实现**惰性匹配**
+
+| 惰性量词 | 贪婪量词 |
+| -------- | -------- |
+| `{m,n}?` | `{m,n}`  |
+| `{m,}?`  | `{m,}`   |
+| `??`     | `?`      |
+| `+?`     | `+`      |
+| `*?`     | `*`      |
+
+> [!IMPORTANT]
+>
+> 只需理解成在量词后面加上一个**问号**
+
+## 多选分支
+
+一个模式可以实现**横向**和**纵向**的模糊匹配，多选分支用于支持**多个子模式其中之一**
+
+`(p1|p2|p3)`，其中p1,p2,p3就是子模式，使用`|`管道符分割，表示**其中之一**
+
+比如匹配字符串`student`和`teacher`，可以使用`/student|teacher/`
+
+```js
+let regex = /student|teacher/g;
+let string = "student teacher person people home";
+console.log(string.match(regex));
+// (2) ["student", "teacher"]
+```
+
+> [!IMPORTANT]
+>
+> 使用`/good|goodbye/`去匹配`goodbye`的时候，结果是`good`
+
+```js
+		let regex = /good|goodbye/g;
+		let string = "goodbye";
+		console.log(string.match(regex));
+		// ["good"]
+```
+
+```js
+/goodbye|good/	// 修改后,即可匹配到goodbye
+```
+
+由此可见，**分支结构**是惰性的，即当前面的匹配上了，后面的就不再尝试了
+
+### 案例
+
+#### 匹配16进制颜色值
+
+```js
+#ffbbad
+#Fc01DF
+#FFF
+#ffE
+```
+
+使用**字符组**，`[0-9a-fA-F]`
+
+其中字符可以出现**3次**或者**6次**，使用量词和分支结构
+
+```js
+let regex = /#([0-9a-fA-F]{6})|[0-9a-fA-F]{3}/g;
+let string = "#ffbbad #Fc01DF #FFF #ffE #fff #ABCDSFD";
+console.log(string.match(regex));
+// (6) ["#ffbbad", "#Fc01DF", "FFF", "ffE", "fff", "ABC"]
+// 因为分支结构是惰性的，所以ABC也匹配到了
+```
+
+#### 匹配时间
+
+```js
+13:47
+8:30
+```
+
+总共**4位**数字，第一位数字可以为`[0-2]`，即`0`,`1`,`2`
+
+当第一位为`2`时，第二位可以为`[0-3]`，其他情况则为`[0-9]`
+
+第三位数字为`[0-5]`，第四位为`[0-9]`
