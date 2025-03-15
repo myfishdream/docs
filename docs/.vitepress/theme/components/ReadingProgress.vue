@@ -3,39 +3,6 @@
     <!-- 右下角信息面板 -->
     <div class="progress-info" :class="{ 'show': progress > 0 && !showOnlyTopButton }">
       <div class="info-row">
-        <div class="progress-circle">
-          <svg viewBox="0 0 36 36">
-            <path
-              d="M18 2.0845
-                a 15.9155 15.9155 0 0 1 0 31.831
-                a 15.9155 15.9155 0 0 1 0 -31.831"
-              fill="none"
-              stroke="#eee"
-              stroke-width="2"
-            />
-            <path
-              d="M18 2.0845
-                a 15.9155 15.9155 0 0 1 0 31.831
-                a 15.9155 15.9155 0 0 1 0 -31.831"
-              fill="none"
-              stroke="#42b883"
-              stroke-width="2"
-              :stroke-dasharray="circumference"
-              :stroke-dashoffset="dashOffset"
-            />
-            <text x="18" y="20.35" class="percentage">{{ Math.round(progress) }}%</text>
-          </svg>
-        </div>
-        <!-- <div class="info-container">
-          <div class="time-info">
-            <span class="label">预计剩余</span>
-            <span class="value">{{ remainingTime }}分钟</span>
-          </div>
-          <div class="word-info">
-            <span class="label">总字数</span>
-            <span class="value">{{ totalWords }}字</span>
-          </div>
-        </div> -->
         <div class="bookmark-button" 
              @click="toggleBookmark" 
              :class="{ 'active': hasBookmark }"
@@ -97,12 +64,6 @@ const props = defineProps({
 
 const route = useRoute()
 const progress = ref(0)
-const remainingTime = ref(0)
-const totalWords = ref(0)
-const circumference = 2 * Math.PI * 16
-const dashOffset = computed(() => {
-  return circumference - (progress.value / 100) * circumference
-})
 
 // 阅读标记相关
 const showRestorePrompt = ref(false)
@@ -239,7 +200,10 @@ const updateProgress = () => {
   if (props.autoHideNav) {
     const currentScrollTop = window.scrollY
     const scrollDelta = currentScrollTop - lastScrollTop.value
+    const  asideContainer=document.querySelector('.aside-container');
+   
     
+
     // 更新滚动方向
     if (Math.abs(scrollDelta) > 5) {  // 减小阈值，提高灵敏度
       scrollDirection.value = scrollDelta > 0 ? 'down' : 'up'
@@ -249,23 +213,23 @@ const updateProgress = () => {
     if (scrollTimer.value) {
       clearTimeout(scrollTimer.value)
     }
+    asideContainer.style.transition = 'all 0.3s ease';
 
     scrollTimer.value = setTimeout(() => {
       // 根据滚动方向和位置决定导航栏状态
       if (scrollDirection.value === 'down' && currentScrollTop > 100) {
         isNavVisible.value = false
+        asideContainer.style.transform = 'translateY(-50px)';
+
       } else if (scrollDirection.value === 'up' || currentScrollTop < 100) {
         isNavVisible.value = true
+        asideContainer.style.transform = 'translateY(0px)';
+
       }
     }, 10) // 100ms 的防抖时间
   }
 
   lastScrollTop.value = window.scrollY
-  
-  totalWords.value = calculateWords()
-  const wordsPerMinute = 300
-  const totalMinutes = Math.ceil(totalWords.value / wordsPerMinute)
-  remainingTime.value = Math.ceil(totalMinutes * (1 - progress.value / 100))
 }
 
 // 恢复导航栏显示状态
@@ -357,11 +321,6 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 20px;
-  box-shadow: 0 2px 8px var(--vp-c-shadow);
-  backdrop-filter: blur(8px);
   transform: translateY(20px);
   opacity: 0;
   transition: all 0.3s ease;
@@ -381,20 +340,6 @@ onUnmounted(() => {
   flex-direction: column;
 }
 
-.progress-circle {
-  width: 36px;
-  height: 36px;
-  position: relative;
-  cursor: pointer;
-}
-
-.progress-circle svg {
-  transform: rotate(0deg);
-}
-
-.progress-circle path:first-child {
-  stroke: var(--vp-c-divider);
-}
 
 .percentage {
   font-size: 10px;
@@ -403,35 +348,12 @@ onUnmounted(() => {
   font-weight: 500;
 }
 
-.info-container {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
 
-.time-info,
-.word-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.label {
-  font-size: 12px;
-  color: var(--vp-c-text-2);
-}
-
-.value {
-  font-size: 14px;
-  font-weight: 500;
-  color: #42b883;
-  text-align: center;
-}
 
 /* 书签按钮样式 */
 .bookmark-button {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 1px solid var(--vp-c-divider);
   display: flex;
@@ -535,8 +457,8 @@ onUnmounted(() => {
 
 /* 添加返回顶部按钮样式 */
 .scroll-top-button {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 1px solid var(--vp-c-divider);
   display: flex;
@@ -584,14 +506,6 @@ onUnmounted(() => {
     gap: 8px;
   }
   
-  .progress-circle {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .info-container {
-    display: none;
-  }
   
   .bookmark-button {
     width: 32px;

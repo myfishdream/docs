@@ -155,7 +155,7 @@ const showCard = computed(() => {
 onMounted(() => {
   if (showCard) {
     const h2 = document.querySelector('.vp-doc h2');
-    console.log(h2);
+    // console.log(h2);
     h2.style.paddingTop = "0px";
   }
 })
