@@ -19,8 +19,8 @@ tags:
 description: 搭建项目流程
 
 # 额外信息
-sticky: 5        # 置顶顺序（0表示不置顶）
-star: true           # 是否标星
+sticky: 0        # 置顶顺序（0表示不置顶）
+star: false           # 是否标星
 aside: "right"
 ---
 
@@ -251,5 +251,4 @@ npm run build:dir
 > [!tip]
 >
 > 如果构建出来无法运行就**再构建一遍**，别问我怎么知道的😁
-
 
