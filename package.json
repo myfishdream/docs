@@ -9,7 +9,7 @@
     "vitepress": "^1.6.3"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.48.1",
+    "@supabase/supabase-js": "^2.49.4",
     "@vueuse/motion": "^2.2.6",
     "vite-plugin-markdown-preview": "^1.1.1",
     "vue-easy-lightbox": "^1.19.0"
