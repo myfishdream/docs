@@ -8,7 +8,7 @@ import { setupAlertBoxes } from './extend-md/markdown-extensions' // 导入自�
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  // base: "/blog/",
+  base: "/blog/",
   vite: {
     plugins: [MarkdownPreview()],
   },
@@ -25,7 +25,7 @@ export default defineConfig({
       warningLabel: '警告',
       dangerLabel: '危险',
       infoLabel: 'INFO',
-      detailsLabel: '详细信息'
+      detailsLabel: '详细信息'    
     }
   },
   lastUpdated: true,
