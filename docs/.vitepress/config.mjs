@@ -8,7 +8,7 @@ import { setupAlertBoxes } from './extend-md/markdown-extensions' // 导入自�
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: "/blog/",
+  // base: "/blog/",
   vite: {
     plugins: [MarkdownPreview()],
   },
